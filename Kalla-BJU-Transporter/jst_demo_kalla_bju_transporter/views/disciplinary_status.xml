@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_disciplinary_status_tree" model="ir.ui.view">
+            <field name="name">disciplinary.status.tree</field>
+            <field name="model">disciplinary.status</field>
+            <field name="arch" type="xml">
+                <tree string="Disciplinary Status">
+    <!--                <field name="sequence" widget="handle"/>-->
+                    <field name="name"/>
+                    <field name="severity_level"/>
+                    <field name="duration_days"/>
+                    <field name="is_final"/>
+                    <field name="disciplinary_count"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_disciplinary_status_form" model="ir.ui.view">
+            <field name="name">disciplinary.status.form</field>
+            <field name="model">disciplinary.status</field>
+            <field name="arch" type="xml">
+                <form string="Disciplinary Status">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_disciplinary_lines" type="object"
+                                    class="oe_stat_button" icon="fa-list">
+                                <field name="disciplinary_count" widget="statinfo"
+                                       string="Disciplinary Lines"/>
+                            </button>
+                        </div>
+
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active == True" />
+
+                        <group>
+                            <group>
+                                <field name="name" placeholder="e.g. Surat Peringatan I"/>
+    <!--                            <field name="sequence"/>-->
+                                <field name="active"/>
+                            </group>
+                            <group>
+                                <field name="severity_level"/>
+                                <field name="duration_days"/>
+                                <field name="is_final"/>
+    <!--                            <field name="next_status_id" attrs="{'invisible': [('is_final', '=', True)]}"/>-->
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Description">
+                                <field name="description" placeholder="Deskripsi detail tentang status pelanggaran..."/>
+                            </page>
+                            <page string="Action Required">
+                                <field name="action_required" placeholder="Tindakan yang harus dilakukan untuk status ini..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Kanban View -->
+        <record id="view_disciplinary_status_kanban" model="ir.ui.view">
+            <field name="name">disciplinary.status.kanban</field>
+            <field name="model">disciplinary.status</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="severity_level"/>
+                    <field name="color"/>
+                    <field name="disciplinary_count"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card">
+                                <div class="oe_kanban_content">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong><field name="name"/></strong>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <span class="badge badge-pill badge-info">
+                                                <field name="disciplinary_count"/> lines
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <field name="name"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        Level: <field name="severity_level"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_disciplinary_status_search" model="ir.ui.view">
+            <field name="name">disciplinary.status.search</field>
+            <field name="model">disciplinary.status</field>
+            <field name="arch" type="xml">
+                <search string="Search Disciplinary Status">
+                    <field name="name"/>
+                    <field name="severity_level"/>
+                    <separator/>
+                    <filter name="active" string="Active" domain="[('active','=',True)]"/>
+                    <filter name="inactive" string="Archived" domain="[('active','=',False)]"/>
+                    <separator/>
+                    <filter name="final" string="Final Status" domain="[('is_final','=',True)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_severity" string="Severity Level" domain="[]" context="{'group_by':'severity_level'}"/>
+                        <filter name="group_final" string="Is Final" domain="[]" context="{'group_by':'is_final'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_disciplinary_status" model="ir.actions.act_window">
+            <field name="name">Disciplinary Status</field>
+            <field name="res_model">disciplinary.status</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first disciplinary status!
+                </p>
+                <p>
+                    Set up master data for disciplinary statuses like SP1, SP2, etc.
+                    that will be used in disciplinary lines.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_disciplinary_status"
+                  name="Disciplinary Status"
+                  parent="hr.menu_config_employee"
+                  action="action_disciplinary_status"
+                  sequence="9"/>
+    </data>
+
+</odoo>
+

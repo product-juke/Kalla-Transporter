@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Fleet Service Categories -->
+        <record id="1" model="bju.portfolio">
+            <field name="name">General</field>
+        </record>
+        <record id="2" model="bju.portfolio">
+            <field name="name">Frozen</field>
+        </record>
+        <record id="3" model="bju.portfolio">
+            <field name="name">Transporter</field>
+        </record>
+    </data>
+</odoo>

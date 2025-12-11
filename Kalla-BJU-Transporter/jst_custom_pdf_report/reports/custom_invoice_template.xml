@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_invoice_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="static_data" t-value="doc.get_static_invoice_data()"/>
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 12px; padding: 40px;">
+                    <!-- Header dengan Logo dan Info Perusahaan -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
+                        <!-- Logo dan Nama Perusahaan -->
+                        <div style="width: 50%; float: left;">
+                            <img
+                                t-if="doc.company_id.logo"
+                                t-att-src="image_data_uri(doc.company_id.logo)"
+                                alt="Kalla Transport"
+                                style="max-height: 60px; max-width: 100%;"
+                            />
+                        </div>
+
+                        <!-- Info Perusahaan -->
+                        <div style="width: 40%; float: right; text-align: left; font-size: 10px;">
+                            <p style="margin: 0; font-weight: bold;">Jl. Sutan - Pallatta</p>
+                            <p style="margin: 0;">Makassar</p>
+                            <p style="margin: 0; font-weight: bold;">MANDIRI 1520000004115</p>
+                        </div>
+                    </div>
+
+                    <!-- Bill-to, Ship-to dan Invoice Header -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 30px; margin-top: 100px;">
+                        <!-- Bill-to dan Ship-to -->
+                        <div style="width: 60%; float: left;">
+                            <div style="width: 50%; margin-bottom: 20px; float: left;">
+                                <p style="margin: 0; font-weight: bold; font-size: 10px;">Bill-to</p>
+                                <p style="margin: 0; font-weight: bold;">PT. BUMI PUTRA INDONESIA</p>
+                                <p style="margin: 0; font-size: 10px;">JALAN AP PETTARANI 3 B NO 26,</p>
+                                <p style="margin: 0; font-size: 10px;">TAMAMAUNG, PANAKKUKANG</p>
+                                <p style="margin: 0; font-size: 10px;">KOTA MAKASSAR SULAWESI</p>
+                                <p style="margin: 0; font-size: 10px;">SELATAN</p>
+                                <p style="margin: 0; font-size: 10px;">NPWP : 0200 ( 000 000 000 )</p>
+                            </div>
+
+                            <div style="width: 50%; float: right;">
+                                <p style="margin: 0; font-weight: bold; font-size: 10px;">Ship-to</p>
+                            </div>
+                        </div>
+
+                        <!-- Invoice Info -->
+                        <div style="width: 35%; text-align: right; float: right;">
+                            <h2 style="margin: 0; font-size: 20px; font-weight: bold;">INVOICE</h2>
+                            <p style="margin: 5px 0; font-weight: bold;">LGC/003/BPI08/0825</p>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Details -->
+                    <div style="margin-bottom: 30px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 15%; padding: 5px 0; font-size: 10px;"><strong>Purchase Order</strong></td>
+                                <td style="width: 25%; padding: 5px 0; font-size: 10px;"></td>
+                                <td style="width: 15%; padding: 5px 0; font-size: 10px; text-align: right;"><strong>Line Total</strong></td>
+                                <td style="width: 20%; padding: 5px 0; font-size: 10px; text-align: right;">311,900,000.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-size: 10px;"><strong>Invoice Date</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px;">9/19/25</td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;"><strong>Sales Tax</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;">3,430,900.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-size: 10px;"><strong>Shipped Date</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;"><strong>Shipping</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;">0.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px 0 5px 0;"></td>
+                                <td style="padding: 10px 0 5px 0;"></td>
+                                <td style="padding: 10px 0 5px 0; font-size: 10px; text-align: right; border-top: 1px solid #000;"><strong>Total</strong></td>
+                                <td style="padding: 10px 0 5px 0; font-size: 12px; text-align: right; border-top: 1px solid #000; font-weight: bold;">315,330,900.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;"><strong>Payments</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;">0.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;"><strong>Credits</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;">0.00</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px;"></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;"><strong>Financial Charges</strong></td>
+                                <td style="padding: 5px 0; font-size: 10px; text-align: right;">0.00</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Payment Terms dan Due Date -->
+                    <div style="margin-bottom: 30px;">
+                        <table style="width: 100%;">
+                            <tr>
+                                <td style="width: 50%; font-size: 10px;"><strong>Payment Terms</strong> 30</td>
+                                <td style="width: 50%; font-size: 10px; text-align: right;"><strong>Due Date</strong> 9/19/25</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Tabel Item -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid #000;">
+                                <th style="padding: 8px; text-align: left; font-size: 10px; width: 5%;"><strong>No.</strong></th>
+                                <th style="padding: 8px; text-align: left; font-size: 10px; width: 15%;"><strong>Product</strong></th>
+                                <th style="padding: 8px; text-align: left; font-size: 10px; width: 45%;"><strong>Description</strong></th>
+                                <th style="padding: 8px; text-align: center; font-size: 10px; width: 8%;"><strong>UOM</strong></th>
+                                <th style="padding: 8px; text-align: center; font-size: 10px; width: 8%;"><strong>Quantity</strong></th>
+                                <th style="padding: 8px; text-align: right; font-size: 10px; width: 12%;"><strong>Unit Price</strong></th>
+                                <th style="padding: 8px; text-align: right; font-size: 10px; width: 12%;"><strong>Amount</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 8px; font-size: 10px; border-bottom: 1px solid #ddd;">1</td>
+                                <td style="padding: 8px; font-size: 10px; border-bottom: 1px solid #ddd;"></td>
+                                <td style="padding: 8px; font-size: 10px; border-bottom: 1px solid #ddd;">BIAYA PENGIRIMAN BARANG PERIODE 09-15 AGUSTUS 2025</td>
+                                <td style="padding: 8px; font-size: 10px; text-align: center; border-bottom: 1px solid #ddd;">Unit</td>
+                                <td style="padding: 8px; font-size: 10px; text-align: center; border-bottom: 1px solid #ddd;">1</td>
+                                <td style="padding: 8px; font-size: 10px; text-align: right; border-bottom: 1px solid #ddd;">311,900,000</td>
+                                <td style="padding: 8px; font-size: 10px; text-align: right; border-bottom: 1px solid #ddd;">311,900,000.00</td>
+                            </tr>
+                            <!-- Spacer rows untuk memberikan ruang -->
+                            <tr><td colspan="7" style="padding: 10px;"></td></tr>
+                            <tr><td colspan="7" style="padding: 10px;"></td></tr>
+                            <tr><td colspan="7" style="padding: 10px;"></td></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" style="padding: 8px; text-align: right; font-size: 11px; border-top: 1px solid #000;"><strong>Line Total</strong></td>
+                                <td style="padding: 8px; text-align: right; font-size: 11px; border-top: 1px solid #000; font-weight: bold;">311,900,000.00</td>
+                            </tr>
+                            <tr style="font-size: 14px; font-weight: bold;">
+                                <td colspan="6" style="padding: 8px; text-align: right; font-size: 14px;"><strong>Grand Total</strong></td>
+                                <td style="padding: 8px; text-align: right; font-size: 14px; font-weight: bold;">Rp315,330,900.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Footer dengan Payment Info dan Signature -->
+                    <div style="display: flex; justify-content: flex-start; margin-top: 50px;">
+                        <!-- Payment Info -->
+                        <div style="width: 40%; float: left;">
+                            <p style="margin: 0; font-size: 10px; font-weight: bold;">Send payment to</p>
+                            <p style="margin: 0; font-size: 10px;">Jl. Sultan - Pallatta</p>
+                            <p style="margin: 0; font-size: 10px;">Makassar</p>
+                            <p style="margin: 0; font-size: 10px; font-weight: bold;">MANDIRI 1520000004115</p>
+                            <p style="margin: 10px 0 0 0; font-size: 10px; font-weight: bold;">Special Instructions</p>
+                        </div>
+
+                        <!-- Signature Area -->
+                        <div style="width: 20%; text-align: center; float: left;">
+                            <p style="margin: 0; font-size: 10px; font-weight: bold;">Signed By</p>
+                            <div style="margin: 20px auto; height: 60px; position: relative;">
+                                <!-- Placeholder untuk cap/materai -->
+                                <div style="position: absolute; left: 20px; top: 0; width: 40px; height: 40px; border: 0 dashed #ccc;"></div>
+                            </div>
+                            <p style="margin: 0; font-size: 10px; font-weight: bold;">Irfan</p>
+                            <p style="margin: 0; font-size: 9px;">Administration Senior Supervisor</p>
+                        </div>
+                    </div>
+
+                    <!-- Page Break untuk halaman kedua -->
+                    <div style="page-break-before: always;"></div>
+                </div>
+
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 10px;">
+                    <!-- Header -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0; font-size: 14px; font-weight: bold;">REKAPAN PENGIRIMAN <span t-esc="static_data['company_name']"/></h2>
+                        <h3 style="margin: 5px 0; font-size: 12px;"><span t-esc="static_data['period']"/></h3>
+                        <p style="margin: 5px 0;">NO INVOICE : <span t-esc="static_data['invoice_no']"/></p>
+                    </div>
+
+                    <!-- Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <thead>
+                            <tr style="background-color: #f0f0f0;">
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">No</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Manifest</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">TIPE UNIT</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">NOPOL</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Vendor</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Destination</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">NAMA TOKO</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Period</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Price</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">PPN 1.1%</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">PPH 23</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">GRAND TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;">1</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">QSO9182AJAO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">CDD JUMBO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">DD 8414 UL</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">PT. BUMI JASA UTAMA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">MANADO DC KALAWAT</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"></td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">09/08/2025</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">24,300,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">267,300</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">486,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">24,081,300</td>
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;">2</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">QSO9182AJAO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">CDD JUMBO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">DD 8017 SA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">PT. BUMI JASA UTAMA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">KENDARI DC WUA WUA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"></td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">09/08/2025</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">13,600,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">149,600</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">272,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">13,477,600</td>
+                            </tr>
+                            <!-- Tambah rows lainnya sesuai kebutuhan -->
+                            <tr>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;">19</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">QSO9182AJAO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">CDD JUMBO</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">DD 8414 UL</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">PT. BUMI JASA UTAMA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">KENDARI DC WUA WUA</td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"></td>
+                                <td style="border: 1px solid #000; padding: 3px; font-size: 8px;">15/08/2025</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">13,600,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">149,600</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">272,000</td>
+                                <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;">13,477,600</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; background-color: #f0f0f0;">
+                                <td colspan="8" style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">TOTAL</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp 311,900,000</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp 3,430,900</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp 6,238,000</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp 309,092,900</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Terbilang -->
+                    <div style="margin: 20px 0;">
+                        <p style="font-weight: bold; margin-bottom: 5px;">TERBILANG</p>
+                        <p style="font-style: italic;">Tiga Ratus Sembilan Juta Sembilan Puluh Dua Ribu Sembilan Ratus Rupiah</p>
+                    </div>
+
+                    <!-- Bank Info -->
+                    <div style="float: left; width: 50%;">
+                        <p><strong>NAME : PT. BUMI POPO LOLI</strong></p>
+                        <p><strong>ACCOUNT : A/C. 152 999 999 999 5</strong></p>
+                        <p><strong>BANK : BANK MANDIRI</strong></p>
+                    </div>
+
+                    <!-- Signature -->
+                    <div style="float: right; width: 40%; text-align: center;">
+                        <p>Makassar 19 Agustus 2025</p>
+                        <br/><br/>
+                        <p><strong>APOY</strong></p>
+                        <p>RC STAFF</p>
+                        <br/>
+                        <p><strong>PT. BUMI POPO LOLI</strong></p>
+                    </div>
+
+                    <div style="clear: both;"></div>
+
+                    <!-- Page Break -->
+                    <div style="page-break-before: always;"></div>
+
+                    <!-- Tax Invoice Section -->
+                    <div style="margin-top: 30px;">
+                        <h2 style="text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 20px;">Faktur Pajak</h2>
+
+                        <div style="margin-bottom: 20px;">
+                            <p><strong>Nama: BUMI POPO LOLI</strong></p>
+                            <p><strong>Alamat: Masjid Agung, KOTA MAKASSAR</strong></p>
+                            <p><strong>#0099999999992000000000</strong></p>
+                            <p><strong>Kode dan Nomor Seri Faktur Pajak: 09002500123456789</strong></p>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <p><strong>Pengusaha Kena Pajak:</strong></p>
+                            <p>Nama : BUMI POPO LOLI</p>
+                            <p>Alamat : Masjid Agung, KOTA MAKASSAR</p>
+                            <p>NPWP : 0099999999992000</p>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <p><strong>Pembeli Barang Kena Pajak/Penerima Jasa Kena Pajak:</strong></p>
+                            <p>Nama : QWERTY ASAS</p>
+                            <p>Alamat : JALAN AP SEMBRANI 5 B NO. 9, RT 000, RW 000, TAMAMAUNG, PANAKKUKANG, KOTA MAKASSAR, SULAWESI SELATAN 90231 #0200999999999000000000</p>
+                            <p>NPWP : 0200999999999000</p>
+                            <p>Email: QWERTYASAS@GMAIL.COM</p>
+                        </div>
+
+                        <!-- Tax Table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #000; padding: 5px; text-align: center;">No.</th>
+                                    <th style="border: 1px solid #000; padding: 5px; text-align: center;">Kode Barang/Jasa</th>
+                                    <th style="border: 1px solid #000; padding: 5px; text-align: center;">Nama Barang Kena Pajak / Jasa Kena Pajak</th>
+                                    <th style="border: 1px solid #000; padding: 5px; text-align: center;">Harga Jual / Penggantian / Uang Muka / Termin (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #000; padding: 5px; text-align: center;">1</td>
+                                    <td style="border: 1px solid #000; padding: 5px; text-align: center;">090103</td>
+                                    <td style="border: 1px solid #000; padding: 5px;">PENGIRIMAN BARANG</td>
+                                    <td style="border: 1px solid #000; padding: 5px; text-align: right;">Rp 311.900.000,00 x 1,00 Lainnya<br/>Potongan Harga = Rp 0,00<br/>PPnBM (0,00%) = Rp 0,00<br/>311.900.000,00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Summary -->
+                        <div style="margin: 20px 0;">
+                            <p>Harga Jual / Penggantian / Uang Muka / Termin: 311.900.000,00</p>
+                            <p>Dikurangi Potongan Harga: 0,00</p>
+                            <p>Dikurangi Uang Muka yang telah diterima: -</p>
+                            <p><strong>Dasar Pengenaan Pajak: 311.900.000,00</strong></p>
+                            <p><strong>Jumlah PPN (Pajak Pertambahan Nilai): 3.430.900,00</strong></p>
+                            <p><strong>Jumlah PPnBM (Pajak Penjualan atas Barang Mewah): 0,00</strong></p>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="font-size: 9px; margin-top: 30px;">
+                            <p>Sesuai dengan ketentuan yang berlaku, Direktorat Jenderal Pajak mengatur bahwa Faktur Pajak ini telah ditandatangani secara elektronik sehingga tidak diperlukan tanda tangan basah pada Faktur Pajak ini.</p>
+                        </div>
+
+                        <div style="text-align: right; margin-top: 20px;">
+                            <p>KOTA MAKASSAR, 19 Agustus 2025</p>
+                            <p>Ditandatangani secara elektronik</p>
+                            <br/><br/>
+                            <p><strong>H. INDAH</strong></p>
+                            <p>(Referensi: LGC/1212/BPI08/0825)</p>
+                        </div>
+
+                        <div style="font-size: 8px; margin-top: 30px; border-top: 1px solid #000; padding-top: 10px;">
+                            <p><strong>Pemberitahuan:</strong> Faktur Pajak ini telah dilaporkan ke Direktorat Jenderal Pajak dan telah memperoleh persetujuan sesuai dengan ketentuan peraturan perpajakan yang berlaku.</p>
+                            <p><strong>PERINGATAN:</strong> PKP yang membuat Faktur Pajak yang tidak sesuai dengan keadaan yang sebenarnya dan/atau sesungguhnya sebagaimana dimaksud dalam Pasal 13 ayat (9) UU PPN dikenai sanksi sesuai dengan Pasal 14 ayat (4) UU KUP.</p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

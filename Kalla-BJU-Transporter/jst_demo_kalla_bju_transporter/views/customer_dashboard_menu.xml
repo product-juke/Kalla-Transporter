@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_customer_dashboard" model="ir.actions.client">
+            <field name="name">Customer Dashboard</field>
+            <field name="tag">customer_dashboard</field>
+        </record>
+        <menuitem id="menu_customer_dashboard"
+                  name="Customer Dashboard"
+                  parent="jst_demo_kalla_bju_transporter.menu_sale_report_transport"
+                  action="action_customer_dashboard"
+                  sequence="10" />
+    </data>
+</odoo>

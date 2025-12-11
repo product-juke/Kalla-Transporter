@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ===================== Action ===================== -->
+    <record id="fleet_do_report_action" model="ir.actions.act_window">
+        <field name="name">DO Report</field>
+        <field name="res_model">fleet.do.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tidak ada data report DO untuk saat ini.
+            </p>
+            <p>Data akan terisi otomatis setelah hit API dan proses upsert berjalan.</p>
+        </field>
+    </record>
+
+    <!-- ===================== Menu (sebelahan dengan BOP List) ===================== -->
+    <menuitem
+        id="fleet_do_report_menu"
+        name="DO Report"
+        action="fleet_do_report_action"
+        parent="jst_demo_kalla_bju_transporter.root_transporter"
+        sequence="6" />
+    <!-- BOP List sequence=5, maka ini pakai 6 agar muncul “sebelahan”. -->
+
+    <!-- ===================== Tree View ===================== -->
+    <record id="fleet_do_report_view_tree" model="ir.ui.view">
+        <field name="name">fleet.do.report.view.tree</field>
+        <field name="model">fleet.do.report</field>
+        <field name="arch" type="xml">
+            <tree string="DO Report"
+                  default_order="write_date desc"
+                  decoration-info="status_do in ('0','1')"
+                  decoration-warning="status_do == '2'"
+                  decoration-success="status_do == '3'"
+                  decoration-muted="status_do == '4'">
+                <header>
+                    <button string="Sync Data" type="object" display="always" name="action_open_sync_wizard" class="btn btn-secondary"/>
+                </header>
+                <field name="external_do_id"/>
+                <field name="no_do"/>
+                <field name="plat_nomor"/>
+                <field name="status_do"/>
+                <!-- <field name="status_desc" widget="badge"/> -->
+                <field name="location"/>
+                <field name="geo_name"/>
+                <field name="tgl_masuk"/>
+                <field name="tgl_keluar"/>
+                <field name="write_date" groups="base.group_no_one"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ===================== Form View (dengan divider) ===================== -->
+    <record id="fleet_do_report_view_form" model="ir.ui.view">
+        <field name="name">fleet.do.report.view.form</field>
+        <field name="model">fleet.do.report</field>
+        <field name="arch" type="xml">
+            <form string="DO Report Detail">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="fleet_do_id"/>
+                            <field name="no_do" readonly="1"/>
+                            <field name="plat_nomor" readonly="1"/>
+                            <field name="asset_type" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="status_do"/>
+                            <!-- <field name="status_desc" widget="badge"/> -->
+                            <field name="location"/>
+                        </group>
+                    </group>
+
+                    <!-- Divider / Horizontal Separator -->
+                    <separator string="Lokasi &amp; Waktu" colspan="2"/>
+
+                    <group>
+                        <group>
+                            <field name="geo_name" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="tgl_masuk"/>
+                            <field name="tgl_keluar"/>
+                        </group>
+                    </group>
+
+                    <group groups="base.group_no_one">
+                        <field name="external_do_id" readonly="1"/>
+                        <field name="create_date" readonly="1"/>
+                        <field name="write_date" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ===================== Search View ===================== -->
+    <record id="fleet_do_report_view_search" model="ir.ui.view">
+        <field name="name">fleet.do.report.view.search</field>
+        <field name="model">fleet.do.report</field>
+        <field name="arch" type="xml">
+            <search string="Cari DO Report">
+                <field name="no_do"/>
+                <field name="plat_nomor"/>
+                <field name="geo_name"/>
+                <field name="status_do"/>
+                <!-- <field name="status_desc"/> -->
+                <field name="location"/>
+
+                <filter name="status_0" string="In Used" domain="[('status_do','=',0)]"/>
+                <filter name="status_1" string="In Asal" domain="[('status_do','=',1)]"/>
+                <filter name="status_2" string="OTW Tujuan" domain="[('status_do','=',2)]"/>
+                <filter name="status_3" string="In Tujuan" domain="[('status_do','=',3)]"/>
+                <filter name="status_4" string="Out Tujuan" domain="[('status_do','=',4)]"/>
+
+                <filter name="loc_asal" string="Asal" domain="[('location','=','asal')]"/>
+                <filter name="loc_tujuan" string="Tujuan" domain="[('location','=','tujuan')]"/>
+
+                <separator/>
+
+                <filter name="today" string="Hari Ini"
+                        domain="['|', ('tgl_masuk','&gt;=', context_today().strftime('%%Y-%%m-%%d 00:00:00')),
+                                      ('tgl_keluar','&gt;=', context_today().strftime('%%Y-%%m-%%d 00:00:00'))]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="DO" name="group_no_do" context="{'group_by':'no_do'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status_do'}"/>
+                    <filter string="Lokasi" name="group_location" context="{'group_by':'location'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

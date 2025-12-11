@@ -1,0 +1,15 @@
+<odoo>
+    <record id="inherit_tier_definition_view_form_add_review_state" model="ir.ui.view">
+        <field name="name">tier.definition.form.inherit.review.state</field>
+        <field name="model">tier.definition</field>
+        <field name="inherit_id" ref="base_tier_validation.tier_definition_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='reviewer_id']" position="after">
+                <field name="review_state" invisible="1"/>
+                <field name="show_review_state" invisible="1"/>
+                <field name="review_state"
+                       invisible="not show_review_state"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

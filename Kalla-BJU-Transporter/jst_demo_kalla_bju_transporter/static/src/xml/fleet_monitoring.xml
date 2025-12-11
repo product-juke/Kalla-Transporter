@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="fleet.Monitoring">
+        <div class="o_control_panel p-0" style="height: 100vh; overflow-y: auto; padding: 20px;">
+            <div class="container-fluid py-3">
+                <h1 class="mb-4 text-center">Fleet Monitoring</h1>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="m-0 text-white">Driver Status</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickReadyDrivers">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Ready</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/driver.png" class="img-fluid" style="width: 50px;" alt="Driver Ready"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Total: <span class="badge bg-success text-white"><t t-esc="state.readyDrivers"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickSimExpired">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SIM Expired</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/icons8-delivery-time-50.png" class="img-fluid" style="width: 50px;" alt="SIM Expired"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Expired: <span class="badge bg-warning text-dark"><t t-esc="state.simExpiredDrivers"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickNotReadyDrivers">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Not Ready</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/icons8-delivery-stop-50.png" class="img-fluid" style="width: 50px;" alt="Not Ready"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Total: <span class="badge bg-danger text-white"><t t-esc="state.notReadyDrivers"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickCompetency">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Kompetensi</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/business.png" class="img-fluid" style="width: 50px;" alt="Competency"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Training: <span class="badge bg-primary text-white"><t t-esc="state.competencyNeeded"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="m-0 text-white">Vehicle Status</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickStandbyVehicles">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Standby</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/car_carrier_empty.png" class="img-fluid" style="width: 50px;" alt="Standby"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Ready for Use: <span class="badge bg-primary text-white"><t t-esc="state.standbyVehicles"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickOnDelivery">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">On Delivery</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/truck.png" class="img-fluid" style="width: 50px;" alt="On Delivery"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Total: <span class="badge bg-info text-white"><t t-esc="state.onDeliveryVehicles"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickOnReturn">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">On Return</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/truck left.png" class="img-fluid" style="width: 50px;" alt="On Return"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Total: <span class="badge bg-secondary text-white"><t t-esc="state.onReturnVehicles"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</odoo>

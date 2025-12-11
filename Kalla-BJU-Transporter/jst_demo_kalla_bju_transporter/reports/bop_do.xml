@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_bop_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="rec">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div style="text-align: center; font-weight: bold; font-size: 20pt; margin-bottom: 10px;">
+                            <t t-esc="rec.bop_no if rec.bop_no else '-'"/>
+                        </div>
+                        <br/>
+                        <table style="width: 100%;">
+                            <tr style="font-weight: bold; font-size: 14px;">
+                                <td style="width: 20%;">
+                                    <p>PO Reference</p>
+                                    <p>Customer</p>
+                                    <p>Category</p>
+                                    <p>Fleet</p>
+                                </td>
+                                <td style="width: 20%;">
+                                    <p>: <t t-esc="rec.x_studio_so_reference.name if rec.x_studio_so_reference.name else '-'"/></p>
+                                    <p>: <t t-esc="rec.partner_id.name if rec.partner_id.name else '-'"/></p>
+                                    <p>: <t t-esc="rec.category_id.name if rec.category_id.name else '-'"/></p>
+                                    <p>: <t t-esc="rec.vehicle_id.name if rec.vehicle_id.name else '-'"/></p>
+                                </td>
+                                <td style="width: 20%;">
+                                    <p>Nama Driver</p>
+                                    <p>Nama Bank</p>
+                                    <p>Nomor Rekening</p>
+                                    <p>Origin</p>
+                                    <p>Destination</p>
+                                </td>
+                                <td style="width: 20%;">
+
+                                    <p>: <t t-esc="rec.transfer_to.name if rec.transfer_to.name else '-'"/></p>
+<!--                                            <p>: <t t-esc="rec.date.strftime('%d/%m/%Y') if rec.date else '-'"/></p>-->
+                                    <p>: <t t-esc="rec.transfer_to.bank_cash.name if rec.transfer_to.bank_cash.name else '-'"/>></p>
+                                    <p>: <t t-esc="rec.transfer_to.rekening_number if rec.transfer_to.rekening_number else '-'"/></p>
+                                    <p>: <t t-esc="rec.origin if rec.origin else '-'"/></p>
+                                    <p>: <t t-esc="rec.destination if rec.destination else '-'"/></p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table style="width: 100%;">
+                            <tr style="font-weight: bold; font-size: 14px;">
+                                <td style="width: 20%;">
+                                    <p>Note</p>
+                                </td>
+                                <td style="width: 80%;">
+                                    <p>: <t t-esc="rec.note if rec.note else '-'"/></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br/>
+                    <t t-if="rec.line_ids">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 12px;" border="1">
+                            <tr>
+                                <th style="text-align: center; padding: 11px;">No</th>
+                                <th style="text-align: center; padding: 11px;">Nominal BOP</th>
+                                <th style="text-align: center; padding: 11px;">Nominal BOP di Bayarkan</th>
+                                <th style="text-align: center; padding: 11px;">Persentasi BOP di Bayarkan</th>
+                                <th style="text-align: center; padding: 11px;">Sisa BOP</th>
+                                <th style="text-align: center; padding: 11px;">Status</th>
+                            </tr>
+
+                            <t t-set="count" t-value="0"/>
+                            <t t-set="total_unit_price" t-value="0"/>
+                            <t t-foreach="rec.line_ids" t-as="line">
+                                <t t-set="count" t-value="count + 1"/>
+                                <t t-set="total_unit_price" t-value="total_unit_price + line.x_studio_unit_price"/>
+                                <tr>
+                                    <th style="text-align: center; font-size: 14px;"><t t-esc="count"/></th>
+                                    <td style="text-align: center; font-size: 14px;"><t t-esc="line.bop_value"  t-options='{"widget": "float", "precision": 0}'/></td>
+                                    <td style="text-align: center; font-size: 14px;"><t t-esc="line.bop_paid " t-options='{"widget": "float", "precision": 0}'/></td>
+                                    <td style="text-align: center; font-size: 14px;"><t t-esc="round((line.bop_percentage_paid)*100)" widget="percentage"/><span>%%</span></td>
+                                    <td style="text-align: center; font-size: 14px;"><t t-esc="line.bop_unpaid " t-options='{"widget": "float", "precision": 0}'/></td>
+                                    <td style="text-align: center; font-size: 14px;"><t t-esc="dict(line.fields_get(allfields=['status'])['status']['selection'])[line.status]"/></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+                    <br/>
+                    <br/>
+                    <table>
+                        <tr>
+                            <th style="text-align: center; padding: 11px;">Operation SPV</th>
+                            <th style="text-align: center; padding: 11px;">Cashier</th>
+                            <th style="text-align: center; padding: 11px;">ADH</th>
+                            <th style="text-align: center; padding: 11px;">Kepala Cabang</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%"><img t-attf-src="data:image/jpg;base64,{{rec.approval_by_operation_spv.sign_signature}}"  width="200px" height="100px"/>
+                                <br/>Approved By : <field name="rec.approval_by_operation_spv.name"/>
+                            </td>
+                            <td style="width: 20%"><img t-attf-src="data:image/jpg;base64,{{rec.approval_by_cashier.sign_signature}}"  width="200px" height="100px"/>
+                                <br/>Approved By : <field name="rec.approval_by_cashier.name"/>
+                            </td>
+                            <td style="width: 20%"><img t-attf-src="data:image/jpg;base64,{{rec.approval_by_adh.sign_signature}}"  width="200px" height="100px"/>
+                                <br/>Approved By : <field name="rec.approval_by_adh.name"/>
+                            </td>
+                            <td style="width: 20%"><img t-attf-src="data:image/jpg;base64,{{rec.approval_by_kacab.sign_signature}}"  width="200px" height="100px"/>
+                                <br/>Approved By :<field name="rec.approval_by_kacab.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

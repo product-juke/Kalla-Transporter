@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="do_delivery_document_form_inherit" model="ir.ui.view">
+            <field name="name">do.delivery.document.inherit</field>
+            <field name="model">fleet.do</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.fleet_do_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='status_delivery_document']/group/group" position="inside">
+                    <field name="status_delivery" readonly="0"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

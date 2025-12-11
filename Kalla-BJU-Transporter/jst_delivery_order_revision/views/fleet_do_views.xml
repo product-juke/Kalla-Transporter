@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Fleet DO Form View -->
+        <record id="view_fleet_do_form_revisi" model="ir.ui.view">
+            <field name="name">fleet.do.form.revisi</field>
+            <field name="model">fleet.do</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.fleet_do_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_revisi_do"
+                            string="Revisi DO"
+                            type="object"
+                            class="btn-secondary"
+                            groups="base.group_user"
+                            invisible="po_line_ids == []" />
+                </xpath>
+                <xpath expr="//page[@name='bop']/group" position="before">
+                    <button name="action_use_remaining_bop"
+                        string="Gunakan Saldo BOP Driver"
+                        type="object"
+                        class="btn-primary mb-3"
+                        groups="base.group_user"
+                        invisible="po_line_ids == []"
+                        context="{'skip_bop_constraint': True}"/>
+                    <group />
+                </xpath>
+                <xpath expr="//page[@name='bop']/group/group/field[@name='nominal']" position="after">
+                    <field name="prev_nominal" readonly="1" invisible="bop_driver_used == 0"/>
+                    <field name="bop_driver_used" readonly="1" />
+                </xpath>
+                <xpath expr="//page[@name='bop']/group/group/field[@name='nominal']" position="attributes">
+                    <attribute name="invisible">bop_driver_used &gt; 0</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Inherit List BOP Form View -->
+        <record id="view_bop_line_form_revisi" model="ir.ui.view">
+            <field name="name">bop.line.form.revisi</field>
+            <field name="model">bop.line</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.bop_line_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='nominal']" position="after">
+                    <field name="prev_nominal" readonly="1" invisible="bop_driver_used == 0"/>
+                    <field name="bop_driver_used" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='nominal']" position="attributes">
+                    <attribute name="invisible">bop_driver_used &gt; 0</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

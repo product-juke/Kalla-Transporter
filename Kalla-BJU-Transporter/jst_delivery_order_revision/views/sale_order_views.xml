@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_form_sale_order_op_lms_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.lms.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.transporter_sale_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='so_reference']" position="after">
+                <field name="is_revised_from_do" invisible="1"/>
+                <field name="show_field" invisible="1"/>
+                <field name="ref_so_revision_id" domain="[('is_revised_from_do', '=', True)]" invisible="show_field == 'Frozen'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_vehicle_view_tree" model="ir.ui.view">
+        <field name="name">fleet.vehicle.tree</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="product_category_id" />
+                <field name="radius" />
+                <field name="due_date" />
+                <field name="vichle_ownership" />
+                <field name="company_portfolio" />
+            </xpath>
+            <xpath expr="//field[@name='model_id']" position="after">
+                <field name="no_lambung" />
+                <field name="asset_type" />
+                <field name="vehicle_id" />
+                <field name="vehicle_name" />
+                <field name="detail_type" />
+                <field name="branch" />
+                <field name="geofence" />
+            </xpath>
+            <xpath expr="//field[@name='vehicle_id']" position="after">
+                <field name="vehicle_status" decoration-success="vehicle_status == 'ready'"
+                    decoration-info="vehicle_status == 'on_going'"
+                    decoration-danger="vehicle_status == 'not_ready'" widget="badge" />
+                <field name="last_status_description_id" widget="badge"
+                    decoration-success="vehicle_status == 'ready'"
+                    decoration-info="vehicle_status == 'on_going'"
+                    decoration-danger="vehicle_status == 'not_ready'" />
+            </xpath>
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <field name="end_of_tax_period" widget="remaining_days"
+                    options="{'color_field': 'color'}" string="Vehicle Tax Expired" />
+                <field name="stnk_expiration_period"
+                    widget="remaining_days=='current_time &lt; stnk_expiration_period'" />
+                <field name="is_stnk_expiring" string="IS Expiry" />
+                <field name="forecast_status_ready" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="inherit_fleet_vehicle_transporter_view_kanban" model="ir.ui.view">
+        <field name="name">fleet.vehicle.transporter.kanban</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban" />
+        <field name="arch" type="xml">
+            <!-- Add custom elements to kanban body -->
+            <xpath expr="//div[@class='oe_kanban_details']" position="inside">
+                <field name="end_of_tax_period" invisible="1" />
+                <field name="is_end_of_tax_period_exp" invisible="1" />
+                <div t-if="record.end_of_tax_period.value" class="mt-2">
+                    <small>Tax Expiry: </small>
+                    <strong t-esc="record.end_of_tax_period.value" />
+                </div>
+                <div t-if="record.is_end_of_tax_period_exp.raw_value"
+                    class="oe_kanban_badge text-bg-danger mt-2">
+                    🔔 End Of Tax akan Kadarluasa dalam 30 hari!
+                </div>
+
+                <field name="stnk_expiration_period" invisible="1" />
+                <field name="is_stnk_expiration_period_exp" invisible="1" />
+                <div t-if="record.stnk_expiration_period.value" class="mt-2">
+                    <small>STNK Expiry: </small>
+                    <strong t-esc="record.stnk_expiration_period.value" />
+                </div>
+                <div t-if="record.is_stnk_expiration_period_exp.raw_value"
+                    class="oe_kanban_badge text-bg-danger mt-2">
+                    🔔 STNK akan Kadarluasa dalam 30 hari!
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="fleet_vehicle_view_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="fetch_api_data_vehicle" type="object" class="btn btn-primary"
+                    string="Update VMS" />
+            </xpath>
+            <xpath expr="//label[@for='tag_ids']" position="before">
+                <label for="customer_id" string="Dedicated to" />
+                <h3>
+                    <field name="customer_id" class="oe_inline" />
+                </h3>
+            </xpath>
+            <xpath expr="//field[@name='location']" position="after">
+                <field name="radius" />
+                <field name="geofence" />
+            </xpath>
+            <xpath expr="//field[@name='doors']" position="after">
+                <field name="wheels" />
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="before">
+                <field name="load_type" />
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="product_category_id" />
+                <field name="vehicle_id" />
+                <field name="vehicle_name" />
+                <field name="detail_type" />
+                <field name="branch" />
+                <field name="no_lambung" />
+                <field name="company_portfolio" />
+                <field name="engine_sn" />
+            </xpath>
+            <xpath expr="//field[@name='driver_id']" position="after">
+                <field name="vichle_ownership" />
+                <field name="asset_type" />
+                <field name="vehicle_status" decoration-success="vehicle_status == 'ready'"
+                    decoration-info="vehicle_status == 'on_going'"
+                    decoration-danger="vehicle_status == 'not_ready'" />
+                <field name="last_status_description_id" />
+                <field name="gps_status" />
+                <field name="end_of_tax_period" widget="remaining_days" />
+                <field name="stnk_expiration_period" widget="remaining_days" />
+                <field name="is_stnk_expiring" string="IS Expiry" />
+            </xpath>
+            <xpath expr="//field[@name='next_assignation_date']" position="after">
+                <field name="fix_cost" />
+                <field name="forecast_status_ready" />
+            </xpath>
+            <notebook>
+                <page string="Trigger Status Unit Ready">
+                    <group>
+                        <group>
+                            <field name="geofence_checkpoint" />
+                            <field name="maintenance_date" />
+                        </group>
+                        <group>
+                            <field name="driver_confirmation" />
+                            <field name="plan_armada_confirmation" />
+                        </group>
+                    </group>
+                </page>
+                <page string="Capacity Volume">
+                    <group>
+                        <group>
+                            <field name="max_unit" />
+                            <field name="min_tonase" />
+                            <field name="max_tonase" />
+                        </group>
+                        <group>
+                            <field name="min_kubikasi" />
+                            <field name="max_kubikasi" />
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+            <notebook>
+                <page name="lines" string="Target Vehicle">
+                    <field name="target_line_ids">
+                        <tree editable="bottom">
+                            <field name="year" />
+                            <field name="month" />
+                            <!--                                    <field name="attachment_ids" widget="many2many_binary"/>-->
+                            <field name="total_target" />
+                            <field name="actual_target" />
+                            <field name="target_days_utilization" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+            <notebook>
+                <page name="Effeactive Working Days (EWD)" string="EWD" invisible="company_portfolio not in ('Transporter' , 'VLI') ">
+                    <field name="ewd_ids">
+                        <tree editable="bottom">
+                            <field name="ewd_year" />
+                            <field name="ewd_month" />
+                            <field name="ewd_total_days" readonly="1" />
+                            <field name="ewd_total_weekend" readonly="1" />
+                            <field name="ewd_total_holidays" />
+                            <field name="ewd_effective_working_days" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+            <notebook>
+                <page string="EWH" invisible="company_portfolio in ('Transporter' , 'VLI')">
+                    <group>
+                        <group string="Jam Operasional">
+                            <field name="jam_kerja_start" widget="float_time" />
+                            <field name="jam_kerja_end" widget="float_time" />
+                            <field name="jam_tersedia" widget="float_time" />
+                            <field name="jam_breakdown" widget="float_time" />
+                        </group>
+                        <group string="Jam Standby">
+                            <field name="jam_istirahat" widget="float_time" />
+                            <field name="jam_hujan" widget="float_time" />
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+            <notebook>
+                <page string="Vehicle Not Ready">
+                    <field name="vehicle_status_log_ids">
+                        <tree editable="bottom" default_order="date desc">
+                            <field name="date" required="1" />
+                            <field name="vehicle_status" readonly="1" required="1" />
+                            <field name="last_status_description_id" required="1" />
+                            <field name="vehicle_id" readonly="1" required="1" />
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- ======= WIZARD UNTUK VEHICLE SELECTION ======= -->
+
+    <!-- Vehicle Selection Wizard Form View -->
+    <record id="vehicle_selection_wizard_form" model="ir.ui.view">
+        <field name="name">vehicle.selection.wizard.form</field>
+        <field name="model">vehicle.selection.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Vehicle" create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="fleet_do_id" invisible="1" />
+                            <field name="selected_vehicle_id" invisible="1" />
+                            <field name="category_id" invisible="1" />
+                            <field name="tonase_line" invisible="1" />
+                            <field name="kubikasi_line" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="filter_category_id" string="Filter by Category"
+                                invisible="1" />
+                            <field name="filter_status" string="Filter by Status" invisible="1" />
+                        </group>
+                    </group>
+
+                    <group string="Selected Vehicle" invisible="selected_vehicle_id == False">
+                        <field name="selected_vehicle_display" readonly="1" />
+                    </group>
+
+                    <field name="vehicle_ids" nolabel="1" create="0" edit="0" delete="false"
+                        context="{'hide_add': 1}">
+                        <tree string="Vehicles" create="false" edit="false" delete="false">
+                            <field name="id" column_invisible="1" />
+                            <button name="action_select_this_vehicle" string="Select" type="object"
+                                class="btn-primary btn-sm" icon="fa-check"
+                                context="{'wizard_id': active_id, 'current_vehicle_id': 123}" />
+                            <field name="model_id" />
+                            <field name="license_plate" />
+                            <field name="name" />
+                            <field name="no_lambung" />
+                            <field name="asset_type" />
+                            <field name="vehicle_status" widget="badge"
+                                decoration-success="vehicle_status == 'ready'"
+                                decoration-info="vehicle_status == 'on_going'"
+                                decoration-danger="vehicle_status == 'not_ready'" />
+                            <field name="last_status_description_id" widget="badge"
+                                decoration-success="vehicle_status == 'ready'"
+                                decoration-info="vehicle_status == 'on_going'"
+                                decoration-danger="vehicle_status == 'not_ready'" />
+                            <field name="detail_type" />
+                            <field name="category_id" />
+                            <field name="driver_id" />
+                            <field name="product_category_id" string="Business Category" />
+                            <field name="geofence" />
+                            <field name="vichle_ownership" string="Vehicle Ownership" />
+                            <field name="date_of_status_ready" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vehicle Selection Wizard Action -->
+    <record id="vehicle_selection_wizard_action" model="ir.actions.act_window">
+        <field name="name">Select Vehicle</field>
+        <field name="res_model">vehicle.selection.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="vehicle_selection_wizard_form" />
+        <field name="target">new</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,397 @@
+<odoo>
+    <template id="invoice_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- Page 1: Standard Invoice Format -->
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 11px; color: #333; padding: 20px; background: #f8f8f8;">
+
+                    <!-- Header Section -->
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;">
+                        <!-- Left side - Logo and Company Info -->
+                        <div style="display: flex; align-items: center;">
+                            <img src="/web/image/res.company/1/logo" style="width: 60px; height: 60px; margin-right: 15px;" alt="Logo"/>
+                            <div>
+                                <h1 style="font-size: 24px; font-weight: bold; color: #2e7d32; margin: 0; letter-spacing: 2px;">KALLA TRANSPORT</h1>
+                            </div>
+                        </div>
+
+                        <!-- Right side - Company Address -->
+                        <div style="text-align: right; font-size: 10px; line-height: 1.3;">
+                            <div>Jl. Ir. Sutami - Pate'ne</div>
+                            <div>Makassar</div>
+                            <div>MANDIRI 1520000004115</div>
+                        </div>
+                    </div>
+
+                    <!-- Invoice Details Section -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                        <!-- Left - Bill-to and Ship-to -->
+                        <div style="width: 45%;">
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 5px;">Bill-to</div>
+                                <div style="font-size: 10px; line-height: 1.4;">
+                                    <div><t t-esc="o.partner_id.name"/></div>
+                                    <div><t t-esc="o.partner_id.street or ''"/></div>
+                                    <div><t t-esc="o.partner_id.street2 or ''"/></div>
+                                    <div><t t-esc="o.partner_id.city or ''"/> <t t-esc="o.partner_id.state_id.name or ''"/></div>
+                                    <div><t t-esc="o.partner_id.country_id.name or ''"/></div>
+                                    <div>(<t t-esc="o.partner_id.phone or ''"/>)</div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="font-weight: bold; margin-bottom: 5px;">Ship-to</div>
+                                <div style="font-size: 10px; line-height: 1.4;">
+                                    <div><t t-esc="o.partner_shipping_id.name or o.partner_id.name"/></div>
+                                    <div><t t-esc="o.partner_shipping_id.street or o.partner_id.street or ''"/></div>
+                                    <div><t t-esc="o.partner_shipping_id.street2 or o.partner_id.street2 or ''"/></div>
+                                    <div><t t-esc="o.partner_shipping_id.city or o.partner_id.city or ''"/> <t t-esc="o.partner_shipping_id.state_id.name or o.partner_id.state_id.name or ''"/></div>
+                                    <div><t t-esc="o.partner_shipping_id.country_id.name or o.partner_id.country_id.name or ''"/></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right - Invoice Info -->
+                        <div style="text-align: right;">
+                            <h2 style="font-size: 28px; font-weight: bold; margin: 0 0 10px 0; color: #333;">INVOICE</h2>
+                            <div style="font-size: 14px; font-weight: bold; margin-bottom: 20px;">
+                                <t t-esc="o.name"/>
+                            </div>
+
+                            <!-- Summary Box -->
+                            <div style="background: white; border: 1px solid #ddd; padding: 15px; text-align: right; min-width: 200px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Line Total</span>
+                                    <span><t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Sales Tax</span>
+                                    <span><t t-esc="'{:,.2f}'.format(o.amount_tax)"/></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Shipping</span>
+                                    <span>0.00</span>
+                                </div>
+                                <hr style="margin: 10px 0; border: none; border-top: 1px solid #ddd;"/>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span style="font-weight: bold;">Total</span>
+                                    <span style="font-weight: bold;"><t t-esc="'{:,.2f}'.format(o.amount_total)"/></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Payments</span>
+                                    <span>0.00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                    <span>Credits</span>
+                                    <span>0.00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Financial Charges</span>
+                                    <span>0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Purchase Order and Dates Section -->
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 10px;">
+                        <div>
+                            <div style="margin-bottom: 5px;"><strong>Purchase Order</strong></div>
+                            <div style="margin-bottom: 5px;">Invoice Date: <t t-esc="o.invoice_date"/></div>
+                            <div>Shipped Date: </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="margin-bottom: 5px;"><strong>Payment Terms</strong> 30</div>
+                            <div><strong>Due Date</strong> <t t-esc="o.invoice_date_due"/></div>
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <table style="width: 100%; border-collapse: collapse; background: white; font-size: 10px;">
+                        <thead>
+                            <tr style="background: #f0f0f0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+                                <th style="text-align: center; padding: 8px; border-right: 1px solid #ddd; width: 5%;">No.</th>
+                                <th style="text-align: left; padding: 8px; border-right: 1px solid #ddd; width: 15%;">Product</th>
+                                <th style="text-align: left; padding: 8px; border-right: 1px solid #ddd; width: 35%;">Description</th>
+                                <th style="text-align: center; padding: 8px; border-right: 1px solid #ddd; width: 8%;">UOM</th>
+                                <th style="text-align: center; padding: 8px; border-right: 1px solid #ddd; width: 8%;">Quantity</th>
+                                <th style="text-align: right; padding: 8px; border-right: 1px solid #ddd; width: 12%;">Unit Price</th>
+                                <th style="text-align: right; padding: 8px; width: 17%;">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="text-align: center; padding: 8px; border-right: 1px solid #eee;"><t t-esc="line_index + 1"/></td>
+                                    <td style="padding: 8px; border-right: 1px solid #eee;"><t t-esc="line.product_id.name or ''"/></td>
+                                    <td style="padding: 8px; border-right: 1px solid #eee;"><t t-esc="line.name"/></td>
+                                    <td style="text-align: center; padding: 8px; border-right: 1px solid #eee;"><t t-esc="line.product_uom_id.name"/></td>
+                                    <td style="text-align: center; padding: 8px; border-right: 1px solid #eee;"><t t-esc="int(line.quantity)"/></td>
+                                    <td style="text-align: right; padding: 8px; border-right: 1px solid #eee;"><t t-esc="'{:,.0f}'.format(line.price_unit)"/></td>
+                                    <td style="text-align: right; padding: 8px;"><t t-esc="'{:,.2f}'.format(line.price_subtotal)"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- Line Total and Grand Total -->
+                    <div style="margin-top: 15px; text-align: right; font-size: 11px;">
+                        <div style="margin-bottom: 5px;">
+                            <strong>Line Total</strong> <t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/>
+                        </div>
+                        <div style="font-size: 14px; font-weight: bold; color: #333;">
+                            <strong>Grand Total Rp<t t-esc="'{:,.2f}'.format(o.amount_total)"/></strong>
+                        </div>
+                    </div>
+
+                    <!-- Footer Section -->
+                    <div style="display: flex; justify-content: space-between; margin-top: 40px; font-size: 10px;">
+                        <!-- Left - Payment Info -->
+                        <div>
+                            <div style="font-weight: bold; margin-bottom: 5px;">Send payment to</div>
+                            <div style="line-height: 1.4;">
+                                <div>Jl. Ir. Sutami - Pate'ne</div>
+                                <div>Makassar</div>
+                                <div>MANDIRI 1520000004115</div>
+                                <div style="margin-top: 10px; font-weight: bold;">Special Instructions</div>
+                            </div>
+                        </div>
+
+                        <!-- Right - Signature Section -->
+                        <div style="text-align: center; min-width: 200px;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">Signed By</div>
+                            <div style="margin: 20px 0;"></div>
+                            <div style="border-top: 1px solid #333; padding-top: 5px; margin-top: 40px;">
+                                <strong>Irfan</strong><br/>
+                                Administration Senior Supervisor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 2: Rekapan Pengiriman -->
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 10px; color: #000; padding: 15px; background: white; page-break-before: always;">
+
+                    <!-- Header Section -->
+                    <div style="text-align: center; margin-bottom: 25px;">
+                        <h2 style="font-size: 14px; font-weight: bold; margin: 0; text-decoration: underline;">
+                            REKAPAN PENGIRIMAN <t t-esc="o.partner_id.name"/>
+                        </h2>
+                        <div style="font-size: 12px; margin: 8px 0;">
+                            PERIODE <t t-esc="o.invoice_date"/> - <t t-esc="o.invoice_date_due"/>
+                        </div>
+                        <div style="font-size: 11px; font-weight: bold; margin: 8px 0;">
+                            NO INVOICE : <t t-esc="o.name"/>
+                        </div>
+                    </div>
+
+                    <!-- Main Table -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 8px; margin-bottom: 20px;">
+                        <thead>
+                            <tr style="background: #f0f0f0; border: 1px solid #000;">
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 3%;">No</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 8%;">Manifest</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 7%;">TIPE UNIT</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 6%;">NOPOL</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 12%;">Vendor</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 8%;">Destination</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 8%;">NAMA TOKO</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 6%;">Period</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 8%;">Price</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 6%;">PPN 1.1%</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 6%;">PPH 23</th>
+                                <th style="border: 1px solid #000; padding: 4px; text-align: center; width: 8%;">GRAND TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <tr style="border: 1px solid #000;">
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;"><t t-esc="line_index + 1"/></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;">QSO9182AJAO</td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;">CDD JUMBO</td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;">DD <t t-esc="8414 + line_index"/></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 7px;">PT. BUMI JASA UTAMA</td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;">
+                                        <t t-if="line_index % 2 == 0">MANADO</t>
+                                        <t t-else="">KENDARI</t>
+                                    </td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;">
+                                        <t t-if="line_index % 2 == 0">DC KALAWAT</t>
+                                        <t t-else="">DC WUA WUA</t>
+                                    </td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center;"><t t-esc="o.invoice_date"/></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right;">
+                                        <t t-esc="'{:,.0f}'.format(line.price_unit)"/>
+                                    </td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right;">
+                                        <t t-esc="'{:,.0f}'.format(line.price_unit * 0.011)"/>
+                                    </td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right;">
+                                        <t t-esc="'{:,.0f}'.format(line.price_unit * 0.02)"/>
+                                    </td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right;">
+                                        <t t-esc="'{:,.0f}'.format(line.price_subtotal)"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <!-- Total Row -->
+                        <tfoot>
+                            <tr style="border: 1px solid #000; font-weight: bold;">
+                                <td colspan="8" style="border: 1px solid #000; padding: 5px; text-align: center; font-weight: bold;"></td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right;">
+                                    Rp <t t-esc="'{:,.0f}'.format(o.amount_untaxed)"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right;">
+                                    Rp <t t-esc="'{:,.0f}'.format(o.amount_untaxed * 0.011)"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right;">
+                                    Rp <t t-esc="'{:,.0f}'.format(o.amount_untaxed * 0.02)"/>
+                                </td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right;">
+                                    Rp <t t-esc="'{:,.0f}'.format(o.amount_total)"/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Terbilang Section -->
+                    <div style="margin-top: 20px; font-size: 10px;">
+                        <div style="font-weight: bold; text-decoration: underline; margin-bottom: 10px;">TERBILANG</div>
+                        <div style="font-weight: bold; margin-bottom: 20px;">
+                            Tiga Ratus Sembilan Juta Sembilan Puluh Dua Ribu Sembilan Ratus Rupiah
+                        </div>
+                    </div>
+
+                    <!-- Payment and Signature Section -->
+                    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                        <!-- Left - Payment Details -->
+                        <div style="width: 40%;">
+                            <div style="font-size: 10px; line-height: 1.6;">
+                                <div><strong>NAME :</strong> PT. BUMI POPO LOLI</div>
+                                <div><strong>ACCOUNT :</strong> A/C. 152 999 999 999 5</div>
+                                <div><strong>BANK :</strong> BANK MANDIRI</div>
+                            </div>
+                        </div>
+
+                        <!-- Right - Signature and Date -->
+                        <div style="width: 40%; text-align: right;">
+                            <div style="font-size: 10px; margin-bottom: 15px;">
+                                Makassar <t t-esc="o.invoice_date"/>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-weight: bold; margin-bottom: 10px;">PT. BUMI POPO LOLI</div>
+                                <div style="margin: 40px 0;"></div>
+                                <div style="border-top: 1px solid #000; padding-top: 5px; display: inline-block; min-width: 150px;">
+                                    <div style="font-weight: bold;">APOY</div>
+                                    <div>RC STAFF</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 3: Tax Invoice Section (Faktur Pajak) -->
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 10px; color: #000; padding: 15px; background: white; page-break-before: always;">
+                    <div style="border: 2px solid #000; padding: 15px; min-height: 700px;">
+                        <div style="text-align: center; font-weight: bold; font-size: 16px; margin-bottom: 25px;">
+                            Faktur Pajak
+                        </div>
+
+                        <!-- PKP Info -->
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-weight: bold; font-size: 12px;">Nama: BUMI POPO LOLI</div>
+                            <div style="font-size: 11px;">Alamat: Masjid Agung, KOTA MAKASSAR</div>
+                            <div style="font-size: 11px;">#0099999999992000000000</div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 11px;"><strong>Kode dan Nomor Seri Faktur Pajak:</strong> 09002500123456789</div>
+                        </div>
+
+                        <!-- PKP Details -->
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                            <div style="width: 48%;">
+                                <div style="font-weight: bold; margin-bottom: 8px; font-size: 11px;">Pengusaha Kena Pajak:</div>
+                                <div style="font-size: 10px; line-height: 1.4;">
+                                    <div>Nama : BUMI POPO LOLI</div>
+                                    <div>Alamat : Masjid Agung, KOTA MAKASSAR</div>
+                                    <div>NPWP : 0099999999992000</div>
+                                </div>
+                            </div>
+                            <div style="width: 48%;">
+                                <div style="font-weight: bold; margin-bottom: 8px; font-size: 11px;">Pembeli Barang Kena Pajak/Penerima Jasa Kena Pajak:</div>
+                                <div style="font-size: 10px; line-height: 1.4;">
+                                    <div>Nama : <t t-esc="o.partner_id.name"/></div>
+                                    <div>Alamat : <t t-esc="o.partner_id.street or ''"/> <t t-esc="o.partner_id.street2 or ''"/></div>
+                                    <div><t t-esc="o.partner_id.city or ''"/>, <t t-esc="o.partner_id.state_id.name or ''"/> <t t-esc="o.partner_id.zip or ''"/></div>
+                                    <div>NPWP : <t t-esc="o.partner_id.vat or '0200999999999000'"/></div>
+                                    <div>Email: <t t-esc="o.partner_id.email or ''"/></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tax Invoice Table -->
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+                            <thead>
+                                <tr style="border: 1px solid #000; background: #f0f0f0;">
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; font-size: 9px;">No.</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; font-size: 9px;">Kode Barang/Jasa</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; font-size: 9px;">Nama Barang Kena Pajak / Jasa Kena Pajak</th>
+                                    <th style="border: 1px solid #000; padding: 8px; text-align: center; font-size: 9px;">Harga Jual / Penggantian / Uang Muka / Termin (Rp)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border: 1px solid #000;">
+                                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">1</td>
+                                    <td style="border: 1px solid #000; padding: 8px; text-align: center;">090103</td>
+                                    <td style="border: 1px solid #000; padding: 8px;">PENGIRIMAN BARANG</td>
+                                    <td style="border: 1px solid #000; padding: 8px; text-align: right; font-size: 9px;">
+                                        Rp <t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/> x 1,00 Lainnya<br/>
+                                        Potongan Harga = Rp 0,00<br/>
+                                        PPnBM (0,00%) = Rp 0,00<br/>
+                                        <strong><t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/></strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Tax Calculation -->
+                        <div style="text-align: right; margin-bottom: 25px; font-size: 10px;">
+                            <div style="margin-bottom: 3px;">Harga Jual / Penggantian / Uang Muka / Termin <t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/></div>
+                            <div style="margin-bottom: 3px;">Dikurangi Potongan Harga 0,00</div>
+                            <div style="margin-bottom: 3px;">Dikurangi Uang Muka yang telah diterima</div>
+                            <div style="margin-bottom: 3px;"><strong>Dasar Pengenaan Pajak <t t-esc="'{:,.2f}'.format(o.amount_untaxed)"/></strong></div>
+                            <div style="margin-bottom: 3px;"><strong>Jumlah PPN (Pajak Pertambahan Nilai) <t t-esc="'{:,.2f}'.format(o.amount_tax)"/></strong></div>
+                            <div>Jumlah PPnBM (Pajak Penjualan atas Barang Mewah) 0,00</div>
+                        </div>
+
+                        <!-- Electronic Signature Notice -->
+                        <div style="font-size: 9px; text-align: justify; margin-bottom: 25px; line-height: 1.3;">
+                            Sesuai dengan ketentuan yang berlaku, Direktorat Jenderal Pajak mengatur bahwa Faktur Pajak ini telah ditandatangani
+                            secara elektronik sehingga tidak diperlukan tanda tangan basah pada Faktur Pajak ini.
+                        </div>
+
+                        <!-- Signature Section -->
+                        <div style="text-align: right; margin-bottom: 25px;">
+                            <div style="margin-bottom: 5px;">KOTA MAKASSAR, <t t-esc="o.invoice_date"/></div>
+                            <div style="margin: 25px 0;">Ditandatangani secara elektronik</div>
+                            <div style="font-weight: bold; margin-bottom: 3px;">H. INDAH</div>
+                            <div style="font-size: 9px;">(Referensi: <t t-esc="o.name"/>)</div>
+                        </div>
+
+                        <!-- Footer Warning -->
+                        <div style="font-size: 8px; text-align: justify; line-height: 1.2;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">Pemberitahuan:</div>
+                            <div style="margin-bottom: 8px;">Faktur Pajak ini telah dilaporkan ke Direktorat Jenderal Pajak dan telah memperoleh persetujuan sesuai
+                            dengan ketentuan peraturan perpajakan yang berlaku.</div>
+                            <div style="font-weight: bold; margin-bottom: 5px;">PERINGATAN:</div>
+                            <div>PKP yang membuat Faktur Pajak yang tidak sesuai dengan keadaan yang sebenarnya dan/atau sesungguhnya
+                            sebagaimana dimaksud dalam Pasal 13 ayat (9) UU PPN dikenai sanksi sesuai dengan Pasal 14 ayat (4) UU KUP.</div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

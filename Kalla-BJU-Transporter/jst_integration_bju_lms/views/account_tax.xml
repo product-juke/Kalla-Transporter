@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_tax_view_tree" model="ir.ui.view">
+        <field name="name">inherit.account.tax.view.tree</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_label']" position="after">
+<!--                <field name="show_field" column_invisible="1" />-->
+                <field name="group" string="Group" optional="hide"/>
+<!--                <field name="oracle_tax_name" string="Oracle Tax Name" optional="hide" column_invisible="show_field == 'Frozen'"/>-->
+                <field name="oracle_tax_name" string="Oracle Tax Name" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_tax_view_form" model="ir.ui.view">
+        <field name="name">inherit.account.tax.view.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group[2]" position="inside">
+                <field name="show_field" invisible="1" />
+                <field name="group" string="Group" required="1"/>
+<!--                <field name="oracle_tax_name" string="Oracle Tax Name" required="1" invisible="show_field == 'Frozen'"/>-->
+                <field name="oracle_tax_name" string="Oracle Tax Name" required="show_field != 'Frozen'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_form_account_account_inherit" model="ir.ui.view">
+        <field name="name">account.account.form.inherit</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='allowed_journal_ids']" position="after">
+                <field name="is_for_driver_remaining_bop" groups="jst_lms_group.group_logistic_lms_cashier"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

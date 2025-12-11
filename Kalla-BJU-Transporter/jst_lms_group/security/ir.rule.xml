@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="logistic_mutltiple_company_sale_order" model="ir.rule">
+        <field name="name">Logistic Mulitiple Companya Sale Order</field>
+        <field name="model_id" ref="sale.model_sale_order"/>   <!-- contoh: model_sale_order -->
+        <field name="groups" eval="[(6,0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/> <!-- opsional -->
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+</odoo>

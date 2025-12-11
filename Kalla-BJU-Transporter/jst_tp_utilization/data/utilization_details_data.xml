@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="utilization_detail_uti" model="utilization.details">
+            <field name="code">UTI</field>
+            <field name="description">UTILISASI</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_c" model="utilization.details">
+            <field name="code">C</field>
+            <field name="description">CARRY OVER</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_rfu" model="utilization.details">
+            <field name="code">RFU</field>
+            <field name="description">READY FOR USE</field>
+            <field name="parent_status">READY FOR USE</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_bd" model="utilization.details">
+            <field name="code">BD</field>
+            <field name="description">BREAKDOWN</field>
+            <field name="parent_status">BREAKDOWN</field>
+            <field name="utilization_status">NOT USED</field>
+            <field name="pa">0</field>
+        </record>
+        <record id="utilization_detail_tad" model="utilization.details">
+            <field name="code">TAD</field>
+            <field name="description">DRIVER TIDAK TERSEDIA</field>
+            <field name="parent_status">DRIVER NOT READY</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_am" model="utilization.details">
+            <field name="code">AM</field>
+            <field name="description">ANTRI MUAT</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_bt" model="utilization.details">
+            <field name="code">BT</field>
+            <field name="description">BOP TERLAMBAT</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_as" model="utilization.details">
+            <field name="code">AS</field>
+            <field name="description">ANTRI SOLAR</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_bdj" model="utilization.details">
+            <field name="code">BDJ</field>
+            <field name="description">BREAKDOWN DIJALAN</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_fm" model="utilization.details">
+            <field name="code">FM</field>
+            <field name="description">FORCE MAUJURE</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_btj" model="utilization.details">
+            <field name="code">BTJ</field>
+            <field name="description">BUKA TUTUP JALUR</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_ab" model="utilization.details">
+            <field name="code">AB</field>
+            <field name="description">ANTRI BONGKAR</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_mb" model="utilization.details">
+            <field name="code">MB</field>
+            <field name="description">MUATAN BALIK</field>
+            <field name="parent_status">UTILIZATION</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_rb" model="utilization.details">
+            <field name="code">RB</field>
+            <field name="description">READY BENGKEL</field>
+            <field name="parent_status">READY FOR USED</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_l" model="utilization.details">
+            <field name="code">L</field>
+            <field name="description">LIBUR</field>
+            <field name="parent_status">WEEKEND</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_tk" model="utilization.details">
+            <field name="code">TK</field>
+            <field name="description">DRIVER TANPA KETERANGAN</field>
+            <field name="parent_status">TANPA KETERANGAN</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+        <record id="utilization_detail_at" model="utilization.details">
+            <field name="code">AT</field>
+            <field name="description">ASSET TERTAHAN</field>
+            <field name="parent_status">BREAKDOWN</field>
+            <field name="utilization_status">NOT USED</field>
+            <field name="pa">0</field>
+        </record>
+        <record id="utilization_detail_O" model="utilization.details">
+            <field name="code">0</field>
+            <field name="description">STATUS BELUM UPDATE</field>
+            <field name="parent_status">NOT UPDATE</field>
+            <field name="utilization_status">NOT USED</field>
+            <field name="pa">0</field>
+        </record>
+        <record id="utilization_detail_mto" model="utilization.details">
+            <field name="code">MTO</field>
+            <field name="description">MUTATION OUT</field>
+            <field name="parent_status">MUTATION PROGRESS</field>
+            <field name="utilization_status">USED</field>
+            <field name="pa">100</field>
+        </record>
+    </data>
+</odoo>

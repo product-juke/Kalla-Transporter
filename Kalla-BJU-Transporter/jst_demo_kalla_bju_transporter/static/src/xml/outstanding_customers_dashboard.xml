@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="account.OutstandingCustomersDashboard">
+        <div class="container">
+            <h3>Top 10 Customers with Outstanding Payments</h3>
+
+            <!-- Date filter inputs -->
+            <div class="d-flex justify-content-center my-3">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="startDate" t-on-change="handleDateChange" class="mx-2"/>
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="endDate" t-on-change="handleDateChange" class="mx-2"/>
+                <button class="btn btn-primary" t-on-click="loadOutstandingCustomers">Filter</button>
+            </div>
+
+            <!-- Table displaying top 10 customers -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Outstanding Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through customers and display rows -->
+                    <t t-foreach="state.outstandingCustomers" t-as="customer" t-key="customer.id">
+                        <tr>
+                            <td><t t-esc="customer.name"/></td>
+                            <td>
+                                <!-- Use the monetary widget to format the outstanding amount -->
+                                <t t-esc="customer.outstanding" t-options='{"widget": "monetary"}'/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</odoo>

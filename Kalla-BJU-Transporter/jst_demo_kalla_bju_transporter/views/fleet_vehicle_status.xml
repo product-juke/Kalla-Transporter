@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fleet_vehicle_status_view_tree" model="ir.ui.view">
+        <field name="name">fleet.vehicle_status.view.tree</field>
+        <field name="model">fleet.vehicle.status</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="vehicle_status"/>
+                <field name="name_description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_vehicle_status_view_form" model="ir.ui.view">
+        <field name="name">fleet.vehicle.status.view.form</field>
+        <field name="model">fleet.vehicle.status</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="vehicle_status"/>
+                            <field name="name_description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_vehicle_status_action" model="ir.actions.act_window">
+        <field name="name">Vehicle Status</field>
+        <field name="res_model">fleet.vehicle.status</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="fleet_vehicle_status_menu"
+            name="Vehicle Status"
+            action="fleet_vehicle_status_action"
+            sequence="22"
+            parent="fleet.fleet_configuration"/>
+</odoo>

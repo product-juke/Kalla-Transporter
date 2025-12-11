@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_bju" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.bju</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Sync Data TMS" type="object" display="always" name="sync_data_tms" context="{'is_from_view_form': True}" class="btn btn-secondary"/>
+            </xpath>
+            <xpath expr="//field[@name='study_school']" position="after">
+                <field name="admission_year"/>
+                <field name="graduate_year"/>
+                <field name="id" invisible="1"/>
+            </xpath>
+            <xpath expr="//group[@name='emergency']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile_phone']" position="before">
+                <field name="employee_id_tms" readonly="1"/>
+                <field name="ktp"/>
+            </xpath>
+            <xpath expr="//field[@name='private_car_plate']" position="after">
+                <field name="license_expiry_date"/>
+                <field name="no_sim"/>
+                <field name="license_type"/>
+            </xpath>
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="partner_id" readonly="1"/>
+                <field name="recruitment_type"/>
+                <field name="driver_id" invisible = "recruitment_type != 'driver_recomended'"/>
+            </xpath>
+            <xpath expr="//field[@name='recruitment_type']" position="after">
+                <field name="ownership_driver_id"/>
+            </xpath>
+            <xpath expr="//field[@name='children']" position="before">
+                <!-- Add your fields or attributes here -->
+                <field name="id" invisible="1"/>
+                <field name="emp_child_ids" invisible="0">
+                    <tree editable="bottom">
+                        <field name="employee_id" domain="[('id', '=', parent.id)]"/>
+                        <field name="name" required="1"/>
+                        <field name="birth_place"/>
+                        <field name="birth_date"/>
+                    </tree>
+                </field>
+            </xpath>
+            <notebook>
+                <page string="Disicplinary Action">
+                    <group>
+                        <field name="emp_violation_ids" string="">
+                            <tree editable="bottom">
+                                <field name="employee_id" domain="[('id', '=', parent.id)]"/>
+                                <field name="type_violation"/>
+                                <field name="violation_id"/>
+                                <field name="date"/>
+                                <field name="file_bukti_pelanggaran" filename="file_bukti_pelanggaran_name"/>
+                                <field name="file_bukti_pelanggaran_name" column_invisible="True"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+            <notebook>
+                <page string="Insurance">
+                    <group>
+                        <field name="emp_insurance_ids" string="">
+                            <tree editable="bottom">
+                                <field name="employee_id"/>
+                                <field name="type_insurance"/>
+                                <field name="insurance_id"/>
+                                <field name="no_insurance"/>
+                                <field name="date_start_insurance"/>
+                                <field name="date_end_insurance" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+            <notebook>
+                <page string="Emergency Contacts" name="emergency_contacts" invisible="job_title not in ('Driver', 'driver', 'Drivers', 'drivers')">
+                    <field name="emergency_contact_ids">
+                        <tree string="Emergency Contacts" editable="bottom">
+                            <field name="name" required="1"/>
+                            <field name="relationship_id" required="1"/>
+                            <field name="relationship_note"/>
+                            <field name="phone" required="1" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="is_primary" widget="boolean_toggle"/>
+                        </tree>
+                        <form string="Emergency Contact">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="name" required="1"/>
+                                        <field name="relationship" required="1"/>
+                                        <field name="relationship_note"/>
+                                        <field name="phone" required="1" widget="phone"/>
+                                        <field name="email" widget="email"/>
+                                        <field name="is_primary"/>
+                                    </group>
+                                    <group>
+                                        <field name="address"/>
+                                        <field name="notes"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+    <data noupdate="1">
+        <record id="cron_notify_expired_licenses" model="ir.cron">
+            <field name="name">Check Driver's License Expiry</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.notify_expired_licenses()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+    <record id="s_button_employee_form_inherit_bju" model="ir.ui.view">
+        <field name="name">s.button.employee.form.inherit.bju</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_diciplinaries"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="oi-group">
+                    <field name="diciplinary_count" widget="statinfo" string="Diciplinary Total"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_employee_tree_view_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.tree.view.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Sync Data TMS" type="object" display="always" name="sync_data_tms" class="btn btn-secondary"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="employee_id_tms" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_employee_kanban_view_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.kanban.view.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <header>
+                    <button string="Sync Data TMS" type="object" display="always" name="sync_data_tms" class="btn btn-secondary"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+    <record id="diciplinary_action_view_tree" model="ir.ui.view">
+        <field name="name">diciplinary.action.view.tree</field>
+        <field name="model">disicplinary.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" create="1" edit="1" delete="1">
+                <field name="employee_id" domain="[('id', '=', current_employee_id)]"/>
+                <field name="current_employee_id" column_invisible="True"/>
+                <field name="partner_id" column_invisible="True"/>
+                <field name="type_violation"/>
+                <field name="violation_id"/>
+                <field name="date" required="1"/>
+                <field name="file_bukti_pelanggaran" filename="file_bukti_pelanggaran_name"/>
+                <field name="file_bukti_pelanggaran_name" column_invisible="True"/>
+                <field name="status_id"/>
+                <field name="action_plan_id"/>
+                <field name="information"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

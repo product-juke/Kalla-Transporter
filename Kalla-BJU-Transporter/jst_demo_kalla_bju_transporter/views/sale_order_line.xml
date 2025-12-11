@@ -1,0 +1,117 @@
+<odoo>
+    <record id="transporter_sale_order_line_tree_view" model="ir.ui.view">
+        <field name="name">sale.order.line.tree.view.transporter</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Order Lines" create="false">
+                <header>
+                    <button name="%(create_do_consolidated_so_line)d"
+                            type="action"
+                            string="Create DO Consolidated"
+                            class="btn-primary"
+                            groups="base.group_user"
+                            context="{'is_from_bulk_action': True}"
+                    />
+                </header>
+                <field name="order_id" width="200"/>
+                <field name="id_contract" string="CE. CODE" width="200"/>
+                <field name="is_header" widget="boolean_toggle" width="200" column_invisible="True"/>
+                <field name="product_id" string="CATEGORY UNIT" width="200"/>
+                <field name="origin_id" string="ORIGIN" width="200"/>
+                <field name="destination_id" string="DESTINATION" width="200"/>
+                <field name="distance" width="200"/>
+                <field name="sla" width="200"/>
+                <field name="qty_tonase" width="200"/>
+                <field name="qty_kubikasi" width="200"/>
+                <field name="qty_unit" width="200"/>
+                <field name="qty_dus" width="200"/>
+                <field name="qty_ritase" width="200"/>
+                <field name="qty_target_ritase" width="200"/>
+                <field name="price_unit" string="PRICE" width="200"/>
+                <field name="bop" width="200"/>
+                <field name="is_handling_type" width="200"/>
+                <field name="is_line" width="200"/>
+                <field name="file_name" column_invisible="True"/>
+                <field name="attachment" filename="file_name" widget="binary"  width="200"/>
+                <field name="no_surat_jalan" width="200"/>
+                <field name="active" width="200"/>
+                <field name="product_uom_category_id" column_invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <record id="transporter_sale_order_line_form_view" model="ir.ui.view">
+        <field name="name">transporter.sale.order.line.form.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <form string="Sales Order Item" edit="true">
+                <field name="display_type" invisible="1"/>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="product_updatable" invisible="1"/>
+                            <field name="order_id" readonly="1" force_save="1"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="product_uom_readonly" invisible="1"/>
+                            <field name="qty_delivered_method" invisible="1"/>
+                            <field name="state" invisible="1"/>
+<!--                            <field name="product_id"/>-->
+<!--                            <field name="product_packaging_id"/>-->
+                            <field name="product_id" readonly="id and not product_updatable" required="not display_type" force_save="1" widget="many2one_barcode"/>
+                            <field name="name"/>
+                            <field name="product_uom_qty"/>
+<!--                            <field name="qty_delivered" readonly="0"/>-->
+                            <field name="qty_delivered" invisible="state not in ['sale', 'done']" readonly="qty_delivered_method != 'manual'"/>
+                            <field name="qty_invoiced" invisible="state not in ['sale', 'done']"/>
+                            <field name="product_uom" force_save="1" groups="uom.group_uom" readonly="product_uom_readonly" required="not display_type"/>
+                            <field name="product_uom" groups="!uom.group_uom" invisible="1"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="order_partner_id" invisible="1"/>
+                            <field name="display_type" invisible="1"/>
+                            <field name="product_updatable" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                            <field name="tax_country_id" invisible="1"/>
+                            <field name="price_unit"/>
+<!--                            <field name="discount" groups="product.group_discount_per_so_line"/>-->
+                            <field name="price_subtotal" widget="monetary"/>
+                            <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use', '=', 'sale'), ('company_id', '=', company_id), ('country_id', '=', tax_country_id)]" readonly="qty_invoiced &gt; 0"/>
+                            <field name="price_tax" widget="monetary"/>
+                            <field name="price_total" widget="monetary"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="sale_order_line_action" model="ir.actions.act_window">
+        <field name="name">Sales Order Line</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {
+            'view_mode': 'tree',
+            'view_id': ref('jst_demo_kalla_bju_transporter.transporter_sale_order_line_tree_view'),
+            'sequence': 0
+            }),
+            (0, 0, {
+            'view_mode': 'form',
+            'view_id': ref('jst_demo_kalla_bju_transporter.transporter_sale_order_line_form_view'),
+            'sequence': 1
+            }),
+
+        ]"/>
+    </record>
+    <menuitem
+            id="sale_order_line_menu"
+            name="Sales Order Line"
+            action="sale_order_line_action"
+            parent="jst_demo_kalla_bju_transporter.root_transporter"
+            sequence="3"/>
+</odoo>

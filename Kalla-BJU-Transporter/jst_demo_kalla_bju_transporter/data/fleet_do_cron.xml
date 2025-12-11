@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_sync_fleet_do_report" model="ir.cron">
+        <field name="name">Sync Fleet DO Report (Daily)</field>
+        <field name="model_id" ref="model_fleet_do"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_sync_do_report()</field>
+
+        <!-- Jalan 1x sehari -->
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+        <!-- Opsional: set jadwal pertama kali (UTC). Contoh: 00:15 WIB = 17:15 UTC (hari sebelumnya) -->
+        <!-- <field name="nextcall">2025-08-27 17:15:00</field> -->
+    </record>
+</odoo>

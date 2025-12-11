@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="template_dotmatrix_sale" model="mail.template">
+            <field name="name">Dot Matrix Sale</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Dot Matrix Template for Sale Order</field>
+            <field name="body_html" type="html">
+                <t t-raw="''"/>
+                <t t-raw="'Delivery Slip'"/>
+                <t t-raw="'Kalla Logistics'"/>
+                <t t-raw="'No. ' + object.name"/>
+
+                <br />
+                <t t-raw="'Customer         : ' + (object.partner_id.name or '')"/>
+                <t t-raw="'Project          : ' + (object.branch_project.upper() if object.branch_project else '') + ' - ' + (object.product_category_id.name or '')"/>
+                <t t-if="object.do_ids">
+                    <t t-set="do_line" t-value="object.do_ids[0]"/>
+                    <t t-raw="'Loading Area     : ' + (do_line.geofence_loading_id.geo_nm or '')"/>
+                </t>
+                <t t-else="">
+                    <t t-raw="'Loading Area     : '"/>
+                </t>
+                <t t-if="object.order_line">
+                    <t t-set="first_line" t-value="object.order_line[0]"/>
+                    <t t-raw="'Origin           : ' + (first_line.origin_id.name or '')"/>
+                    <t t-raw="'Destination      : ' + (first_line.destination_id.name or '')"/>
+                </t>
+                <t t-else="">
+                    <t t-raw="'Origin           : '"/>
+                    <t t-raw="'Destination      : '"/>
+                </t>
+                <t t-raw="'Moda             : ' + (object.delivery_category_id.name or '')"/>
+                <t t-raw="'Remark           : ' + (object.note or '')"/>
+
+                <br />
+                <t t-raw="'Delivery Line'"/>
+                <t t-if="object.product_category_id.name == 'Transporter'">
+                <t t-raw="'No   Product Name        Tonase       Kubikasi\n'"/>
+                <t t-set="counter" t-value="1"/>
+                <t t-foreach="object.order_line" t-as="line" t-foreach-index="i">
+                <t t-raw="str(counter).ljust(5) + (line.product_id.name or '').ljust(20) + str(line.qty_tonase or '').ljust(12) + str(line.qty_kubikasi or '').ljust(10) + '\n'"/>
+                <t t-set="counter" t-value="counter + 1"/>
+                </t>
+                </t>
+                <t t-else="">
+                <t t-raw="'No   Product Name        Unit/PCs\n'"/>
+                <t t-set="counter" t-value="1"/>
+                <t t-foreach="object.order_line" t-as="line" t-foreach-index="i">
+                <t t-raw="str(counter).ljust(5) + (line.product_id.name or '').ljust(20) + str(line.qty_unit or '').ljust(12) + '\n'"/>
+                <t t-set="counter" t-value="counter + 1"/>
+                </t>
+                </t>
+
+                <t t-raw="'Checklist  '"/>
+                <t t-raw="'Checksheet     [ ]'"/>
+                <t t-raw="'Dokumen        [ ]'"/>
+                <t t-raw="'Perlengkapan   [ ]'"/>
+                <t t-raw="'Remarks        _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _'"/>
+
+                <t t-raw="''"/>
+                <t t-raw="'Created By         '"/><t t-raw="'Approved By         '"/><t t-raw="'Driver             '"/><t t-raw="'Customer/Penerima'"/>
+                <t t-raw="''"/>
+                <t t-raw="''"/>
+                <t t-raw="''"/>
+                <t t-raw="''"/>
+                <t t-raw="'_ _ _ _ _ _ _ _ '"/>  <t t-raw="'_ _ _ _ _ _ _ _ _ _'"/>  <t t-raw="'_ _ _ _ _ _ _ _ _ '"/> <t t-raw="'_ _ _ _ _ _ _ _ _ _'"/>
+            </field>
+        </record>
+
+    </data>
+</odoo>

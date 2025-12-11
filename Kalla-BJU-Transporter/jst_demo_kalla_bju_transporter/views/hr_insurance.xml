@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_insurance_view_tree" model="ir.ui.view">
+        <field name="name">hr.insurance.view.tree</field>
+        <field name="model">hr.insurance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type_insurance"/>
+                <field name="insurance"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="hr_insurance_view_tree_form" model="ir.ui.view">
+        <field name="name">hr.insurance.view.form</field>
+        <field name="model">hr.insurance</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="type_insurance"/>
+                        </group>
+                    </group>
+                    <h1>
+                        <field name="insurance" />
+                    </h1>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_insurance_action" model="ir.actions.act_window">
+        <field name="name">Insurance</field>
+        <field name="res_model">hr.insurance</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="hr_insurance_menu"
+            name="Insurance"
+            action="hr_insurance_action"
+            sequence="22"
+            parent="hr.menu_hr_employee_payroll"/>
+</odoo>

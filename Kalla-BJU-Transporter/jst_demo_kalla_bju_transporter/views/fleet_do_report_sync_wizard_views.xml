@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Form -->
+    <record id="sync_fleet_do_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">sync.fleet.do.report.wizard.form</field>
+        <field name="model">sync.fleet.do.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sync DO Report">
+                <sheet>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        <field name="fleet_do_id" string="Pilih Delivery Order"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Sync" type="object" name="action_sync" class="btn btn-primary oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Open Wizard (act_window) -->
+    <record id="sync_fleet_do_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Sync DO Report</field>
+        <field name="res_model">sync.fleet.do.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sync_fleet_do_report_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Bind ke Action menu di list fleet.do.report -->
+    <record id="sync_fleet_do_report_action_binding" model="ir.actions.act_window">
+        <field name="name">Sync DO Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sync.fleet.do.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sync_fleet_do_report_wizard_view_form"/>
+        <field name="target">new</field>
+        <!-- binding supaya muncul di Action menu pada list view -->
+        <field name="binding_model_id" ref="model_fleet_do_report"/>
+        <field name="binding_view_types">list</field>
+    </record>
+
+</odoo>

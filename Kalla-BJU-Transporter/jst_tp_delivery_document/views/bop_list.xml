@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="bopl_delivery_document_form_inherit" model="ir.ui.view">
+            <field name="name">bopl.delivery.document.inherit</field>
+            <field name="model">bop.line</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.bop_line_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='fleet_do_id']" position="after">
+                    <field name="status_delivery" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

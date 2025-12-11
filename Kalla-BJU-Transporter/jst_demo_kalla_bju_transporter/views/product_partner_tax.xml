@@ -1,0 +1,38 @@
+<!-- views/product_partner_tax.xml -->
+
+<odoo>
+    <data>
+        <!-- Inherit Product Form View untuk menambahkan table di tab Sales -->
+        <record id="product_product_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.product.form.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <!-- Tambahkan table setelah group sale di tab Sales -->
+                <xpath expr="//page[@name='sales']/group[@name='sale']" position="before">
+<!--                    <group string="Partner Tax Configuration" name="partner_tax_config" col="1">-->
+<!--                    </group>-->
+                        <field name="partner_tax_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="partner_id"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="product_id" column_invisible="1"/>
+                                <field name="tax_ids" widget="many2many_tags"
+                                       options="{'no_create': True}"/>
+                            </tree>
+                            <form string="Partner Tax Configuration">
+                                <sheet>
+                                    <group>
+                                        <field name="partner_id"/>
+                                        <field name="product_id" column_invisible="1"/>
+                                        <field name="tax_ids" widget="many2many_tags"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="vit_dotmatrix.PrintDotMatrix">
+        <button class="btn btn-secondary" t-on-click="handleOnClick">
+            <i class="fa fa-print"/> PRINT
+        </button>
+    </t>
+
+</templates>

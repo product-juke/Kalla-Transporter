@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="custom_resume_record_row_inherit"
+       t-inherit="hr_skills.ResumeListRenderer.RecordRow"
+       t-inherit-mode="extension">
+        <xpath expr="//h4[contains(@class, 'o_resume_line_title')]" position="after">
+            <t t-if="record.data.position">
+                <p class="text-muted mb-0">Position: <t t-esc="record.data.position"/></p>
+            </t>
+            <t t-if="record.data.resign_description">
+                <p class="text-muted">Resign Description: <t t-esc="record.data.resign_description"/></p>
+            </t>
+            <t t-if="record.data.training_plan">
+                <p class="text-muted">Training Plan: <t t-esc="record.data.training_plan"/></p>
+            </t>
+            <t t-if="record.data.training_plan_date">
+                <p class="text-muted">Training Plan Date: <t t-esc="formatDate(record.data.training_plan_date)"/></p>
+            </t>
+            <t t-if="record.data.file_certificate_name">
+                <p class="text-muted">Certificate File: <t t-esc="record.data.file_certificate_name"/></p>
+            </t>
+        </xpath>
+    </t>
+</templates>

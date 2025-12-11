@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_fleet_do_use_bop_wizard_form" model="ir.ui.view">
+            <field name="name">fleet.do.use.bop.wizard.form</field>
+            <field name="model">fleet.do.use.bop.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Gunakan Saldo BOP Driver">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="fleet_do_id" invisible="1"/>
+                                <field name="driver_id"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Saldo BOP Tersedia" name="bop_balances">
+                                <field name="bop_balance_line_ids" nolabel="1" context="{'hide_add': True}">
+                                    <tree editable="bottom" create="false" delete="false">
+                                        <field name="selected" widget="boolean_toggle"/>
+                                        <field name="bop_balance_id" readonly="1" column_invisible="1"/>
+                                        <field name="do_id" readonly="1"/>
+                                        <field name="total_bop" readonly="1" sum="Total" optional="hide"/>
+                                        <field name="used_bop" readonly="1" sum="Total Terpakai" optional="hide"/>
+                                        <field name="remaining_bop" readonly="1" sum="Total Sisa"/>
+                                        <field name="description" readonly="1" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                        <group>
+                            <group>
+                                <field name="driver_bop_remaining"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="current_nominal"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group>
+                                <field name="bop_amount"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="new_nominal"
+                                       widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </group>
+
+                        <field name="info_message" nolabel="1"/>
+                    </sheet>
+
+                    <footer>
+                        <button string="Submit"
+                                name="action_confirm"
+                                type="object"
+                                class="btn-primary"
+                                context="{'skip_bop_constraint': False}"/>
+                        <button string="Cancel"
+                                class="btn-secondary"
+                                special="cancel"
+                                context="{'skip_bop_constraint': True}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

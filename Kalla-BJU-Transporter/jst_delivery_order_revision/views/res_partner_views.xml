@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit res.partner form view -->
+        <record id="view_partner_form_bop_balance" model="ir.ui.view">
+            <field name="name">res.partner.form.bop.balance</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="BOP Balance" name="bop_balance">
+                        <field name="driver_bop_balance_ids" readonly="1" context="{'hide_add': 1}">
+                            <tree create="false" edit="false" delete="false">
+                                <field name="do_id" string="Nomor DO" readonly="1"/>
+                                <field name="total_bop" readonly="1"/>
+                                <field name="used_bop" readonly="1"/>
+                                <field name="remaining_bop" readonly="1"/>
+                                <field name="description" readonly="1"/>
+                                <field name="bop_balance_history_ids" readonly="1"/>
+                                <field name="created_date_label" readonly="1" optional="show"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_jst_form_bop_balance" model="ir.ui.view">
+            <field name="name">res.partner.jst.form.bop.balance</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.transporter_res_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="BOP Balance" name="bop_balance">
+                        <field name="driver_bop_balance_ids" readonly="1" context="{'hide_add': 1}">
+                            <tree create="false" edit="false" delete="false">
+                                <field name="do_id" string="Nomor DO" readonly="1"/>
+                                <field name="total_bop" readonly="1"/>
+                                <field name="used_bop" readonly="1"/>
+                                <field name="remaining_bop" readonly="1"/>
+                                <field name="description" readonly="1"/>
+                                <field name="bop_balance_history_ids" readonly="1"/>
+                                <field name="created_date_label" readonly="1" optional="show"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

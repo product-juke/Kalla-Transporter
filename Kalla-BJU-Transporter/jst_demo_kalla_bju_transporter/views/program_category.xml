@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="program_category_tree_view" model="ir.ui.view">
+        <field name="name">program.category.tree</field>
+        <field name="model">program.category</field>
+        <field name="arch" type="xml">
+            <tree string="Program Categories" create="1" edit="1" delete="1">
+                <field name="name" string="Category Name"/>
+                <field name="category_ids" string="Vehicle Categories" widget="many2many_tags" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="program_category_form_view" model="ir.ui.view">
+        <field name="name">program.category.form</field>
+        <field name="model">program.category</field>
+        <field name="arch" type="xml">
+            <form string="Program Category">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Enter program category name..." required="1" class="oe_inline"/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="General Information" name="general_info">
+                            <group>
+                                <group string="Basic Information">
+                                    <field name="name" invisible="1"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Vehicle Categories" name="vehicle_categories">
+                            <field name="category_ids" context="{'default_program_category_id': active_id, 'hide_add': 1}">
+                                <tree string="Vehicle Model Categories" editable="bottom" create="0" edit="0" delete="0">
+                                    <field name="name" string="Category Name"/>
+                                </tree>
+                                <form string="Vehicle Model Category" context="{'hide_add': 1}">
+                                    <sheet>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="sequence"/>
+                                            <field name="program_category_id" invisible="1"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="program_category_search_view" model="ir.ui.view">
+        <field name="name">program.category.search</field>
+        <field name="model">program.category</field>
+        <field name="arch" type="xml">
+            <search string="Program Categories">
+                <field name="name" string="Category Name" filter_domain="[('name','ilike',self)]"/>
+                <field name="category_ids" string="Vehicle Categories" filter_domain="[('category_ids.name','ilike',self)]"/>
+
+                <separator/>
+                <filter string="Has Vehicle Categories" name="has_categories" domain="[('category_ids','!=',False)]"/>
+                <filter string="No Vehicle Categories" name="no_categories" domain="[('category_ids','=',False)]"/>
+
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Name" name="group_by_name" domain="[]" context="{'group_by':'name'}"/>
+                    <filter string="Vehicle Category Count" name="group_by_category_count" domain="[]" context="{'group_by':'category_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+    <record id="program_category_action" model="ir.actions.act_window">
+        <field name="name">Program Categories</field>
+        <field name="res_model">program.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="program_category_search_view"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first program category!
+            </p>
+            <p>
+                Program categories help organize and classify different types of vehicle programs.
+                Each program category can contain multiple vehicle model categories to better organize your fleet management.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item di Fleet -> Configuration -->
+    <menuitem id="program_category_menu"
+              name="Program Categories"
+              parent="fleet.fleet_models_configuration"
+              action="program_category_action"
+              sequence="50"/>
+
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="template_dotmatrix_tam_sale" model="mail.template">
+            <field name="name">Dot Matrix TAM Sale</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Dot Matrix TAM Template for Sale Order</field>
+            <field name="body_html" type="html">
+                <t t-raw="'KALLA TRANSPORT DAN LOGISTICS'"/>
+                <t t-raw="'www.kallatransport.co.id'"/>
+                <t t-raw="'Head Office Wisma Kalla Lt. 13, Jl. Dr. Sam Ratulangi No. 10 Kota Makassar - Sulawesi Selatan'"/>
+                <t t-raw="'Telp.: (0411) 851-842, Fax: (0411) 851843'"/>
+                <t t-raw="'Resi / Air Waybill'"/>
+
+                <t t-raw="'PENGIRIM: PT. Hadji Kalla (Depo Part)'"/>
+                <t t-raw="'Alamat: Jl. Kima Raya 1-10 T-1A, Daya, Biringkanaya'"/>
+                <t t-raw="'Telp: 0411-514014, 0411-514607'"/>
+
+                <t t-raw="'PENERIMA: PT. Hadji Kalla (Sidrap)'"/>
+                <t t-raw="'Alamat: Jl. Kemakmuran No. 77'"/>
+                <t t-raw="'Telp: (0484) 21133'"/>
+
+                <t t-raw="'Tanggal: 10 Oktober 2025 | No. Pengiriman: 1 /LOG-DEPO/ X / 2025 | Rute: Makassar → Sidrap'"/>
+
+                <t t-raw="'TOTAL - Shipping Document: 9 | Colly: 0 | Weight/Volume: 0,0000'"/>
+                <t t-raw="'DRIVER: WAHYUDI | UNIT: DD 8569 RD'"/>
+
+                <t t-raw="'HADJI KALLA'"/>
+                <t t-raw="'NO|NO.SHIPPING|AREA|QTY(Colly)|WEIGHT(Kg)|VOLUME(m3)'"/>
+                <t t-raw="'---|----------|----|---------|---------|--------'"/>
+                <t t-raw="'1  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'2  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'3  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'4  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'5  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'6  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'7  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'8  |0         |SID |0        |0        |0,0000'"/>
+                <t t-raw="'9  |0         |SID |0        |0        |0,0000'"/>
+
+                <t t-raw="'NOTE: ________________________________________________'"/>
+
+                <t t-raw="'Admin:___________ Driver:___________ Penerima:___________'"/>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="do.Monitoring">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div class="o_control_panel p-0" style="height: 100vh; overflow-y: auto; padding: 20px;">
+            <div class="container-fluid py-3">
+                <h1 class="mb-4 text-center">Delivery Order Monitoring</h1>
+                
+                <!-- Delivery Order Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="m-0 text-white">Delivery Order</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTotalDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Total DO</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Total DO.png" class="img-fluid" style="width: 50px;" alt="DO Pending"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            All Status: <span class="badge bg-primary text-white"><t t-esc="state.total_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Pending DO</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Pending DO.png" class="img-fluid" style="width: 50px;" alt="On book truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending : <span class="badge bg-danger text-white"><t t-esc="state.pending_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickUnmatchDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO Unmatch</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/do_unmatch.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Unmatch: <span class="badge bg-secondary text-white"><t t-esc="state.unmatch_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickMatchDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO Match</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/do_match.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Match: <span class="badge bg-secondary text-white"><t t-esc="state.match_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickOnGoingDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO On Going</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/icons8-delivery-time-50.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Going: <span class="badge bg-danger text-white"><t t-esc="state.ongoing_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickOnReturnDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO On Return</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/icons8-deliver-food-50.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Return: <span class="badge bg-danger text-white"><t t-esc="state.onreturn_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickCancelDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO Reject</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/icons8-delivery-stop-50.png" class="img-fluid" style="width: 50px;" alt="DO Reject"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Reject: <span class="badge bg-dark text-white"><t t-esc="state.cancel_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickDoneDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">DO Done</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Total DO.png" class="img-fluid" style="width: 50px;" alt=""/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Done: <span class="badge bg-success text-white"><t t-esc="state.done_dos"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="m-0 text-white">Delivery Order Pending Approval</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalDOBySPV">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Supervisor</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan Supervisor.png" class="img-fluid" style="width: 50px;" alt="On book truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-info text-white"><t t-esc="state.pending_approval_dos_by_spv"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalDOByCashier">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Cashier</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan Cashier.png" class="img-fluid" style="width: 50px;" alt="On return truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-primary text-white"><t t-esc="state.pending_approval_dos_by_cashier"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalDOByADH">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">ADH</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan ADH.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-danger text-white"><t t-esc="state.pending_approval_dos_by_adh"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalDOByKacab">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Kepala Cabang</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan Kepala Cabang.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-danger text-white"><t t-esc="state.pending_approval_dos_by_kacab"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalDOByDocDelivery">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Doc Delivery</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Update Surat Jalan oleh Delivery Documen.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-danger text-white"><t t-esc="state.pending_approval_dos_by_doc_delivery"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="m-0 text-white">BOP Payment Settlement Approval</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalBOPByADH">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">ADH</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan ADH.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-danger text-white"><t t-esc="state.pending_approval_bop_by_adh"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickPendingApprovalBOPByKacab">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Kepala Cabang</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Menunggu Persetujuan Kepala Cabang.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending Approval: <span class="badge bg-danger text-white"><t t-esc="state.pending_approval_bop_by_kacab"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+            </div>
+        </div>
+    </t>
+</odoo>

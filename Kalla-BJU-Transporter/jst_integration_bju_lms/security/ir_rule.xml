@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="oracle_ar_line_comp_rule" model="ir.rule">
+            <field name="name">Oracle AR Line multi-company</field>
+            <field name="model_id" ref="model_oracle_ar_line"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="oracle_ap_line_comp_rule" model="ir.rule">
+            <field name="name">Oracle AP Line multi-company</field>
+            <field name="model_id" ref="model_oracle_ap_line"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+    </data>
+</odoo>

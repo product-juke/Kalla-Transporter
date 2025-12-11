@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    &lt;!&ndash; Group Operational Logistic &ndash;&gt;-->
+<!--    <record id="group_internal_user_logistic" model="res.groups">-->
+<!--        <field name="name">Internal User Logistic</field>-->
+<!--        <field name="category_id" ref="base.module_category_user_type"/>-->
+<!--    </record>-->
+<!--    &lt;!&ndash; Group untuk Marketing &ndash;&gt;-->
+<!--    <record id="group_logistic_marketing" model="res.groups">-->
+<!--        <field name="name">Logistic Marketing</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk Plan Armada&ndash;&gt;-->
+<!--    <record id="group_logistic_plan_armada" model="res.groups">-->
+<!--        <field name="name">Logistic Plan Armada</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk SPV&ndash;&gt;-->
+<!--    <record id="group_logistic_spv" model="res.groups">-->
+<!--        <field name="name">Logistic SPV</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk CASHIER&ndash;&gt;-->
+<!--    <record id="group_logistic_cashier" model="res.groups">-->
+<!--        <field name="name">Logistic Cashier</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk Revenue Control&ndash;&gt;-->
+<!--    <record id="group_logistic_revenue_control" model="res.groups">-->
+<!--        <field name="name">Logistic Revenue Control</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk Kacab &ndash;&gt;-->
+<!--    <record id="group_logistic_kacab" model="res.groups">-->
+<!--        <field name="name">Logistic Kacab</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Group untuk ADH &ndash;&gt;-->
+<!--    <record id="group_logistic_adh" model="res.groups">-->
+<!--        <field name="name">Logistic ADH</field>-->
+<!--        <field name="category_id" ref="base.module_category_sales_management"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group di Root Transporter &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.root_transporter" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_spv'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group di Sale Transporter &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.sale_transporter" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.sale_order_line_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group di Create Contract Menu &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.create_contract_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.fleet_do_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.product_customer_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.delivery_category_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.dayofweek_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.bop_line_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.plan_armada_menuitem" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    <record id="jst_demo_kalla_bju_transporter.menu_action_report_mcm_driver" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Modul Fleet &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Set group di Sale Fleet/Settings &ndash;&gt;-->
+<!--    <record id="fleet.fleet_configuration" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+<!--        &lt;!&ndash; Menu Fleet/Driver &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.driver_transporter" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+<!--            &lt;!&ndash; Menu Fleet/Master Origin &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.master_origin_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+<!--                &lt;!&ndash; Menu Fleet/Master Destination &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.master_destination_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+<!--                    &lt;!&ndash; Menu Fleet/Geofence &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.fleet_geofence_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--                        &lt;!&ndash; Menu Fleet/Master Route &ndash;&gt;-->
+<!--    <record id="jst_demo_kalla_bju_transporter.m_fleet_route_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_kacab'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_adh'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_marketing'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_cashier'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_plan_armada'),-->
+<!--            ref('jst_demo_kalla_bju_transporter.group_logistic_revenue_control')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+</odoo>

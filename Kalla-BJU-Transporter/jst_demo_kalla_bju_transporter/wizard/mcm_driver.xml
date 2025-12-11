@@ -1,0 +1,34 @@
+<odoo>
+
+    <record id="view_report_mcm_driver" model="ir.ui.view">
+        <field name="name">view.report.mcm.driver</field>
+        <field name="model">mcm.driver</field>
+        <field name="arch" type="xml">
+            <form string="Report MCM Driver">
+                <sheet>
+                    <group>
+                        <field name="date"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Export MCM Driver" name="generate_mcm_driver" type="object" class="btn-primary"/>
+                </footer>
+            </form>
+         </field>
+    </record>
+
+    <record id="action_report_mcm_driver" model="ir.actions.act_window">
+        <field name="name">Export MCM Driver</field>
+        <field name="res_model">mcm.driver</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_report_mcm_driver"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_action_report_mcm_driver"
+              name="Export MCM Driver"
+              parent="jst_demo_kalla_bju_transporter.menu_sale_report_transport"
+              action="action_report_mcm_driver"
+              sequence="9"
+    />
+</odoo>

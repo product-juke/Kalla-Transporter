@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_revisi_do_wizard_user,revisi.do.wizard.user,model_do_revision_wizard,base.group_user,1,1,1,1
+access_revisi_do_wizard_manager,revisi.do.wizard.manager,model_do_revision_wizard,base.group_system,1,1,1,1
+access_driver_bop_balance,bop.driver.balance.user,model_driver_bop_balance,base.group_user,1,1,1,1
+access_driver_bop_balance_history,bop.driver.balance.history.user,model_driver_bop_balance_history,base.group_user,1,1,1,1
+access_fleet_do_use_bop_wizard,fleet.do.use.bop.wizard,model_fleet_do_use_bop_wizard,base.group_user,1,1,1,1
+access_fleet_do_use_bop_wizard_line,fleet.do.use.bop.wizard.line,model_fleet_do_use_bop_wizard_line,base.group_user,1,1,1,1
+access_driver_bop_return_wizard,driver.bop.return.wizard,model_driver_bop_return_wizard,base.group_user,1,1,1,1
+access_do_revision_bop_usage_line,do.revision.bop.usage.line,model_do_revision_bop_usage_line,base.group_user,1,1,1,1
+access_do_revision_remaining_bop_line,do.revision.remaining.bop.line,model_do_revision_remaining_bop_line,base.group_user,1,1,1,1
+access_driver_bop_usage_detail,access.driver.bop.usage.detail,model_driver_bop_usage_detail,base.group_user,1,1,1,1
+access_driver_bop_remaining_detail,access.driver.bop.remaining.detail,model_driver_bop_remaining_detail,base.group_user,1,1,1,1

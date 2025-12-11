@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dayofweek_view_tree" model="ir.ui.view">
+        <field name="name">dayofweek.view.tree</field>
+        <field name="model">dayofweek</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="dayofweek_view_form" model="ir.ui.view">
+        <field name="name">dayofweek.view.form</field>
+        <field name="model">dayofweek</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dayofweek_action" model="ir.actions.act_window">
+        <field name="name">Day Of Week</field>
+        <field name="res_model">dayofweek</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="dayofweek_menu"
+            name="Day Of Week"
+            action="dayofweek_action"
+            sequence="22"
+            parent="jst_demo_kalla_bju_transporter.root_transporter"/>
+</odoo>

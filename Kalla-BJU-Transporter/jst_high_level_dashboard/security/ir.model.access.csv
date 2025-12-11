@@ -1,0 +1,27 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mart_driver_violation_user,access_mart_driver_violation_user,model_mart_driver_violation,base.group_user,1,0,0,0
+access_mart_driver_violation_hr_officer,access_mart_driver_violation_hr_officer,model_mart_driver_violation,hr.group_hr_user,1,1,1,1
+access_mart_driver_violation_system,access_mart_driver_violation_system,model_mart_driver_violation,base.group_system,1,1,1,1
+access_mart_driver_experience_user,access_mart_driver_experience_user,model_mart_driver_experience,base.group_user,1,0,0,0
+access_mart_driver_experience_manager,access_mart_driver_experience_manager,model_mart_driver_experience,fleet.fleet_group_manager,1,1,1,1
+access_mart_status_driver_user,mart.status.driver.user,model_mart_status_driver,base.group_user,1,0,0,0
+access_mart_status_driver_manager,mart.status.driver.manager,model_mart_status_driver,base.group_system,1,1,1,1
+access_mart_status_vehicle_user,mart.status.vehicle.user,model_mart_status_vehicle,base.group_user,1,0,0,0
+access_mart_status_vehicle_manager,mart.status.vehicle.manager,model_mart_status_vehicle,fleet.fleet_group_manager,1,1,1,1
+access_mart_delivery_order_user,mart.delivery.order user,model_mart_delivery_order,base.group_user,1,0,0,0
+access_mart_delivery_order_manager,mart.delivery.order manager,model_mart_delivery_order,base.group_system,1,1,1,1
+access_mart_target_vehicle_user,mart.target.vehicle.user,model_mart_target_vehicle,base.group_user,1,0,0,0
+access_mart_target_vehicle_manager,mart.target.vehicle.manager,model_mart_target_vehicle,base.group_system,1,1,1,1
+access_mart_delivery_category_revenue_user,mart.delivery.category.revenue user,model_mart_delivery_category_revenue,base.group_user,1,0,0,0
+access_mart_delivery_category_revenue_manager,mart.delivery.category.revenue manager,model_mart_delivery_category_revenue,base.group_system,1,1,1,1
+access_mart_delivery_order_revenue_manager,mart.delivery.order.revenue manager,model_mart_delivery_order_revenue,base.group_system,1,1,1,1
+access_mart_delivery_order_revenue_user,mart.delivery.order.revenue user,model_mart_delivery_order_revenue,base.group_user,1,0,0,0
+access_mart_vehicle_performance_user,mart.vehicle.performance.user,model_mart_vehicle_performance,base.group_user,1,0,0,0
+access_mart_vehicle_performance_manager,mart.vehicle.performance.manager,model_mart_vehicle_performance,base.group_system,1,1,1,1
+access_mart_branch_performance_user,mart.branch.performance user,model_mart_branch_performance,base.group_user,1,0,0,0
+access_mart_branch_performance_manager,mart.branch.performance manager,model_mart_branch_performance,base.group_system,1,1,1,1
+access_mart_customer_invoice_user,access.mart.customer.invoice.user,model_mart_customer_invoice,base.group_user,1,0,0,0
+access_mart_customer_invoice_manager,access.mart.customer.invoice.manager,model_mart_customer_invoice,account.group_account_manager,1,1,1,1
+access_mart_customer_invoice_system,access.mart.customer.invoice.system,model_mart_customer_invoice,base.group_system,1,1,1,1
+access_mart_customer_contract_user,mart.customer.contract.user,model_mart_customer_contract,base.group_user,1,0,0,0
+access_mart_customer_contract_manager,mart.customer.contract.manager,model_mart_customer_contract,base.group_system,1,1,1,1

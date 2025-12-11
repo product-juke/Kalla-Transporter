@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_mart_vehicle_performance_tree" model="ir.ui.view">
+        <field name="name">mart.vehicle.performance.tree</field>
+        <field name="model">mart.vehicle.performance</field>
+        <field name="arch" type="xml">
+            <tree string="Vehicle Performance" create="false" edit="false" delete="false">
+                <field name="vehicle_name_complete"/>
+                <field name="category_name"/>
+                <field name="year"/>
+                <field name="month"/>
+                <field name="date"/>
+                <field name="actual_revenue" sum="Total Actual Revenue"/>
+                <field name="target_revenue" sum="Total Target Revenue"/>
+                <field name="achievement"/>
+                <field name="actual_utilization_days_label"/>
+                <field name="target_utilization_days_label"/>
+                <field name="potential_to_target_with_icon"/>
+                <field name="rev_to_bop"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_mart_vehicle_performance_form" model="ir.ui.view">
+        <field name="name">mart.vehicle.performance.form</field>
+        <field name="model">mart.vehicle.performance</field>
+        <field name="arch" type="xml">
+            <form string="Vehicle Performance" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group string="Vehicle Information">
+                            <field name="vehicle_name_complete"/>
+                            <field name="vehicle_name"/>
+                            <field name="no_lambung"/>
+                            <field name="license_plate"/>
+                            <field name="category_name"/>
+                            <field name="product_category_name"/>
+                            <field name="product_category_complete_name"/>
+                        </group>
+                        <group string="Period Information">
+                            <field name="year"/>
+                            <field name="month"/>
+                            <field name="date"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Revenue &amp; Target">
+                            <group>
+                                <group>
+                                    <field name="actual_revenue"/>
+                                    <field name="target_revenue"/>
+                                    <field name="achievement"/>
+                                </group>
+                                <group>
+                                    <field name="bop_total"/>
+                                    <field name="rev_to_bop"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Utilization">
+                            <group>
+                                <group>
+                                    <field name="actual_utilization_days"/>
+                                    <field name="actual_utilization_days_label"/>
+                                    <field name="target_utilization_days"/>
+                                    <field name="target_utilization_days_label"/>
+                                </group>
+                                <group>
+                                    <field name="potential_to_target"/>
+                                    <field name="potential_to_target_with_icon"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Costs">
+                            <group>
+                                <field name="cost_maintenance"/>
+                                <field name="fix_cost"/>
+                                <field name="bop_biaya_tambahan"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_mart_vehicle_performance_search" model="ir.ui.view">
+        <field name="name">mart.vehicle.performance.search</field>
+        <field name="model">mart.vehicle.performance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="vehicle_name_complete"/>
+                <field name="category_name"/>
+                <field name="year"/>
+                <field name="month"/>
+                <field name="product_category_name"/>
+
+                <filter string="Current Year" name="current_year"
+                        domain="[('year', '=', datetime.datetime.now().year)]"/>
+                <filter string="Current Month" name="current_month"
+                        domain="[('month', '=', datetime.datetime.now().month), ('year', '=', datetime.datetime.now().year)]"/>
+                <filter string="At Risk" name="at_risk"
+                        domain="[('potential_to_target', '=', 'At Risk️')]"/>
+                <filter string="Exceeding Target" name="exceeding_target"
+                        domain="[('potential_to_target', '=', 'Exceeding Target')]"/>
+
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Category" name="group_category"
+                            context="{'group_by': 'category_name'}"/>
+                    <filter string="Year" name="group_year"
+                            context="{'group_by': 'year'}"/>
+                    <filter string="Month" name="group_month"
+                            context="{'group_by': 'month'}"/>
+                    <filter string="Vehicle" name="group_vehicle"
+                            context="{'group_by': 'vehicle_name_complete'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+    <record id="action_mart_vehicle_performance" model="ir.actions.act_window">
+        <field name="name">Vehicle Performance</field>
+        <field name="res_model">mart.vehicle.performance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_current_year': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No vehicle performance data found!
+            </p>
+            <p>
+                This data contains vehicle performance analytics including revenue, targets, and utilization metrics.
+                Data is automatically updated daily via scheduled job.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_mart_vehicle_performance"
+              name="Vehicle Performance"
+              parent="menu_mart_status_vehicle_root"
+              action="action_mart_vehicle_performance"
+              sequence="10"/>
+
+</odoo>

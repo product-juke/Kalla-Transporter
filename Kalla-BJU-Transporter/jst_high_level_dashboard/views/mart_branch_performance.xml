@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_mart_branch_performance_tree" model="ir.ui.view">
+        <field name="name">mart.branch.performance.tree</field>
+        <field name="model">mart.branch.performance</field>
+        <field name="arch" type="xml">
+            <tree string="Branch Performance" create="false" edit="false" delete="false">
+                <field name="date_order"/>
+                <field name="company_name"/>
+                <field name="order_id"/>
+                <field name="order_line_id"/>
+                <field name="distance"/>
+                <field name="util_count" sum="Total Util Count"/>
+                <field name="revenue" sum="Total Revenue"/>
+                <field name="bop"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_mart_branch_performance_search" model="ir.ui.view">
+        <field name="name">mart.branch.performance.search</field>
+        <field name="model">mart.branch.performance</field>
+        <field name="arch" type="xml">
+            <search string="Branch Performance Search">
+                <field name="company_name"/>
+                <field name="order_id"/>
+                <field name="date_order"/>
+                <separator/>
+                <filter name="this_month" string="This Month"
+                        domain="[('date_order', '&gt;=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                ('date_order', '&lt;', (context_today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="last_month" string="Last Month"
+                        domain="[('date_order', '&gt;=', (context_today() - relativedelta(months=1, day=1)).strftime('%Y-%m-%d')),
+                                ('date_order', '&lt;', (context_today() - relativedelta(day=1) + relativedelta(day=31) + relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="this_year" string="This Year"
+                        domain="[('date_order', '&gt;=', context_today().strftime('%Y-01-01')),
+                                ('date_order', '&lt;=', context_today().strftime('%Y-12-31'))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_name'}"/>
+                    <filter name="group_date_order" string="Order Date" context="{'group_by': 'date_order:month'}"/>
+                    <filter name="group_order" string="Sale Order" context="{'group_by': 'order_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_mart_branch_performance_form" model="ir.ui.view">
+        <field name="name">mart.branch.performance.form</field>
+        <field name="model">mart.branch.performance</field>
+        <field name="arch" type="xml">
+            <form string="Branch Performance Data" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group string="Company Information">
+                            <field name="company_id"/>
+                            <field name="company_parent_id"/>
+                            <field name="company_name"/>
+                            <field name="company_parent_path"/>
+                        </group>
+                        <group string="Order Information">
+                            <field name="order_id"/>
+                            <field name="order_line_id"/>
+                            <field name="date_order"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Performance Metrics">
+                            <field name="distance"/>
+                            <field name="util_count"/>
+                            <field name="revenue"/>
+                            <field name="bop"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_mart_branch_performance" model="ir.actions.act_window">
+        <field name="name">Branch Performance</field>
+        <field name="res_model">mart.branch.performance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+            'search_default_this_month': 1,
+        }</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                No data available in the Branch Performance
+            </p>
+            <p>
+                This view shows aggregated performance data by branch.
+                Data is automatically generated daily via scheduled actions.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_mart_branch_performance"
+              name="Branch Performance"
+              parent="menu_mart_status_vehicle_root"
+              action="action_mart_branch_performance"
+              sequence="10"/>
+
+</odoo>

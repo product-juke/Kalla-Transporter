@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_accounting_dashboard" model="ir.actions.client">
+            <field name="name">Accounting Dashboard</field>
+            <field name="tag">accounting_dashboard_template</field>
+        </record>
+
+        <menuitem id="accounting_dashboard_menu" name="Accounting Dashboard"
+                  parent="jst_demo_kalla_bju_transporter.menu_sale_report_transport"
+                  action="action_accounting_dashboard"/>
+    </data>
+</odoo>

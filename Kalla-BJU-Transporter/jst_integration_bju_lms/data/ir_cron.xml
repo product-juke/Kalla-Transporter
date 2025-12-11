@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_generate_sha256_token" model="ir.cron">
+        <field name="name">Generate SHA-256 Token</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="False"/>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="code">model.ir_cron_generate_sha256_token()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_get_payment_ar_top" model="ir.cron">
+        <field name="name">Get Payment AR - TOP from Oracle</field>
+        <field name="interval_number">12</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="code">model.ir_cron_action_get_payment_ar_top()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_get_payment_ap" model="ir.cron">
+        <field name="name">Get Payment AP from Oracle</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="code">model.ir_cron_action_get_payment_ap()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_get_payment_cbd" model="ir.cron">
+        <field name="name">Get Payment AR - CBD from Oracle</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_sale_order"/>
+        <field name="code">model.ir_cron_action_get_payment_cbd()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_retry_create_customer" model="ir.cron">
+        <field name="name">Retry Create Customer to Middleware</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_res_partner"/>
+        <field name="code">model.ir_cron_action_retry_create_customer()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_send_invoice" model="ir.cron">
+        <field name="name">Retry Sync AR to Middleware</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="code">model.ir_cron_action_send_invoice()</field>
+        <field name="state">code</field>
+    </record>
+
+    <record id="ir_cron_action_send_invoice_ap" model="ir.cron">
+        <field name="name">Retry Sync AP to Middleware</field>
+        <field name="interval_number">6</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="code">model.ir_cron_action_send_invoice_ap()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

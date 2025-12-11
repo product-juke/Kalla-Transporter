@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="master_origin_view_form" model="ir.ui.view">
+        <field name="name">master.origin.view.form</field>
+        <field name="model">master.origin</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="master_origin_view_form" model="ir.ui.view">-->
+<!--        <field name="name">master.origin.view.form</field>-->
+<!--        <field name="model">master.origin</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <sheet>-->
+<!--                    <h1>-->
+<!--                        <field name="name"/>-->
+<!--                    </h1>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="master_origin_action" model="ir.actions.act_window">
+        <field name="name">Master Origin</field>
+        <field name="res_model">master.origin</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="master_origin_menu"
+            name="Master Origin"
+            action="master_origin_action"
+            sequence="4"
+            parent="fleet.fleet_configuration"/>
+
+</odoo>

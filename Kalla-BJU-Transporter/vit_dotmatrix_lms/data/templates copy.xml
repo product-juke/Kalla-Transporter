@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="template_dotmatrix_tam_sale" model="mail.template">
+            <field name="name">Dot Matrix TAM Sale</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Dot Matrix TAM Template for Sale Order</field>
+            <field name="body_html" type="html">
+                <t t-raw="''"/>
+                <t t-raw="'KALLA TRANSPORT DAN LOGISTICS'"/>
+                <t t-raw="'www.kallatransport.co.id'"/>
+                <t t-raw="'Head Office Wisma Kalla Lt. 13, Jl. Dr. Sam Ratulangi No. 10 Kota Makassar - Sulawesi Selatan'"/>
+                <t t-raw="'Telp.: (0411) 851-842, Fax: (0411) 851843'"/>
+                <t t-raw="'Resi / Air Waybill'"/>
+
+                <t t-raw="'PENGIRIM: PT. BUMI JASA UTAMA                    PENERIMA: ' + (object.partner_id.name or '')"/>
+                <t t-raw="'Alamat: Jl. Perintis Kemerdekaan KM 16 No.24,    Alamat: Jl. Kemakmuran No. 77'"/>
+                <t t-raw="'        Makassar, Sulawesi Selatan'"/>
+                <t t-raw="'Telp: 0821-1399-0323                             Telp: (0484) 21133'"/>
+
+                <t t-set="first_line" t-value="object.order_line[0]"/>
+                <t t-raw="'Origin           : ' + (first_line.origin_id.name or '')"/>
+                <t t-raw="'Destination      : ' + (first_line.destination_id.name or '')"/>
+
+                <t t-raw="'Tanggal: ' + (object.date_order.strftime('%d %B %Y') or '') + ' | No. Pengiriman: ' + (object.name or '') + ' | Rute: + (first_line.origin_id.name or '') → + (first_line.destination_id.name or '')'"/>
+
+                <t t-foreach="object.sale_order_option_ids" t-as="line" t-foreach-index="i">
+                    <t t-set="total_colly" t-value="count(line.surat_jalan"/>
+                    <t t-set="total_volume" t-value="sum(line.qty_kubikasi_actual"/>
+                </t>
+                <t t-raw="'TOTAL - Shipping Document: 9 | Colly: '+total_colly+' | Weight/Volume: ' + total_volume"/>
+                <t t-raw="'DRIVER: WAHYUDI | UNIT: DD 8569 RD'"/>
+
+                <t t-raw="'HADJI KALLA'"/>
+                <t t-raw="'NO |NO.SHIPPING|AREA|QTY(Colly)|WEIGHT(Kg) |VOLUME(m3)'"/>
+                <t t-raw="'---|-----------|----|----------|-----------|----------'"/>
+                <t t-set="counter" t-value="1"/>
+                <t t-foreach="object.sale_order_option_ids" t-as="line" t-foreach-index="i">
+                <t t-raw=" + counter + '  | + line.no_surat_jalan +           |SID |0         |0          | ' + str(line.qty_kubikasi_actual or '')"/>
+                <t t-set="counter" t-value="counter + 1"/>
+                </t>
+
+                <t t-raw="'NOTE: ________________________________________________'"/>
+
+                <t t-raw="'Admin:___________ Driver:___________ Penerima:___________'"/>
+            </field>
+        </record>
+
+    </data>
+</odoo>

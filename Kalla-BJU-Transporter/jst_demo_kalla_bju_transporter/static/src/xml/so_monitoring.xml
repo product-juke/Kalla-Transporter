@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="so.Monitoring">
+        <div class="o_control_panel p-0" style="height: 100vh; overflow-y: auto; padding: 20px;">
+            <div class="container-fluid py-3">
+                <h1 class="mb-4 text-center">Sales Order Monitoring</h1>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="m-0 text-white">Sales Order Overview</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTotalSO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">All SO</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/order-processed.png" class="img-fluid" style="width: 50px;" alt="All SO"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Total: <span class="badge bg-success text-white"><t t-esc="state.total_so"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickDraftSO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SO Draft</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/draft_invoice.png" class="img-fluid" style="width: 50px;" alt="SO Draft"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Draft: <span class="badge bg-secondary text-white"><t t-esc="state.draft_so"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickConfirmSO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SO Confirm</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/delivery.png" class="img-fluid" style="width: 50px;" alt="SO Confirm"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Confirmed: <span class="badge bg-primary text-white"><t t-esc="state.confirm_so"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickWithoutDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SO Without DO</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/dump-truck.png" class="img-fluid" style="width: 50px;" alt="SO Without DO"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Pending DO: <span class="badge bg-warning text-dark"><t t-esc="state.without_do_so"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickWithDO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SO With DO</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/Total DO.png" class="img-fluid" style="width: 50px;" alt="SO With DO"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Generated DO: <span class="badge bg-info text-white"><t t-esc="state.with_do_so"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickCompletedSO">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SO &amp; DO Done</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/package-delivered.png" class="img-fluid" style="width: 50px;" alt="Completed"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Completed: <span class="badge bg-success text-white"><t t-esc="state.done_so_with_done_do"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_order_form_dotmatrix" model="ir.ui.view">
+            <field name="name">view_order_form_dotmatrix</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.transporter_sale_order_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <widget name="print_dot_matrix" class="d-flex"/>
+                </header>
+
+                <notebook position="inside">
+                    <page string="Dot Matrix" invisible="context.get('to_invoice')">
+                        <button string="Refresh Printer Data" icon="fa-print" type="object" name="generate_printer_data"/>
+                        <pre>
+                            <field name="printer_data"/>
+                        </pre>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</odoo>

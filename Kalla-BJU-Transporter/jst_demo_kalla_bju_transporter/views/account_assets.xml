@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_account_asset_form_inherit_replace_name" model="ir.ui.view">
+        <field name="name">account.asset.form.inherit.replace.name</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset.view_account_asset_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="inside">
+                <label for="fleet_vehicle_id" name="model_vehicle_id_label" string="Fleet Armada"/>
+                <h2>
+                    <field name="fleet_vehicle_id" placeholder="e.g. XXX000 / X 0000 XXX"/>
+                </h2>
+            </xpath>
+        </field>
+    </record>
+</odoo>

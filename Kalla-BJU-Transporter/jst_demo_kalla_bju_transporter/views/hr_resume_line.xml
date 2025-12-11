@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_resume_line_form_inherit_bju" model="ir.ui.view">
+        <field name="name">hr.resume.line.form.inherit.bju</field>
+        <field name="model">hr.resume.line</field>
+        <field name="inherit_id" ref="hr_skills.resume_line_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_type_id']" position="after">
+                <field name="position" invisible = "line_type_id != 1"/>
+                <field name="resign_description" invisible = "line_type_id != 1"/>
+                <field name="training_plan" invisible = "line_type_id != 4"/>
+                <field name="training_plan_date" invisible = "line_type_id != 4"/>
+                <field name="file_certificate_training" filename="file_certificate_name" invisible = "line_type_id != 4"/>
+                <field name="file_certificate_name" invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="view_resume_line_view_inherit_bju" model="ir.ui.view">
+        <field name="name">hr.resume.line.view.inherit.bju</field>
+        <field name="model">hr.resume.line</field>
+        <field name="inherit_id" ref="hr_skills.hr_employee_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='resume_line_ids']/tree" position="inside">
+                <field name="position" invisible = "line_type_id != 1"/>
+                <field name="resign_description" invisible = "line_type_id != 1"/>
+                <field name="training_plan" invisible = "line_type_id != 4"/>
+                <field name="file_certificate_training" filename="file_certificate_name" invisible = "line_type_id != 4"/>
+                <field name="file_certificate_name" invisible="True"/>
+            </xpath>
+        </field>
+    </record>-->
+    <!--<t t-name="module_name.CustomResumeRecordRow"
+       t-inherit="hr_skills.ResumeListRenderer.RecordRow"
+       t-inherit-mode="extension">
+
+        &lt;!&ndash; Tambahkan field setelah judul resume &ndash;&gt;
+        <xpath expr="//h4[@class='o_resume_line_title mt-2']" position="after">
+            <t t-if="record.data.type_id.display_name !== 'Work Experience'">
+                <p t-if="record.data.position">Position: <t t-esc="record.data.position"/></p>
+                <p t-if="record.data.resign_description">Reason: <t t-esc="record.data.resign_description"/></p>
+            </t>
+        </xpath>
+    </t>-->
+    <!--<template id="assets_backend" name="Custom Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <template id="custom_resume_record_row_inherit" inherit_id="hr_skills.ResumeListRenderer.RecordRow">
+                <xpath expr="//h4[@class='o_resume_line_title mt-2']" position="after">
+                    <t t-if="record.data.type_id.display_name !== 'Work Experience'">
+                        <p t-if="record.data.position">Position: <t t-esc="record.data.position"/></p>
+                        <p t-if="record.data.resign_description">Reason: <t t-esc="record.data.resign_description"/></p>
+                    </t>
+                </xpath>
+            </template>
+        </xpath>
+    </template>-->
+</odoo>

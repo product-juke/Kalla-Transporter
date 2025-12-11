@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tree View -->
+        <record id="view_mart_delivery_order_revenue_tree" model="ir.ui.view">
+            <field name="name">mart.delivery.order.revenue.tree</field>
+            <field name="model">mart.delivery.order.revenue</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Order Revenue" create="false" edit="false">
+                    <field name="do_id"/>
+                    <field name="date"/>
+                    <field name="status_do"/>
+                    <field name="partner_name"/>
+                    <field name="order_revenue" sum="Total Revenue"/>
+                    <field name="order_bop" sum="Total BOP"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_mart_delivery_order_revenue_form" model="ir.ui.view">
+            <field name="name">mart.delivery.order.revenue.form</field>
+            <field name="model">mart.delivery.order.revenue</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Order Revenue" create="false" edit="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="do_id"/>
+                                <field name="date"/>
+                                <field name="status_do"/>
+                                <field name="status_do_capitalize"/>
+                            </group>
+                            <group>
+                                <field name="partner_name"/>
+                                <field name="order_revenue"/>
+                                <field name="order_bop"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_mart_delivery_order_revenue_search" model="ir.ui.view">
+            <field name="name">mart.delivery.order.revenue.search</field>
+            <field name="model">mart.delivery.order.revenue</field>
+            <field name="arch" type="xml">
+                <search string="Search Delivery Order Revenue">
+                    <field name="do_id"/>
+                    <field name="partner_name"/>
+                    <field name="status_do"/>
+                    <separator/>
+                    <filter name="filter_this_month" string="This Month"
+                            domain="[('date', '>=', (context_today() - relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                     ('date', '&lt;', (context_today() + relativedelta(months=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_year" string="This Year"
+                            domain="[('date', '>=', (context_today() - relativedelta(month=1, day=1)).strftime('%Y-%m-%d')),
+                                     ('date', '&lt;', (context_today() + relativedelta(years=1, month=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
+                        <filter name="group_by_status" string="Status DO" context="{'group_by': 'status_do'}"/>
+                        <filter name="group_by_partner" string="Partner" context="{'group_by': 'partner_name'}"/>
+                        <filter name="group_by_month" string="Month" context="{'group_by': 'date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Pivot View -->
+        <record id="view_mart_delivery_order_revenue_pivot" model="ir.ui.view">
+            <field name="name">mart.delivery.order.revenue.pivot</field>
+            <field name="model">mart.delivery.order.revenue</field>
+            <field name="arch" type="xml">
+                <pivot string="Delivery Order Revenue Analysis">
+                    <field name="date" type="row" interval="month"/>
+                    <field name="status_do" type="col"/>
+                    <field name="order_revenue" type="measure"/>
+                    <field name="order_bop" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Graph View -->
+        <record id="view_mart_delivery_order_revenue_graph" model="ir.ui.view">
+            <field name="name">mart.delivery.order.revenue.graph</field>
+            <field name="model">mart.delivery.order.revenue</field>
+            <field name="arch" type="xml">
+                <graph string="Delivery Order Revenue Trends" type="line">
+                    <field name="date" interval="month"/>
+                    <field name="order_revenue" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mart_delivery_order_revenue" model="ir.actions.act_window">
+            <field name="name">Delivery Order Revenue</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mart.delivery.order.revenue</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="search_view_id" ref="view_mart_delivery_order_revenue_search"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No delivery order revenue data found.
+                </p>
+                <p>
+                    This view shows aggregated data from delivery orders and their revenue.
+                    Data is automatically updated daily by a scheduled action.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_mart_delivery_order_revenue"
+                  name="Delivery Order Revenue"
+                  parent="menu_mart_status_vehicle_root"
+                  action="action_mart_delivery_order_revenue"
+                  sequence="10"/>
+
+    </data>
+</odoo>

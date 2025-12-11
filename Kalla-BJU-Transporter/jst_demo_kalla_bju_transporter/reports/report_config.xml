@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_do_pdf" model="ir.actions.report">
+        <field name="name">DO</field>
+        <field name="model">fleet.do</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jst_demo_kalla_bju_transporter.report_do_pdf</field>
+        <field name="report_file">name</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_fleet_do"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_bop_pdf" model="ir.actions.report">
+        <field name="name">REPORT BOP</field>
+        <field name="model">fleet.do</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jst_demo_kalla_bju_transporter.report_bop_pdf</field>
+        <field name="report_file">jst_demo_kalla_bju_transporter.report_bop_pdf</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_fleet_do"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_invoice_custom_pdf" model="ir.actions.report">
+        <field name="name">Invoice Custom</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jst_demo_kalla_bju_transporter.invoice_custom_pdf</field>
+        <field name="report_file">jst_demo_kalla_bju_transporter.invoice_custom_pdf</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_invoice_detail_order_custom_pdf" model="ir.actions.report">
+        <field name="name">Invoice Detail Order</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jst_demo_kalla_bju_transporter.custom_invoice_detail_order_template</field>
+        <field name="report_file">jst_demo_kalla_bju_transporter.custom_invoice_detail_order_template</field>
+        <field name="print_report_name">'%s' % object.name</field>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="binding_type">report</field>
+    </record>
+<!--    <record id="action_custom_invoice_pdf" model="ir.actions.report">-->
+<!--        <field name="name">Custom Invoice</field>-->
+<!--        <field name="model">account.move</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">jst_demo_kalla_bju_transporter.invoice_report_template</field>-->
+<!--        <field name="report_file">jst_demo_kalla_bju_transporter.invoice_report_template</field>-->
+<!--        <field name="print_report_name">'%s' % object.name</field>-->
+<!--        <field name="binding_model_id" ref="model_account_move"/>-->
+<!--        <field name="binding_view_types">list,form</field>-->
+<!--        <field name="binding_type">report</field>-->
+<!--    </record>-->
+</odoo>

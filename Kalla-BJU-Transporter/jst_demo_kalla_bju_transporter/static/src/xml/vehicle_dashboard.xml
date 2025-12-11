@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="vehicle.Dashboard">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div class="o_control_panel p-0" style="height: 100vh; overflow-y: auto; padding: 20px;">
+            <div class="container-fluid py-3">
+                <h1 class="mb-4 text-center">Vehicle Fleet Monitoring Dashboard</h1>
+                
+                <!-- Transporter Armada Section -->
+                <t t-if="state.show_all or (state.portfolios and state.portfolios.indexOf('Transporter') !== -1)">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="m-0 text-white">Transporter Armada Monitoring</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTransReadyForUse">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Transporter</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/truck_9656226.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Ready for Use: <span class="badge bg-success text-white"><t t-esc="state.trans_vehicle_count_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTransOnBook">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Transporter</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/truck (2).png" class="img-fluid" style="width: 50px;" alt="On book truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Ready On Book: <span class="badge bg-info text-white"><t t-esc="state.trans_vehicle_count_ready_on_book"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTransOnGoing">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Transporter</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/delivery.png" class="img-fluid" style="width: 50px;" alt="On going truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Going: <span class="badge bg-warning text-dark text-white"><t t-esc="state.trans_vehicle_count_on_going"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTransOnReturn">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Transporter</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/return_1.png" class="img-fluid" style="width: 50px;" alt="On return truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Return: <span class="badge bg-primary text-white"><t t-esc="state.trans_vehicle_count_on_return"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTransNotReady">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Transporter</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/transporter_not_ready.png" class="img-fluid" style="width: 50px;" alt="Not ready VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Not Ready: <span class="badge bg-danger text-white"><t t-esc="state.trans_vehicle_count_not_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+                
+                <!-- VLI Armada Section -->
+                <t t-if="state.show_all or (state.portfolios and state.portfolios.indexOf('VLI') !== -1)">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="m-0 text-white">VLI Armada Monitoring</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliReadyForUse">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">VLI</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/car_carrier_empty.png" class="img-fluid" style="width: 50px;" alt="Ready VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Ready for Use: <span class="badge bg-success text-white"><t t-esc="state.vli_vehicle_count_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliReadyOnBook">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">VLI</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/carrier.png" class="img-fluid" style="width: 50px;" alt="On book VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Book: <span class="badge bg-info text-white"><t t-esc="state.vli_vehicle_count_ready_on_book"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliOnGoing">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">VLI</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/car_carrier.png" class="img-fluid" style="width: 50px;" alt="On going VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Going: <span class="badge bg-warning text-dark text-white"><t t-esc="state.vli_vehicle_count_on_going"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliOnReturn">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">VLI</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/vli_on_return.png" class="img-fluid" style="width: 50px;" alt="Not ready VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Return: <span class="badge bg-primary text-white"><t t-esc="state.vli_vehicle_count_on_return"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliOnReturn">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">VLI</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/vli_not_ready.png" class="img-fluid" style="width: 50px;" alt="Not ready VLI"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Not Ready: <span class="badge bg-danger text-white"><t t-esc="state.vli_vehicle_count_not_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+                
+                <!-- Trucking Armada Section -->
+                <t t-if="state.show_all or (state.portfolios and state.portfolios.indexOf('Trucking') !== -1)">
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="m-0 text-white">Trucking Armada Monitoring</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickVliReadyForUse">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Trucking</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/dump-truck.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Ready for Use: <span class="badge bg-success text-white"><t t-esc="state.truck_vehicle_count_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTruckReadyOnBook">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Trucking</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/dump-truck (3).png" class="img-fluid" style="width: 50px;" alt="On book truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Book: <span class="badge bg-info text-white"><t t-esc="state.truck_vehicle_count_ready_on_book"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTruckOnGoing">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Trucking</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/trucking_on_going.png" class="img-fluid" style="width: 50px;" alt="On going truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Going: <span class="badge bg-warning text-dark text-white"><t t-esc="state.truck_vehicle_count_on_going"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTruckOnReturn">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Trucking</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/trucking_on_return.png" class="img-fluid" style="width: 50px;" alt="On return truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            On Return: <span class="badge bg-primary text-white"><t t-esc="state.truck_vehicle_count_on_return"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" style="cursor: pointer;" t-on-click="_onClickTruckNotReady">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Trucking</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/trucking_not_ready.png" class="img-fluid" style="width: 50px;" alt="Not ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            Not Ready: <span class="badge bg-danger text-white"><t t-esc="state.truck_vehicle_count_not_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </t>
+
+                <!-- Driver Availability Section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-black">
+                        <h3 class="m-0 text-black">Driver Availability</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 justify-content-center">
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" t-on-click="_onClickDriverReady">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Ready</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/ready.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <span class="badge bg-success text-white"><t t-esc="state.driver_ready"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" t-on-click="_onClickDriverOnDuty">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">On Duty</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/on_duty.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <span class="badge bg-info text-white"><t t-esc="state.driver_on_duty"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" t-on-click="_onClickDriverSakit">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Sakit</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/sakit.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <span class="badge bg-warning text-dark"><t t-esc="state.driver_sakit"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" t-on-click="_onClickDriverCuti">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Cuti</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/cuti.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <span class="badge bg-primary text-white"><t t-esc="state.driver_cuti"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="card h-100 shadow-sm" t-on-click="_onClickDriverAbsent">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">Absent</h5>
+                                        <div class="my-3">
+                                            <img src="jst_demo_kalla_bju_transporter/static/src/img/absen.png" class="img-fluid" style="width: 50px;" alt="Ready truck"/>
+                                        </div>
+                                        <p class="card-text mt-3">
+                                            <span class="badge bg-danger text-white"><t t-esc="state.driver_absent"/></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+            </div>
+        </div>
+    </t>
+</odoo>

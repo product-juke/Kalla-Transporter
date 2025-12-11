@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="accounting_dashboard.accounting_dashboard_template">
+        <div class="container py-3">
+            <h1 class="text-center mb-5">Accounting Dashboard</h1>
+
+            <div class="row mb-3">
+                <div class="col-4">
+                    <h3>Revenue &amp; Expenses</h3>
+                    <canvas id="revenueExpenseChart" style="max-height: 250px;"></canvas>
+                </div>
+                <div class="col-4">
+                    <h3>Aging Report</h3>
+                    <canvas id="agingReportChart" style="max-height: 250px;"></canvas>
+                </div>
+                <div class="col-4">
+                    <h3>Cash Flow</h3>
+                    <canvas id="cashFlowChart" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <h3>Profitability</h3>
+                    <p>Profit: $<t t-esc="state.profitability"/></p>
+                </div>
+                <div class="col-4">
+                    <h3>Outstanding Payments</h3>
+                    <p>Total: $<t t-esc="state.outstandingPayments"/></p>
+                </div>
+                <div class="col-4">
+                    <h3>Tax Reports</h3>
+                    <p>Total Tax Collected: $<t t-esc="state.totalTaxCollected"/></p>
+                </div>
+            </div>
+
+            <div class="row">
+            </div>
+        </div>
+    </t>
+</odoo>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="mart_target_vehicle_tree_view" model="ir.ui.view">
+            <field name="name">mart.target.vehicle.tree</field>
+            <field name="model">mart.target.vehicle</field>
+            <field name="arch" type="xml">
+                <tree string="Vehicle Target"
+                      decoration-success="achievement >= 1.0"
+                      decoration-warning="achievement >= 0.8 and achievement &lt; 1.0"
+                      decoration-danger="achievement &lt; 0.8"
+                      create="false" edit="false" delete="false"
+                >
+                    <field name="vehicle_id"/>
+                    <field name="vehicle_name"/>
+                    <field name="vehicle_name_complete"/>
+                    <field name="no_lambung"/>
+                    <field name="license_plate"/>
+                    <field name="category_name"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="date"/>
+                    <field name="actual_revenue" sum="Total Actual Revenue"/>
+                    <field name="target_revenue" sum="Total Target Revenue"/>
+                    <field name="achievement" widget="percentage"/>
+                    <field name="actual_utilization_days_label"/>
+                    <field name="target_utilization_days_label"/>
+                    <field name="potential_to_target_with_icon"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="mart_target_vehicle_form_view" model="ir.ui.view">
+            <field name="name">mart.target.vehicle.form</field>
+            <field name="model">mart.target.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle Target" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <group string="Basic Information">
+                                <field name="vehicle_id"/>
+                                <field name="vehicle_name"/>
+                                <field name="vehicle_name_complete"/>
+                                <field name="no_lambung"/>
+                                <field name="license_plate"/>
+                                <field name="category_name"/>
+                                <field name="year"/>
+                                <field name="month"/>
+                                <field name="date"/>
+                            </group>
+                            <group string="Revenue Information">
+                                <field name="actual_revenue"/>
+                                <field name="target_revenue"/>
+                                <field name="achievement" widget="percentage"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Utilization Information">
+                                <field name="actual_utilization_days"/>
+                                <field name="target_utilization_days"/>
+                                <field name="actual_utilization_days_label"/>
+                                <field name="target_utilization_days_label"/>
+                            </group>
+                            <group string="Target Analysis">
+                                <field name="potential_to_target"/>
+                                <field name="potential_to_target_with_icon"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="mart_target_vehicle_search_view" model="ir.ui.view">
+            <field name="name">mart.target.vehicle.search</field>
+            <field name="model">mart.target.vehicle</field>
+            <field name="arch" type="xml">
+                <search string="Search Vehicle Target">
+                    <field name="category_name" string="Category"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <separator/>
+                    <filter string="Current Year" name="current_year"
+                            domain="[('year', '=', context_today().year)]"/>
+                    <filter string="Current Month" name="current_month"
+                            domain="[('year', '=', context_today().year),
+                                     ('month', '=', context_today().month)]"/>
+                    <separator/>
+                    <filter string="At Risk" name="at_risk"
+                            domain="[('potential_to_target', '=', 'At Risk️')]"/>
+                    <filter string="Exceeding Target" name="exceeding_target"
+                            domain="[('potential_to_target', '=', 'Exceeding Target')]"/>
+                    <separator/>
+                    <filter string="Low Achievement (&lt; 80%)" name="low_achievement"
+                            domain="[('achievement', '&lt;', 0.8)]"/>
+                    <filter string="Good Achievement (≥ 80%)" name="good_achievement"
+                            domain="[('achievement', '>=', 0.8)]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Category" name="group_category" context="{'group_by': 'category_name'}"/>
+                        <filter string="Year" name="group_year" context="{'group_by': 'year'}"/>
+                        <filter string="Month" name="group_month" context="{'group_by': 'month'}"/>
+                        <filter string="Potential" name="group_potential" context="{'group_by': 'potential_to_target'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="mart_target_vehicle_action" model="ir.actions.act_window">
+            <field name="name">Vehicle Target</field>
+            <field name="res_model">mart.target.vehicle</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="mart_target_vehicle_tree_view"/>
+            <field name="search_view_id" ref="mart_target_vehicle_search_view"/>
+            <field name="context">{'search_default_current_year': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No vehicle target data available yet!
+                </p>
+                <p>
+                    The data will be automatically populated by the scheduled job,
+                    or you can manually generate the data using the refresh actions.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_vehicle_target_datamart"
+                  name="Vehicle Target"
+                  parent="menu_mart_status_vehicle_root"
+                  action="mart_target_vehicle_action"
+                  sequence="10"/>
+
+    </data>
+</odoo>

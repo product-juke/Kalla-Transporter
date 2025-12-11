@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_oracle_ar_line_user,access_oracle_ar_line_user,model_oracle_ar_line,,1,1,1,1
+access_oracle_ap_line_user,access_oracle_ap_line_user,model_oracle_ap_line,,1,1,1,1
+access_account_payment_oracle,access_account_payment_oracle,model_account_payment_oracle,,1,1,1,1
+access_supplier_product_service,access_supplier_product_service,model_supplier_product_service,,1,1,1,1
+access_middleware_response_request_log,access_middleware_response_request_log,model_middleware_response_request_log,,1,1,1,1
+access_oracle_program_transaction_type,access_oracle_program_transaction_type,model_oracle_program_transaction_type,,1,1,1,1

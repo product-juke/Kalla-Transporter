@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default Emergency Contact Relationships -->
+    <data noupdate="1">
+
+        <record id="relationship_suami_istri" model="emergency.contact.relationship">
+            <field name="name">Suami/Istri</field>
+<!--            <field name="code">suami_istri</field>-->
+            <field name="sequence">1</field>
+            <field name="description">Pasangan hidup (suami atau istri)</field>
+        </record>
+
+        <record id="relationship_orang_tua" model="emergency.contact.relationship">
+            <field name="name">Orang Tua</field>
+<!--            <field name="code">orang_tua</field>-->
+            <field name="sequence">2</field>
+            <field name="description">Ayah atau ibu</field>
+        </record>
+
+        <record id="relationship_anak" model="emergency.contact.relationship">
+            <field name="name">Anak</field>
+<!--            <field name="code">anak</field>-->
+            <field name="sequence">3</field>
+            <field name="description">Anak kandung atau anak angkat</field>
+        </record>
+
+        <record id="relationship_saudara" model="emergency.contact.relationship">
+            <field name="name">Saudara Kandung</field>
+<!--            <field name="code">saudara</field>-->
+            <field name="sequence">4</field>
+            <field name="description">Kakak atau adik</field>
+        </record>
+
+        <record id="relationship_keluarga" model="emergency.contact.relationship">
+            <field name="name">Keluarga Lain</field>
+<!--            <field name="code">keluarga</field>-->
+            <field name="sequence">5</field>
+            <field name="description">Keluarga besar (paman, tante, sepupu, dll)</field>
+        </record>
+
+        <record id="relationship_teman" model="emergency.contact.relationship">
+            <field name="name">Teman</field>
+<!--            <field name="code">teman</field>-->
+            <field name="sequence">6</field>
+            <field name="description">Teman pribadi atau sahabat</field>
+        </record>
+
+        <record id="relationship_rekan_kerja" model="emergency.contact.relationship">
+            <field name="name">Rekan Kerja</field>
+<!--            <field name="code">rekan_kerja</field>-->
+            <field name="sequence">7</field>
+            <field name="description">Teman atau atasan di tempat kerja</field>
+        </record>
+
+        <record id="relationship_tetangga" model="emergency.contact.relationship">
+            <field name="name">Tetangga</field>
+<!--            <field name="code">tetangga</field>-->
+            <field name="sequence">8</field>
+            <field name="description">Orang yang tinggal di sekitar tempat tinggal</field>
+        </record>
+
+        <record id="relationship_lainnya" model="emergency.contact.relationship">
+            <field name="name">Lainnya</field>
+<!--            <field name="code">lainnya</field>-->
+            <field name="sequence">9</field>
+            <field name="description">Jenis hubungan lainnya</field>
+        </record>
+
+    </data>
+</odoo>

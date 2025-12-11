@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_lead_view_form" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='opportunity_partner']/field[@name='partner_id']" position="after">
+                <field name="vehicle_ids" widget="many2many_tags" domain="[('sale_ok', '=', True)]" invisible="1"/>
+                <field name="muatan_unit"/>
+                <field name="route"/>
+                <field name="rate"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Costing Sales" name="costing_sales">
+                    <field name="line_ids">
+                        <tree editable="bottom">
+                            <field name="category_id"/>
+<!--                            <field name="vehicle_domain" column_invisible="True"/>-->
+<!--                            <field name="vehicle_id" domain="vehicle_domain"/>-->
+<!--                            <field name="jenis_muatan"/>-->
+<!--                            <field name="asset_vendor"/>-->
+<!--                            <field name="origin"/>-->
+<!--                            <field name="destination"/>-->
+                            <field name="origin_id"/>
+                            <field name="destination_id"/>
+                            <field name="nilai_hpp"/>
+                            <field name="nilai_revenue"/>
+                            <field name="nilai_profit" decoration-danger="nilai_profit &lt; 0"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+<!--                    <group>-->
+<!--                        <group>-->
+<!--                            <field name="harga_jual"/>-->
+<!--                            <field name="is_sewa_vendor"/>-->
+<!--                        </group>-->
+<!--                        <group>-->
+<!--                            <field name="biaya_sewa_vendor_pihak_ketiga" invisible="is_sewa_vendor == False"/>-->
+<!--                            <field name="biaya_operasional" invisible="is_sewa_vendor == True"/>-->
+<!--                            <field name="total_profit"/>-->
+<!--                        </group>-->
+<!--                    </group>-->
+                </page>
+            </xpath>
+            <xpath expr="//button[@name='action_set_won_rainbowman']" position="before">
+                <button name="create_contract" type="object" class="oe_highlight" string="Create Contract"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="crm_case_form_view_oppor_inherit" model="ir.ui.view">
+        <field name="name">sale.crm.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <button name="action_sale_quotations_new" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+</odoo>

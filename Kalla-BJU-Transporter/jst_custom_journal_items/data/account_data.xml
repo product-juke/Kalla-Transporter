@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Account untuk Uang Muka Biaya - Biaya Mobilisasi -->
+        <record id="account_uang_muka_biaya_mobilisasi" model="account.account">
+            <field name="code">2110001</field>
+            <field name="name">Uang Muka Biaya - Biaya Mobilisasi</field>
+            <field name="account_type">liability_current</field>
+            <field name="reconcile">True</field>
+        </record>
+
+        <!-- Account untuk HPP Biaya Mobilisasi -->
+        <record id="account_hpp_biaya_mobilisasi" model="account.account">
+            <field name="code">5110001</field>
+            <field name="name">HPP Biaya Mobilisasi</field>
+            <field name="account_type">expense</field>
+            <field name="reconcile">False</field>
+        </record>
+
+    </data>
+</odoo>

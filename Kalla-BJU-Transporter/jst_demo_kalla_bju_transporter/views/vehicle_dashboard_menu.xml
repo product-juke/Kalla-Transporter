@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_vehicle_dashboard" model="ir.actions.client">
+            <field name="name">Vehicle Dashboard</field>
+            <field name="tag">vehicle_dashboard</field>
+        </record>
+
+        <menuitem
+            id="vehicle_dashboard_templates"
+            name="Vehicle Dashboard"
+            sequence="1"
+            action="action_vehicle_dashboard"
+            parent="fleet.menu_fleet_reporting"/>
+    </data>
+</odoo>

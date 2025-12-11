@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action for Invoice Monitoring Dashboard -->
+    <record id="action_invoice_monitoring_dashboard" model="ir.actions.client">
+        <field name="name">Invoice Monitoring</field>
+        <field name="tag">invoice_monitoring_dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_invoice_monitoring"
+              name="Invoice Monitoring"
+              parent="account_accountant.menu_accounting"
+              action="action_invoice_monitoring_dashboard"
+              sequence="1"/>
+</odoo>

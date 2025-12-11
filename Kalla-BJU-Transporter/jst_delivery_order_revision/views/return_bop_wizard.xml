@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="view_driver_bop_return_wizard_form" model="ir.ui.view">
+        <field name="name">driver.bop.return.wizard.form</field>
+        <field name="model">driver.bop.return.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Kembalikan BOP Driver">
+                <group>
+                    <group>
+                        <field name="bop_balance_id" invisible="1"/>
+                        <field name="return_amount" widget="monetary"/>
+                    </group>
+                    <group>
+                        <field name="account_id" options="{'no_create': True}"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="description" placeholder="Masukkan keterangan pengembalian BOP..."/>
+                </group>
+                <footer>
+                    <button string="Submit" name="action_confirm_return" type="object" class="btn-primary"/>
+                    <button string="Batal" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

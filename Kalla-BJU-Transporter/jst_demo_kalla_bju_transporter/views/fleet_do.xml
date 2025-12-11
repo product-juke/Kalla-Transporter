@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fleet_do_view_tree" model="ir.ui.view">
+        <field name="name">fleet.do.view.tree</field>
+        <field name="model">fleet.do</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <button name="open_approval_spv_fleet_do_wizard"
+                        type="object"
+                        string="Bulk Approval"
+                        class="btn-secondary" />
+
+                    <button name="open_reject_spv_fleet_do_wizard"
+                        type="object"
+                        string="Bulk Reject"
+                        class="btn-secondary" />
+                </header>
+                <field name="name" />
+                <field name="vehicle_id" string="Fleet"/>
+                <field name="driver_id" />
+                <field name="category_id" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" />
+                <field name="note" />
+                <field name="line_ids" />
+                <!--                <field name="origin"/>-->
+                <!--                <field name="destination"/>-->
+                <field name="origin_id" />
+                <field name="destination_id" />
+                <field name="sla_delivery" />
+                <field name="route_ids" />
+                <field name="state" />
+                <field name="status_do" widget="badge" decoration-success="status_do == 'DO Match'"
+                    decoration-danger="status_do == 'DO Unmatch'" />
+                <field name="status_document" widget="badge"
+                    decoration-success="status_document == 'Document Completed'"
+                    decoration-danger="status_do == 'Document Incompleted'" />
+                <!--                <field name="revenue" sum="Revenue"/>-->
+                <!--                <field name="hpp" sum="HPP"/>-->
+                <!--                <field name="nominal" sum="Nominal" string="BOP"/>-->
+                <!--                <field name="bop_percentage_display" readonly="1"/>-->
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_do_view_form" model="ir.ui.view">
+        <field name="name">fleet.do.view.form</field>
+        <field name="model">fleet.do</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="access_approval" invisible="1" />
+                    <field name="asset_type_name" invisible="1"/>
+                    <button name="action_update_post_do" string="Update Data to TMS"
+                        class="btn-primary"
+                        type="object" context="{'is_from_btn_action': True}" invisible="asset_type_name != 'asset'"/>
+                    <button name="action_request_approval" string="Request Approval"
+                        class="btn-primary"
+                        type="object" invisible="state != 'draft' or access_approval == False" />
+                    <button name="action_approve_operation_spv" string="Approve" class="btn-success"
+                        type="object" invisible="state != 'to_approve' or has_access_state == False" />
+                    <button name="action_approve_cashier" string="Approve" class="btn-success"
+                        type="object"
+                        invisible="state != 'approved_operation_spv' or has_access_state == False" />
+                    <button name="action_approve_adh" string="Approve" class="btn-success"
+                        type="object"
+                        invisible="state != 'approved_cashier' or has_access_state == False" />
+                    <!--<button
+                    name="action_confirm" string="Approve" class="btn-success"
+                            type="object" invisible="state != 'approved_by_kacab'"/>-->
+                    <button name="action_approve_by_kacab" string="Approve" class="btn-success"
+                        type="object"
+                        invisible="state != 'approved_adh' or has_access_state == False" />
+                    <button name="action_reject" string="Reject" class="btn-danger"
+                        type="object"
+                        invisible="state not in ['to_approve','approved_operation_spv','approved_cashier','approved_adh'] or has_access_state == False" />
+                    <button name="action_approve_by_kacab" string="Sync Data" class="btn-primary"
+                        type="object" invisible="is_success_send_to_tms or state != 'approved_adh'" />
+                    <button name="generate_po" string="Generate PO" class="btn-primary"
+                        type="object" invisible="1" />
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,approved_operation_spv,approved_cashier,approved_adh,approved_by_kacab,done"
+                        options="{'clickable': False}" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" force_save="1" />
+                        </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Smart Button untuk Purchase Order -->
+                        <button name="action_view_purchase_order"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-shopping-cart"
+                            invisible="purchase_order_count == 0">
+                            <field name="purchase_order_count" widget="statinfo"
+                                string="Purchase Order" />
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="has_access_state" invisible="1" />
+                            <field name="tonase_line" invisible="1" />
+                            <field name="kubikasi_line" invisible="1" />
+                            <field name="do_id" string="DO ID (TMS)" readonly="1" invisible="asset_type_name != 'asset'"/>
+                            <field name="delivery_name" invisible="1"/>
+                            <label for="vehicle_id" string="Fleet" invisible="delivery_name == 'Self Drive'"/>
+                            <div class="o_row" invisible="delivery_name == 'Self Drive'">
+                                <field name="vehicle_id"
+                                    domain="[
+                                           ('category_id', '=', category_id),
+                                           ('vehicle_status', '=', 'ready'),
+                                           ('driver_id.availability', '=', 'Ready'),
+                                           ('category_id.min_tonase', '&lt;=', tonase_line),
+                                           ('category_id.max_tonase', '&gt;=', tonase_line),
+                                           ('category_id.min_kubikasi', '&lt;=', kubikasi_line),
+                                           ('category_id.max_kubikasi', '&gt;=', kubikasi_line)
+                                       ]"
+                                    context="{'sort_fleet_vehicle': True, 'search_default_order': 'date_of_status_ready asc'}"
+                                    options="{'no_quick_create': True, 'no_create_edit': True, 'no_create': True}"
+                                    readonly="1"/>
+                                <button name="action_select_vehicle_wizard"
+                                    string=""
+                                    type="object"
+                                    icon="fa-search"
+                                    invisible="state != 'draft'"
+                                    class="btn-primary oe_inline"
+                                    context="{'category_id': category_id, 'tonase_line': tonase_line, 'kubikasi_line': kubikasi_line, 'current_do_id': id, 'active_id': id}" />
+                                <button name="action_reset_current_fleet"
+                                    string=""
+                                    type="object"
+                                    icon="fa-undo"
+                                    invisible="state != 'draft'"
+                                    class="btn-outline-secondary oe_inline" />
+                            </div>
+                            <field name="delivery_category_name" invisible="1" />
+                            <label for="driver_id" string="Driver"/>
+                            <div class="o_row">
+                                <field name="driver_id" domain="[('is_driver', '=', True), ('availability', '=', 'Ready')]"
+                                        readonly="1"/>
+                                <button name="%(action_driver_selection_wizard)d"
+                                        type="action"
+                                        icon="fa-search"
+                                        invisible="state != 'draft' or delivery_category_name not in ('Self Drive', 'self drive')"
+                                        string=""
+                                        class="btn-primary oe_inline"
+                                        context="{'dialog_size': 'extra-large'}"/>
+                                <button name="action_reset_current_driver"
+                                    string=""
+                                    type="object"
+                                    icon="fa-undo"
+                                    invisible="state != 'draft' or delivery_category_name not in ('Self Drive', 'self drive')"
+                                    class="btn-outline-secondary oe_inline" />
+                            </div>
+                            <field name="asset_type" string="Fleet Asset Type"/>
+                            <field name="fleet_owner" string="Fleet Owner" invisible="0" required="0"/>
+                            <field name="product_category_id" />
+                            <field name="integrated" invisible="integrated == 'half' or integrated != True"/>
+                            <field name="delivery_category_id" />
+                            <field name="status_do" widget="badge"
+                                decoration-success="status_do == 'DO Match'"
+                                decoration-danger="status_do == 'DO Unmatch'" />
+                            <field name="category_id" readonly="1" />
+                            <!--                            <field name="status_document"/>-->
+                            <field name="status_document_status" />
+                        </group>
+                        <group>
+                            <field name="date" readonly="state == 'done'" />
+                            <field name="plan_loading_time" required="True" />
+                            <field name="plan_unloading_time" required="True" />
+                            <field name="partner_id" />
+                            <!--                            <field name="tag_ids" widget="many2many_tags"
+                            options="{'color_field': 'color'}"/>-->
+                            <field name="note" />
+                            <field name="geofence_loading_id" required="delivery_name != 'Self Drive'" />
+                            <field name="geofence_unloading_id" required="delivery_name != 'Self Drive'" />
+                            <field name="route_ids" />
+                            <field name="reference" />
+                            <field name="status_do" invisible="1" />
+                            <field name="is_success_send_to_tms" invisible="1" />
+                            <field name="is_vli_category" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Lines SO">
+                            <field name="po_line_ids" context="{'search_default_filter_unattached': 1, 'hide_add': 1}" options="{'no_create': True, 'no_create_edit': True}" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="order_id" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="so_reference" readonly="1" string="Previous SO Reference"/>
+                                    <field name="customer_id" string="Customer" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="id_contract" string="CE. CODE" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="product_id" string="CATEGORY UNIT" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="origin_id" string="ORIGIN" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="destination_id" string="DESTINATION" width="200" readonly="order_id.is_created_from_contract"/>
+<!--                                    <field name="product_qty" string="Qty" width="200" readonly="order_id.is_created_from_contract"/>-->
+                                    <field name="distance" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="sla" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="qty_tonase" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="qty_kubikasi" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="qty_unit" width="200" readonly="order_id.is_created_from_contract" column_invisible="not parent.is_vli_category"/>
+                                    <field name="qty_dus" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="qty_ritase" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="qty_target_ritase" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="price_unit" string="PRICE" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="bop" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="is_header" width="200"/>
+                                    <field name="is_handling_type" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="is_line" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="file_name" column_invisible="True" readonly="order_id.is_created_from_contract"/>
+                                    <field name="attachment" filename="file_name" widget="binary"  width="200"/>
+                                    <field name="no_surat_jalan" width="200"/>
+                                    <field name="active" width="200" readonly="order_id.is_created_from_contract"/>
+                                    <field name="product_uom_category_id" column_invisible="1"/>
+                                    <field name="company_id" column_invisible="1"/>
+                                    <field name="product_category_name" column_invisible="1"/>
+                                    <field name="actual_tonase" column_invisible="parent.is_vli_category" readonly="1"/>
+                                    <field name="actual_volume" column_invisible="parent.is_vli_category" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="details" string="Product Variant Details">
+                            <field name="do_product_variant_ids">
+                                <tree editable="bottom">
+                                    <field name="product_code" />
+                                    <field name="ce_code" />
+                                    <field name="product_id" />
+                                    <field name="product_description" />
+                                    <field name="qty" />
+                                    <field name="uom_id" />
+                                    <field name="currency_id" column_invisible="True" />
+                                    <field name="unit_price" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="approval_history" string="Approval History">
+                            <group>
+                                <group string="Operation Supervisor">
+                                    <field name="approval_date_operation_spv" />
+                                    <field name="approval_by_operation_spv" />
+                                    <field name="approval_note_operation_spv" />
+                                </group>
+                                <group string="CASHIER">
+                                    <field name="approval_date_cashier" />
+                                    <field name="approval_by_cashier" />
+                                    <field name="approval_note_cashier" />
+                                </group>
+                                <group string="Administration Head">
+                                    <field name="approval_date_adh" />
+                                    <field name="approval_by_adh" />
+                                    <field name="approval_note_adh" />
+                                </group>
+                                <group string="Kepala Cabang">
+                                    <field name="approval_date_by_kacab" />
+                                    <field name="approval_by_kacab" />
+                                    <field name="approval_note_by_kacab" />
+                                </group>
+                                <group string="Reject">
+                                    <field name="reject_date" />
+                                    <field name="reject_by" />
+                                    <field name="reject_note" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="bop" string="BOP">
+                            <group>
+                                <group>
+                                    <field name="origin_id" />
+                                    <field name="destination_id" />
+                                    <field name="bop_state" string="Jenis BOP"/>
+                                    <field name="nominal" />
+                                    <field name="bop_paid" readonly="1" string="BOP Plan to be Paid"/>
+                                    <field name="bop_percentage_paid" widget="percentage" />
+                                    <field name="bop_unpaid" string="BOP Sisa"/>
+                                    <field name="no_lambung" />
+                                </group>
+                                <group>
+                                    <field name="transfer_to"
+                                        options="{'no_create': True, 'no_open': True}" />
+                                    <field name="rekening_number" />
+                                    <field name="rekening_name" />
+                                    <field name="rekening_bank" readonly="1" string="Nama Bank"/>
+                                    <field name="bop_readonly" invisible="1" />
+                                </group>
+                            </group>
+                            <field name="bop_ids">
+                                <tree editable="bottom" create="1">
+                                    <field name="bop_no" readonly="1" />
+                                    <field name="currency_id" column_invisible="1" />
+                                    <field name="percentage_paid" string="Percentage Paid (%)" />
+                                    <field name="amount_paid" readonly="1" />
+                                    <field name="is_exported_to_mcm" />
+                                    <field name="paid_status" readonly="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="status_delivery_document" string="Delivery Document">
+                            <group>
+                                <group>
+                                    <field name="is_match_do"
+                                        readonly="state != 'approved_by_kacab'" />
+                                    <field name="is_match_po" string="Kesesuaian Nilai SO di surat jalan dengan yang di DO"
+                                        readonly="state != 'approved_by_kacab'" />
+                                    <field name="attach_doc_complete"
+                                        readonly="state != 'approved_by_kacab'" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Fuel (BBM)">
+                            <group>
+                                <field name="no_bbm" />
+                                <field name="jam_isi" widget="float_time" />
+                                <field name="fuel_in" />
+                                <field name="vendor_bbm_id" />
+                                <field name="odometer" />
+                                <field name="fuel_in_status" />
+                            </group>
+                        </page>
+                    </notebook>
+                    <group>
+                        <field name="review_ids" context="{'hide_add': 1}"
+                            style="width:100%; margin-top: 10px;">
+                            <tree>
+                                <field name="comment" />
+                                <field name="requested_by" />
+                                <field name="status" />
+                                <field name="done_by" />
+                                <field name="reviewed_date" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_do_view_search" model="ir.ui.view">
+        <field name="name">fleet.do.view.search</field>
+        <field name="model">fleet.do</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="vehicle_id" />
+                <field name="category_id" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="tag_ids" />
+                <field name="note" />
+
+                <filter string="Priority Customer" name="priority_tag_ids"
+                    domain="[('tag_ids', 'ilike', 'Priority Customer')]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="fleet_do_action" model="ir.actions.act_window">
+        <field name="name">DO</field>
+        <field name="res_model">fleet.do</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('company_id','in',context.get('allowed_company_ids'))]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!--    <record id="fleet_do_line_view_tree" model="ir.ui.view">-->
+    <!--        <field name="name">fleet.do.line.view.tree</field>-->
+    <!--        <field name="model">fleet.do.line</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <tree create="0" edit="0">-->
+    <!--                <field name="date"/>-->
+    <!--&lt;!&ndash;
+    <field name="bop_type"/>&ndash;&gt;-->
+    <!--                <field name="fleet_do_id" string="REF Number"/>-->
+    <!--                <field name="currency_id" column_invisible="1"/>-->
+    <!--                <field name="bop_no"/>-->
+    <!--                <field name="bop_value"/>-->
+    <!--                <field name="bop_paid"/>-->
+    <!--                <field name="bop_percentage_paid" widget="percentage"/>-->
+    <!--                <field name="bop_unpaid"/>-->
+    <!--                <field name="transfer_to" string="Driver"/>-->
+    <!--&lt;!&ndash;
+    <field name="x_studio_origin"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;
+    <field name="x_studio_destination"/>&ndash;&gt;-->
+    <!--                <field name="manifest_no"/>-->
+    <!--                <field name="status" widget="badge" decoration-success="status == 'done'"
+    decoration-warning="status == 'outstanding'"/>-->
+    <!--                <button type="object" name="action_open_budget_entries" string="Entries..."-->
+    <!--                        icon="fa-arrow-circle-o-right"/>-->
+    <!--            </tree>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!-- <record id="bop_line_view_tree" model="ir.ui.view">
+        <field name="name">bop.line.view.tree</field>
+        <field name="model">bop.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" default_order="is_created_vendor_bill asc">
+                <header>
+                    <button name="open_vendor_bill_wizard"
+                        type="object"
+                        string="Create Vendor Bills"
+                        class="btn-secondary" />
+
+                    <button name="open_approval_fleet_do_wizard"
+                        type="object"
+                        string="Bulk Approval"
+                        class="btn-secondary" />
+
+                    <button name="open_reject_fleet_do_wizard"
+                        type="object"
+                        string="Bulk Reject"
+                        class="btn-secondary" />
+                </header>
+                <field name="fleet_do_id" readonly="1" string="Reference DO" />
+                <field name="is_created_vendor_bill" string="Vendor Bill" />
+                <field name="is_exported_to_mcm" />
+                <field name="is_settlement" invisible="0" />
+                <field name="state_do" />
+                <field name="date" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="bop_no" />
+                <field name="bop_value" />
+                <field name="amount_paid" />
+                <field name="percentage_paid" string="BOP Percetage Paid (%)" />
+                <field name="asset_type" string="Kepemilikan Aset" />
+                <field name="driver_id" />
+                <field name="state" widget="badge" decoration-success="state != 'cancel'"
+                    decoration-warning="state == 'cancel'" />
+                <field name="paid_status" widget="badge"
+                    decoration-success="paid_status == 'paid'"
+                    decoration-warning="paid_status == 'not_paid'" />
+                <field name="origin_id" />
+                <field name="destination_id" />
+                <field name="no_surat_jalan" optional="show" />
+            </tree>
+        </field>
+    </record> -->
+
+    <record id="bop_line_view_tree" model="ir.ui.view">
+        <field name="name">bop.line.view.tree</field>
+        <field name="model">bop.line</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0" default_order="is_created_vendor_bill asc"
+                decoration-danger="is_additional_cost"
+                decoration-warning="is_settlement">
+                <header>
+                    <button name="open_vendor_bill_wizard"
+                            type="object"
+                            string="Create Vendor Bills"
+                            class="btn-secondary"/>
+                    <button name="open_approval_fleet_do_wizard"
+                            type="object"
+                            string="Bulk Approval"
+                            class="btn-primary"/>
+                    <button name="open_reject_fleet_do_wizard"
+                            type="object"
+                            string="Bulk Reject"
+                            class="btn-primary"/>
+                </header>
+
+                <!-- Kolom penting -->
+                <field name="fleet_do_id" string="Nomor DO"
+                    widget="many2one"
+                    decoration-bf="1" optional="hide"/>
+                <field name="bop_no" string="Nomor BOP" decoration-bf="1"/>
+
+                <!-- flags -->
+                <field name="is_created_vendor_bill" string="Vendor Bill"/>
+                <field name="is_exported_to_mcm" string="Exported MCM" optional="hide"/>
+                <field name="is_settlement" string="Pelunasan BOP" optional="hide"/>
+                <field name="is_additional_cost" string="Biaya Tambahan" optional="hide"/>
+                
+                <!-- Status DO -->
+                <field name="state_do" string="Status DO" widget="badge"
+                    decoration-success="state_do not in ('cancel','draft')"
+                    decoration-danger="state_do == 'cancel'"
+                    decoration-warning="state_do == 'draft'"/>
+
+                <!-- Status BOP -->
+                <field name="state" string="Status BOP" widget="badge"
+                    decoration-success="state not in ('cancel','draft')"
+                    decoration-danger="state == 'cancel'"
+                    decoration-warning="state == 'draft'"/>
+
+                <!-- Info lainnya -->
+                <field name="date"/>
+                <field name="driver_id" optional="show"/>
+                <field name="rekening_number" optional="hide"/>
+                <field name="rekening_name" optional="hide"/>
+                <field name="asset_type" string="Kepemilikan Aset" optional="hide"/>
+
+                <!-- Nominal -->
+                <field name="bop_value" string="Nominal BOP" align="right"/>
+                <field name="amount_paid" string="Amount Paid" align="right"/>
+                <field name="bop_unpaid" string="BOP Sisa" align="right" optional="hide"/>
+                <field name="percentage_paid" string="BOP Percentage Paid (%)"
+                    widget="badge"
+                    decoration-danger="percentage_paid &lt; 50"
+                    decoration-warning="percentage_paid &gt;= 50 and percentage_paid &lt; 100"
+                    decoration-success="percentage_paid == 100"/>
+
+                <field name="paid_status" string="Status Pembayaran BOP" widget="badge"
+                    decoration-success="paid_status == 'paid'"
+                    decoration-danger="paid_status == 'not_paid'"/>
+
+                <!-- Lokasi -->
+                <field name="origin_id" optional="hide"/>
+                <field name="destination_id" optional="hide"/>
+                <field name="no_surat_jalan" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="bop_line_view_form" model="ir.ui.view">
+        <field name="name">bop.line.view.form</field>
+        <field name="model">bop.line</field>
+        <field name="arch" type="xml">
+            <form string="BOP" create="false">
+                <header>
+                    <button name="action_save_and_open_last_bop"
+                        type="object"
+                        string="Submit Pelunasan BOP"
+                        class="btn-success"
+                        context="{'mark_recent': True}"
+                        save_before_action="1"
+                        invisible="(is_settlement or is_additional_cost) or (fleet_do_state != 'done')" />
+
+                    <!-- === NON-SETTLEMENT === -->
+                    <button name="do_action_approve_cashier"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="(is_settlement or is_additional_cost) or (fleet_do_state != 'approved_operation_spv') or (not has_access_state_do)" />
+
+                    <button name="do_action_approve_adh"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="(is_settlement or is_additional_cost) or (fleet_do_state != 'approved_cashier') or (not has_access_state_do)" />
+
+                    <button name="do_action_approve_by_kacab"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="(is_settlement or is_additional_cost) or (fleet_do_state != 'approved_adh') or (not has_access_state_do)" />
+
+                    <button name="do_action_reject"
+                        type="object"
+                        string="Reject"
+                        invisible="(is_settlement or is_additional_cost) or (fleet_do_state not in ('to_approve','approved_operation_spv','approved_cashier','approved_adh')) or (not has_access_state_do)" />
+
+                    <!-- Status bar untuk DO, tampil hanya saat non-settlement -->
+                    <field name="fleet_do_state"
+                        widget="statusbar"
+                        statusbar_visible="draft,approved_operation_spv,approved_cashier,approved_adh,approved_by_kacab,done"
+                        options="{'clickable': False}"
+                        invisible="(is_settlement or is_additional_cost)" />
+
+                    <!-- === SETTLEMENT OR ADDITIONAL COST === -->
+                    <button name="action_approve_cashier"
+                        type="object"
+                        string="Submit"
+                        class="oe_highlight"
+                        invisible="(not (is_settlement or is_additional_cost)) or (state != 'draft') or (not has_access_state)" /> 
+                        <!-- or (fleet_do_state not in ('approved_by_kacab','done'))" /> -->
+
+                    <button name="action_approve_adh"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="(not (is_settlement or is_additional_cost)) or (state != 'approved_cashier') or (not has_access_state)" /> 
+                        <!-- or (fleet_do_state not in ('approved_by_kacab','done'))" /> -->
+
+                    <button name="action_approve_by_kacab"
+                        type="object"
+                        string="Approve"
+                        class="oe_highlight"
+                        invisible="(not (is_settlement or is_additional_cost)) or (state != 'approved_adh') or (not has_access_state)" /> 
+                        <!-- or (fleet_do_state not in ('approved_by_kacab','done'))" /> -->
+
+                    <button name="action_reject"
+                        type="object"
+                        string="Reject"
+                        invisible="(not (is_settlement or is_additional_cost)) or (state not in ('approved_cashier','approved_adh')) or (not has_access_state)" /> 
+                        <!-- or (fleet_do_state not in ('approved_by_kacab','done'))" /> -->
+
+                    <!-- Status bar untuk BOP settlement, tampil hanya saat settlement -->
+                    <field name="state"
+                        widget="statusbar"
+                        statusbar_visible="approved_cashier,approved_adh,approved_by_kacab"
+                        options="{'clickable': False}"
+                        invisible="not (is_settlement or is_additional_cost)" />
+                </header>
+
+                <sheet>
+                    <!-- Bagian atas: Referensi DO & Rute/Unit -->
+                    <group style="margin-bottom: 24px; row-gap: 8px;">
+                        <!-- field teknis disimpan di sini biar rapi -->
+                        <group invisible="1">
+                            <field name="has_access_state" />
+                            <field name="has_access_state_do" />
+                            <field name="state_do" />
+                            <field name="is_settlement" />
+                        </group>
+
+                        <group string="Reference DO">
+                            <field name="fleet_do_id" string="Reference DO" />
+                        </group>
+
+                        <group string="Rute Unit">
+                            <field name="origin_id" />
+                            <field name="destination_id" />
+                            <!-- <field name="no_lambung" /> -->
+                        </group>
+                    </group>
+
+                    <!-- Ringkasan BOP & Tujuan Pembayaran -->
+                    <group style="row-gap: 8px;">
+                        <group string="Ringkasan BOP">
+                            <field name="bop_state" invisible="is_settlement or is_additional_cost" string="Jenis BOP" />
+                            <field name="nominal" />
+                            <field name="bop_paid" readonly="1" string="BOP Plan to be Paid" />
+                            <field name="bop_percentage_paid" widget="percentage" />
+                            <field name="bop_unpaid" string="BOP Sisa" />
+                        </group>
+
+                        <group string="Tujuan Pembayaran">
+                            <field name="transfer_to" options="{'no_create': True, 'no_open': True}" />
+                            <field name="bank_cash" readonly="1" force_save="1"
+                                options="{'no_create': True, 'no_open': True}" />
+                            <field name="rekening_number" />
+                            <field name="rekening_name" />
+                            <field name="bank_name" />
+                            <field name="has_additional_cost" invisible="True" />
+                            <field name="is_additional_cost" invisible="True" />
+                        </group>
+                    </group>
+
+                    <!-- Pemisah visual -->
+                    <separator string="Daftar Biaya Operasional (BOP)" colspan="4" />
+
+                    <field name="sibling_bop_ids"
+                        context="{'default_fleet_do_id': fleet_do_id}"
+                        invisible="not fleet_do_id" 
+                        nolabel="1">
+                        <tree editable="bottom" create="0">
+                            <field name="bop_no" string="Nomor BOP" readonly="1" />
+                            <field name="currency_id" column_invisible="1" />
+                            <field name="percentage_paid" string="Percentage Paid (%)" />
+                            <field name="amount_paid" readonly="1" />
+                            <field name="is_exported_to_mcm" />
+                            <field name="is_settlement" string="Pelunasan BOP" readonly="1" invisible="0" />
+                            <field name="state" string="Status BOP" widget="badge"
+                                decoration-success="state != 'cancel'"
+                                decoration-warning="state == 'cancel'" />
+                            <field name="paid_status" string="Status Pembayaran BOP" widget="badge"
+                                decoration-success="paid_status == 'paid'"
+                                decoration-danger="paid_status == 'not_paid'"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="bop_no" />
+                                <field name="amount_paid" />
+                                <field name="state" />
+                                <field name="fleet_do_id" invisible="1" />
+                            </group>
+                        </form>
+                    </field>
+
+                    <!-- Pemisah visual -->
+                    <separator string="Biaya Tambahan Biaya Operasional (BOP)" colspan="4" />
+                    <group style="margin-bottom: 24px; row-gap: 8px;" col="1" colspan="4">
+                        <button name="open_addtional_cost_wizard"
+                            type="object"
+                            string="Tambah Biaya"
+                            class="btn-primary"/>
+                    </group>
+
+                    <field name="bop_additional_cost_ids"
+                        invisible="not has_additional_cost" 
+                        nolabel="1">
+                        <tree>
+                            <field name="bop_no" string="Nomor BOP" readonly="1" />
+                            <field name="product_ids" widget="many2many_tags" readonly="1" />
+                            <field name="attachment" filename="attachment_filename" widget="binary" readonly="1"/>
+                            <field name="currency_id" column_invisible="1" />
+                            <field name="amount_paid" readonly="0" />
+                            <field name="is_exported_to_mcm" />
+                            <field name="state" string="Status BOP" widget="badge"
+                                decoration-success="state != 'cancel'"
+                                decoration-warning="state == 'cancel'" />
+                            <field name="paid_status" string="Status Pembayaran BOP" widget="badge"
+                                decoration-success="paid_status == 'paid'"
+                                decoration-danger="paid_status == 'not_paid'"/>
+                        </tree>
+                    </field>
+
+                    <separator string="Riwayat Persetujuan DO/BOP" colspan="4" />
+
+                    <!-- === NORMAL === -->
+                    <field name="review_do_ids" invisible="is_settlement or is_additional_cost"
+                        context="{'hide_add': 1}" style="width:100%;">
+                        <tree>
+                            <field name="comment"/>
+                            <field name="requested_by" />
+                            <field name="status" />
+                            <field name="done_by" />
+                            <field name="reviewed_date" />
+                        </tree>
+                    </field>
+
+                    <!-- === SETTLEMENT === -->
+                    <field name="review_ids" invisible="not is_settlement or is_additional_cost"
+                        context="{'hide_add': 1}" style="width:100%;">
+                        <tree>
+                            <field name="comment"/>
+                            <field name="requested_by" />
+                            <field name="status" />
+                            <field name="done_by" />
+                            <field name="reviewed_date" />
+                        </tree>
+                    </field>
+
+                        <!-- === ADDITIONAL COST === -->
+                    <field name="review_ids" invisible="not is_additional_cost"
+                        context="{'hide_add': 1}" style="width:100%;">
+                        <tree>
+                            <field name="comment"/>
+                            <field name="requested_by" />
+                            <field name="status" />
+                            <field name="done_by" />
+                            <field name="reviewed_date" />
+                        </tree>
+                    </field>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_vehicle_view_search" model="ir.ui.view">
+        <field name="name">fleet.vehicle.search</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <filter string="Ready" name="last_status_ready"
+                    domain="[('vehicle_status', '=', 'ready')]" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id='fleet.fleet_vehicle_action' model='ir.actions.act_window'>
+        <field name="name">Vehicles</field>
+        <field name="res_model">fleet.vehicle</field>
+        <field name="view_mode">tree,kanban,form,pivot,activity</field>
+        <field name="domain">[]</field>
+        <field name="context">{'group_by': ['company_portfolio', 'company_id', 'branch', 'category_id']}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Ready to manage your fleet more efficiently?
+            </p>
+            <p>
+                Let's create your first vehicle.
+            </p>
+        </field>
+    </record>
+
+    <record id="bop_line_action" model="ir.actions.act_window">
+        <field name="name">BOP List</field>
+        <field name="res_model">bop.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'group_by': 'fleet_do_id'}</field>
+        <field name="domain">[('fleet_do_state', 'in', ('approved_operation_spv',
+            'approved_cashier', 'approved_adh', 'approved_by_kacab', 'done')), ('state', '!=',
+            'cancel'), ('fleet_do_id.company_id','in',context.get('allowed_company_ids'))]</field>
+    </record>
+
+    <record id="view_create_vendor_bill_wizard" model="ir.ui.view">
+        <field name="name">create.vendor.bill.wizard.form</field>
+        <field name="model">create.vendor.bill.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Vendor Bills">
+                <group>
+                    <field name="order_count" readonly="1" />
+                    <field name="bop_line_ids" widget="many2many_tags" readonly="1" />
+                </group>
+                <footer>
+                    <button name="action_create_vendor_bills"
+                        string="Create Vendor Bills"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_create_vendor_bill_wizard" model="ir.actions.act_window">
+        <field name="name">Create Vendor Bills</field>
+        <field name="res_model">create.vendor.bill.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_approval_fleet_do_bill_wizard" model="ir.ui.view">
+        <field name="name">approval.fleet.do.wizard.form</field>
+        <field name="model">approval.fleet.do.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Submit Bulk Approval Delivery Order">
+                <group>
+                    <field name="order_count_do" readonly="1" />
+                    <field name="fleet_do_ids" widget="many2many_tags" />
+
+                    <separator string="BOP" colspan="4" />
+
+                    <field name="order_count_bop" readonly="1" />
+                    <field name="bop_line_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button name="action_bulk_approval_delivery_order"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_reject_fleet_do_bill_wizard" model="ir.ui.view">
+        <field name="name">reject.fleet.do.wizard.form</field>
+        <field name="model">reject.fleet.do.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Submit Bulk Reject Delivery Order">
+                <group>
+                    <field name="order_count_do" readonly="1" />
+                    <field name="fleet_do_ids" widget="many2many_tags" />
+
+                    <separator string="BOP" colspan="4" />
+
+                    <field name="order_count_bop" readonly="1" />
+                    <field name="bop_line_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button name="action_bulk_reject_delivery_order"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_approval_spv_fleet_do_bill_wizard" model="ir.ui.view">
+        <field name="name">approval.spv.fleet.do.wizard.form</field>
+        <field name="model">approval.spv.fleet.do.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Submit Bulk Supervisor Approval Delivery Order">
+                <group>
+                    <field name="order_count" readonly="1" />
+                    <field name="bop_line_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button name="action_bulk_spv_approval_delivery_order"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_reject_spv_fleet_do_bill_wizard" model="ir.ui.view">
+        <field name="name">reject.spv.fleet.do.wizard.form</field>
+        <field name="model">reject.spv.fleet.do.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Submit Bulk Reject Delivery Order">
+                <group>
+                    <field name="order_count" readonly="1" />
+                    <field name="bop_line_ids" widget="many2many_tags" />
+                </group>
+                <footer>
+                    <button name="action_bulk_spv_reject_delivery_order"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_bop_save_success_wizard_form" model="ir.ui.view">
+        <field name="name">bop.save.success.wizard.form</field>
+        <field name="model">bop.save.success.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Berhasil" create="false" edit="false">
+                <field name="message" nolabel="1" readonly="1" />
+                <footer>
+                    <button string="Buka Form Submit BOP"
+                        name="action_open_bop"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Tutup" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_do_reject_wizard_form" model="ir.ui.view">
+        <field name="name">fleet.do.reject.wizard.form</field>
+        <field name="model">fleet.do.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Alasan Penolakan">
+                <sheet>
+                    <group>
+                        <field name="reason" placeholder="Tuliskan alasan penolakan..." />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Reject" name="action_confirm" type="object" class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_do_reject_wizard_action" model="ir.actions.act_window">
+        <field name="name">Reject</field>
+        <field name="res_model">fleet.do.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="bop_line_reject_wizard_form" model="ir.ui.view">
+        <field name="name">bop.line.reject.wizard.form</field>
+        <field name="model">bop.line.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Alasan Penolakan">
+                <sheet>
+                    <group>
+                        <field name="reason" placeholder="Tuliskan alasan penolakan..." />
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Reject" name="action_confirm" type="object" class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="bop_line_reject_wizard_action" model="ir.actions.act_window">
+        <field name="name">Reject</field>
+        <field name="res_model">bop.line.reject.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="bulk_reject_reason_wizard_view" model="ir.ui.view">
+        <field name="name">bulk.reject.reason.wizard.form</field>
+        <field name="model">bulk.reject.reason.wizard</field>
+        <field name="arch" type="xml">
+        <form string="Alasan Penolakan">
+            <sheet>
+            <group>
+                <field name="reason" placeholder="Tuliskan alasan penolakan untuk semua item..."/>
+            </group>
+            </sheet>
+            <footer>
+            <button name="action_confirm" type="object" string="Lanjut Reject" class="btn-primary"/>
+            <button string="Batal" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="bulk_reject_reason_wizard_action" model="ir.actions.act_window">
+        <field name="name">Alasan Penolakan</field>
+        <field name="res_model">bulk.reject.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="bop_additional_cost_wizard_form" model="ir.ui.view">
+        <field name="name">bop.additional.cost.wizard.form</field>
+        <field name="model">bop.additional.cost.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Biaya Tambahan BOP">
+                <group>
+                    <field name="fleet_do_id" readonly="True" />
+                    <field name="product_ids" widget="many2many_tags"/>
+                    <field name="amount_paid" />
+                    <field name="attachment" filename="attachment_filename"/>
+                </group>
+                <footer>
+                    <button name="action_bop_additional_cost"
+                        string="Submit"
+                        type="object"
+                        class="btn-primary" />
+                    <button string="Cancel" special="cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="bulk_reject_spv_reason_wizard_view" model="ir.ui.view">
+        <field name="name">bulk.reject.spv.reason.wizard.form</field>
+        <field name="model">bulk.reject.spv.reason.wizard</field>
+        <field name="arch" type="xml">
+        <form string="Alasan Penolakan XXX">
+            <sheet>
+            <group>
+                <field name="reason" placeholder="XXX Tuliskan alasan penolakan untuk semua item..."/>
+            </group>
+            </sheet>
+            <footer>
+            <button name="action_confirm" type="object" string="Lanjut Reject" class="btn-primary"/>
+            <button string="Batal" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+        </field>
+    </record>
+
+    <record id="bulk_reject_spv_reason_wizard_action" model="ir.actions.act_window">
+        <field name="name">Alasan Penolakan</field>
+        <field name="res_model">bulk.reject.spv.reason.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem
+        id="fleet_do_menu"
+        name="Delivery Order (DO)"
+        action="fleet_do_action"
+        parent="jst_demo_kalla_bju_transporter.root_transporter"
+        sequence="3" />
+
+    <menuitem id="plan_armada_menuitem"
+        name="Plan Armada"
+        parent="jst_demo_kalla_bju_transporter.root_transporter"
+        action="fleet.fleet_vehicle_action"
+        sequence="4" />
+
+    <menuitem
+        id="bop_line_menu"
+        name="BOP List"
+        action="bop_line_action"
+        parent="jst_demo_kalla_bju_transporter.root_transporter"
+        sequence="5" />
+</odoo>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_hpp_view_tree" model="ir.ui.view">
+        <field name="name">fleet.hpp.view.tree</field>
+        <field name="model">fleet.hpp</field>
+        <field name="arch" type="xml">
+            <tree string="Fleet HPP">
+              <field name="category_id"/>
+              <field optional="show" name="origin_id" options="{'create_name_field': 'x_name'}"/>
+              <field optional="show" name="destination_id" options="{'create_name_field': 'x_name'}"/>
+              <field name="gross_margin" optional="show" widget="monetary" options="{&quot;currency_field&quot;:&quot;x_currency_id&quot;}" string="Gross Margin"/>
+              <field name="gross_margin_rit" optional="show" widget="monetary" string="Gross Margin / Rit" options="{&quot;currency_field&quot;:&quot;x_currency_id&quot;}"/>
+              <field name="gross_margin_to_revenue" optional="show" widget="percentage"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_hpp_view_form" model="ir.ui.view">
+        <field name="name">fleet.hpp.view.form</field>
+        <field name="model">fleet.hpp</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet string="Fleet HPP">
+                    <group>
+                        <field name="category_id"/>
+                    </group>
+                    <group>
+                        <group string="Jenis Mode - Origin">
+                            <field name="origin_id"/>
+                            <field name="origin_distance_per_trip_km"/>
+                            <field name="origin_kecepatan"/>
+                            <field name="origin_lead_time_rit" widget="float_time" string="Lead Time Perjalanan / Rit (Jam)"/>
+                            <field name="origin_lead_time_hari"/>
+                        </group>
+                        <group string="Jenis Mode - Destination">
+                            <field name="destination_id"/>
+                            <field name="dest_distance_per_trip_km"/>
+                            <field name="dest_kecepatan"/>
+                            <field name="dest_lead_time_rit" widget="float_time" string="Lead Time Perjalanan / Rit (Jam)"/>
+                            <field name="dest_lead_time_hari"/>
+                        </group>
+                        <group>
+                            <group string="Jenis Mode - Load/Unload">
+                                <field name="loading" string="Loading (Jam)" widget="float_time"/>
+                                <field name="unloading" string="Unloading (Jam)" widget="float_time"/>
+                            </group>
+                            <group string="Jenis Mode - Pengkapalan">
+                                <field name="berangkat" string="Berangkat (Jam)" widget="float_time"/>
+                                <field name="pulang" string="Pulang (Jam)" widget="float_time"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Jenis Mode - Lead time">
+                                <field name="lead_time_rit" widget="float_time" string="Lead Time / Rit (Jam)"/>
+                                <field name="menunggu_kapal_pulang" widget="float_time"/>
+                                <field name="lead_time_perjalanan" string="Lead Time Perjalanan (Jam)" widget="float_time"/>
+                                <field name="total_perjalanan"/>
+                                <field name="jumlah_hari_cycle_time"/>
+                            </group>
+                            <group string="Jenis Mode - Asumsi Revenue">
+                                <field name="asumsi_do_real" widget="percentage"/>
+                                <field name="asumsi_do_ke_bju" string="Asumsi DO ke BJU (Rit)"/>
+                                <field name="hari_produktif_unit"/>
+                                <field name="jumlah_kebutuhan_unit"/>
+                                <field name="revenue_ritase" string="Revenue / Ritase" widget="monetary" options="{&quot;no_symbol&quot;:false,&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="add_revenue_inap"/>
+                                <field name="revenue_rit" string="Revenue / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="revenue_bulan" string="Revenue / Bulan" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Direct Cost - BOP Driver Jakarta">
+                                <field name="gaji_driver_jkt" string="Gaji Driver" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="perkalian_uang_makan_jkt"/>
+                                <field name="total_biaya_uang_makan_jkt" string="Total Biaya Uang Makan" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                            <group string="Direct Cost - BOP Driver Makassar &amp; Balik Papan">
+                                <field name="gaji_driver_mks" string="Gaji Driver" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="perkalian_uang_makan_mks"/>
+                                <field name="total_biaya_uang_makan_mks" string="Total Biaya Uang Makan" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Direct Cost - BOP BBM">
+                                <field name="origin_ration_fuel" string="Ratio Fuel consumption factor - Km/L (Origin)"/>
+                                <field name="dest_ration_fuel" string="Ratio Fuel consumption factor - Km/L (Destination)"/>
+                                <field name="total_fuel"/>
+                                <field name="biaya_bbm" string="Biaya BBM" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                            <group string="Direct Cost - BOP Additional">
+                                <field name="biaya_pulang_transport_lokal" string="Biaya Pulang + Transport Lokal" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="biaya_retribusi" widget="monetary" string="Biaya Retribusi" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Direct Cost - Biaya Pengkapalan">
+                                <field name="biaya_berangkat" string="Biaya Berangkat" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="biaya_pulang" string="Biaya Pulang" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                            <group string="Direct Cost - Summary">
+                                <field name="summary_revenue_rit" string="Revenue / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="summary_direct_cost_rit" string="Direct Cost / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="summary_direct_cost" widget="percentage"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Indirect Cost - Variable Indirect Cost">
+                                <field name="jumlah_km"/>
+                                <field name="biaya_ban"/>
+                                <field name="penggunaan_ban" string="Penggunan Ban (KM) "/>
+                                <field name="harga_ban" string="Harga ban per buah" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="jumlah_ban"/>
+                                <field name="biaya_maintenance" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                            </group>
+                            <group string="Laba Rugi">
+                                <field name="laba_rugi_jumlah_km"/>
+                                <field name="laba_rugi_revenue_rit" string="Revenue / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="laba_rugi_revenue_km" string="Revenue / Km" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="laba_rugi_bop_rit" string="BOP / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="laba_rugi_bop_km" string="BOP / Km" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="laba_rugi_bop_to_revenue" widget="percentage"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Gross Margin">
+                                <field name="gross_margin" string="Gross Margin" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="gross_margin_rit" string="Gross Margin / Rit" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/>
+                                <field name="gross_margin_to_revenue" widget="percentage"/>
+                            </group>
+                            <group>
+                                <field name="company_id" invisible="True"/>
+                                <field name="currency_id" invisible="True"/>
+                                <field name="analytic_distribution"/>
+                            </group>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="create_hpp_action" model="ir.actions.act_window">
+        <field name="name">Formula HPP</field>
+        <field name="res_model">fleet.hpp</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="context"></field>
+    </record>
+    <menuitem
+            id="create_hpp_menu"
+            name="Formula HPP"
+            action="create_hpp_action"
+            parent="fleet.menu_root"
+            sequence="7"/>
+</odoo>

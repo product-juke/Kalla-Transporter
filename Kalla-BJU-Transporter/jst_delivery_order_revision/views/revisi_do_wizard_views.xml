@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Revisi DO Wizard Form View -->
+        <record id="view_revisi_do_wizard_form" model="ir.ui.view">
+            <field name="name">do.revision.wizard.form</field>
+            <field name="model">do.revision.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Revisi DO">
+                    <sheet>
+                        <group>
+                            <field name="do_id" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="do_total_bop"/>
+                        </group>
+
+                        <group string="Pilih SO yang gagal dikirim">
+                        </group>
+
+                        <field name="po_line_ids" nolabel="1" domain="[('do_id', '=', do_id)]">
+                            <tree string="PO Lines" editable="false">
+                                <field name="order_id"/>
+                                <field name="product_id"/>
+                                <field name="name"/>
+                                <field name="product_uom_qty"/>
+                                <field name="price_unit"/>
+                                <field name="price_subtotal"/>
+                            </tree>
+                        </field>
+
+                        <notebook>
+                            <page string="Penggunaan BOP" name="bop_usage">
+                                <field name="bop_usage_line_ids">
+                                    <tree string="Detail Penggunaan BOP" editable="bottom">
+                                        <field name="description" placeholder="Contoh: Biaya BBM, Biaya Tol, dll"/>
+                                        <field name="amount"/>
+                                        <field name="attachment_ids" widget="many2many_binary"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+
+                                <group>
+                                    <group>
+                                        <field name="bop_amount"
+                                               readonly="1"
+                                               string="Total BOP Digunakan"
+                                               class="oe_subtotal_footer_separator"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Sisa BOP" name="remaining_bop">
+                                <group>
+                                    <field name="remaining_bop"
+                                           readonly="1"
+                                           class="oe_subtotal_footer_separator"/>
+                                </group>
+
+                                <separator string="Rincian Sisa BOP"/>
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Info:</strong>
+                                    Jika terdapat sisa BOP, mohon berikan rincian penggunaan sisa BOP tersebut.
+                                </div>
+
+                                <field name="remaining_bop_line_ids">
+                                    <tree string="Detail Sisa BOP" editable="bottom">
+                                        <field name="description" placeholder="Contoh: Sisa untuk operasional bulan depan, Sisa dikembalikan, dll"/>
+                                        <field name="amount"/>
+                                        <field name="attachment_ids" widget="many2many_binary"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                        <div class="alert alert-warning" role="alert" style="margin-top: 15px;">
+                            <strong>Warning:</strong>
+                            Proses revisi akan membatalkan Sales Order dari PO Lines yang dipilih dan menghapus relasi dari DO ini.
+                            Proses ini tidak dapat dibatalkan.
+                        </div>
+                    </sheet>
+
+                    <footer>
+                        <button name="action_submit_revision"
+                                string="Submit Revision"
+                                type="object"
+                                class="btn-primary"
+                                context="{'is_from_revision_wizard': True}"
+                                confirm="Apakah Anda yakin ingin melakukan revisi DO ini? Proses ini tidak dapat dibatalkan."/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Wizard Action -->
+        <record id="action_revisi_do_wizard" model="ir.actions.act_window">
+            <field name="name">Revisi DO</field>
+            <field name="res_model">do.revision.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

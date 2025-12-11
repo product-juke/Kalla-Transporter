@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="customer.Dashboard.Outstanding">
+        <div class="o_content">
+            <h1 class="text-center">Customer Dashboard Outstanding</h1>
+
+            <!-- Filter berdasarkan tanggal -->
+            <div class="row">
+                <div class="card shadow-lg p-4">
+                    <h3 class="mb-3">Top 10 Customers with Outstanding Payments</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Outstanding Amount</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.outstandingData" t-as="customer" t-key="customer.customer_id">
+                                <tr>
+                                    <td><t t-esc="customer.customer_name"/></td>
+                                    <td><t t-esc="customer.outstanding_amount" widget="monetary" options="{&quot;currency_field&quot;:&quot;currency_id&quot;}"/></td>
+                                    <td><t t-esc="customer.due_date"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </t>
+</odoo>

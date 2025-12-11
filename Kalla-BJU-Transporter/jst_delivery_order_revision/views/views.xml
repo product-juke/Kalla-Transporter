@@ -1,0 +1,163 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record id="driver_bop_balance_view_form" model="ir.ui.view">
+        <field name="name">driver.bop.balance.view.form</field>
+        <field name="model">driver.bop.balance</field>
+        <field name="arch" type="xml">
+            <form string="Driver BOP Balance">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="do_id" string="Nomor DO"/>
+                        </group>
+                        <group>
+                            <field name="total_bop"/>
+                            <field name="used_bop"/>
+                        </group>
+                    </group>
+                    <div class="oe_title">
+                        <p><strong>Sisa: </strong></p>
+                        <h1>
+                            Rp <field name="remaining_bop" widget="monetary" readonly="1"/>
+                        </h1>
+                    </div>
+                    <div class="alert alert-info my-4" role="alert">
+                        <strong>Keterangan:</strong>
+                        <field name="description" string="Keterangan"/>
+                    </div>
+                    <button name="action_return_bop"
+                            string="Kembalikan Sisa BOP ke BJU"
+                            confirm='Apakah anda yakin akan mengembalikan "Semua sisa BOP" pada driver ini ke perusahaan?'
+                            type="object"
+                            class="btn-primary mb-4"
+                            invisible="remaining_bop == 0"
+                            groups="jst_lms_group.group_logistic_lms_cashier" />
+<!--                    <group string="History BOP Driver" class="mb-3" />-->
+<!--                    <field name="bop_balance_history_ids" context="{'hide_add': 1}">-->
+<!--                        <tree>-->
+<!--                            <field name="do_id" string="Nomor DO" readonly="1" />-->
+<!--                            <field name="initial_bop_value" readonly="1" />-->
+<!--                            <field name="used_bop" readonly="1" />-->
+<!--                            <field name="description" readonly="1" default="-" />-->
+<!--                        </tree>-->
+<!--                    </field>-->
+                    <notebook>
+                        <page string="Rincian Penggunaan BOP" name="usage_details">
+                            <field name="bop_usage_detail_ids" nolabel="1">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="description"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="attachment_ids" widget="many2many_binary"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Rincian Sisa BOP" name="remaining_details">
+                            <field name="remaining_bop_detail_ids" nolabel="1">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="description"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="attachment_ids" widget="many2many_binary"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="History" name="history">
+                            <field name="bop_balance_history_ids" nolabel="1">
+                                <tree create="0" delete="0">
+                                    <field name="driver_id"/>
+                                    <field name="do_id"/>
+                                    <field name="initial_bop_value"/>
+                                    <field name="used_bop"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="driver_bop_balance_history_view_form" model="ir.ui.view">
+        <field name="name">driver.bop.balance.history.view.form</field>
+        <field name="model">driver.bop.balance.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="do_id" string="Nomor DO"/>
+                        </group>
+                        <group>
+                            <field name="initial_bop_value"/>
+                            <field name="used_bop"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info my-4" role="alert">
+                        <strong>Keterangan:</strong>
+                        <field name="description" string="Keterangan" default="-" />
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="jst_delivery_order_revision.list">-->
+<!--      <field name="name">jst_delivery_order_revision list</field>-->
+<!--      <field name="model">jst_delivery_order_revision.jst_delivery_order_revision</field>-->
+<!--      <field name="arch" type="xml">-->
+<!--        <tree>-->
+<!--          <field name="name"/>-->
+<!--          <field name="value"/>-->
+<!--          <field name="value2"/>-->
+<!--        </tree>-->
+<!--      </field>-->
+<!--    </record>-->
+
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="jst_delivery_order_revision.action_window">
+      <field name="name">jst_delivery_order_revision window</field>
+      <field name="res_model">jst_delivery_order_revision.jst_delivery_order_revision</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="jst_delivery_order_revision.action_server">
+      <field name="name">jst_delivery_order_revision server</field>
+      <field name="model_id" ref="model_jst_delivery_order_revision_jst_delivery_order_revision"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="jst_delivery_order_revision" id="jst_delivery_order_revision.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="jst_delivery_order_revision.menu_1" parent="jst_delivery_order_revision.menu_root"/>
+    <menuitem name="Menu 2" id="jst_delivery_order_revision.menu_2" parent="jst_delivery_order_revision.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="jst_delivery_order_revision.menu_1_list" parent="jst_delivery_order_revision.menu_1"
+              action="jst_delivery_order_revision.action_window"/>
+    <menuitem name="Server to list" id="jst_delivery_order_revision" parent="jst_delivery_order_revision.menu_2"
+              action="jst_delivery_order_revision.action_server"/>
+-->
+  </data>
+</odoo>

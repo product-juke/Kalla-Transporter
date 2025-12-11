@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <templates id="template">
+        <t t-name="Vehicle.Dashboard">
+            <div class="o_vehicle_dashboard">
+                <h2>Vehicle Dashboard</h2>
+                <div class="dashboard-card">
+                    <span>Total Delivery Order: <t t-esc="state.total_dos"/></span>
+                </div>
+                <div class="dashboard-card">
+                    <span>Pending Delivery Orders: <t t-esc="state.pending_dos"/></span>
+                </div>
+            </div>
+        </t>
+    </templates>
+</odoo>

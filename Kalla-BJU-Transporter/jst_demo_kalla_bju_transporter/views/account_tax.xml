@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_tax_view_tree" model="ir.ui.view">
+        <field name="name">inherit.account.tax.view.tree</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_label']" position="after">
+                <field name="use_dpp_nilai_lain" string="DPP Nilai Lain" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherit_tax_view_form" model="ir.ui.view">
+        <field name="name">inherit.account.tax.view.form</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group[2]" position="inside">
+                <field name="use_dpp_nilai_lain" string="DPP Nilai Lain"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Default Supplier Product Service Records -->
+        <record id="supplier_service_category_1" model="supplier.product.service">
+            <field name="product_service_category_id">300000067419451</field>
+            <field name="category_name">A_PURCHASING_GOODS</field>
+            <field name="category_type">BROWSING</field>
+            <field name="is_active">True</field>
+        </record>
+    </data>
+</odoo>

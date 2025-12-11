@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+Jenkinsfile
+.github
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+pythonProject/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Documentation
+*.md
+README.rst
+readme/
+
+# Test files
+tests/
+test_*.py
+
+# Temporary files
+*.tmp
+*.bak
+*.cache

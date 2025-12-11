@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_mart_delivery_order_tree" model="ir.ui.view">
+            <field name="name">mart.delivery.order.tree</field>
+            <field name="model">mart.delivery.order</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Order" default_order="date desc" create="false" edit="false" delete="false">
+                    <field name="source_id"/>
+                    <field name="name"/>
+                    <field name="status_do"/>
+                    <field name="status_do_capitalize"/>
+                    <field name="date"/>
+                    <field name="day_of_order"/>
+                    <field name="month_of_order"/>
+                    <field name="year_of_order"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_mart_delivery_order_form" model="ir.ui.view">
+            <field name="name">mart.delivery.order.form</field>
+            <field name="model">mart.delivery.order</field>
+            <field name="arch" type="xml">
+                <form string="Delivery Order" create="false" edit="false">
+                    <header>
+                        <button name="action_refresh_data_mart" string="Refresh Data"
+                                type="object" class="oe_highlight"
+                                groups="base.group_system"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group name="basic_info" string="Basic Information">
+                                <field name="source_id"/>
+                                <field name="name"/>
+                                <field name="status_do"/>
+                                <field name="status_do_capitalize"/>
+                                <field name="date"/>
+                            </group>
+                            <group name="date_parts" string="Date Components">
+                                <field name="day_of_order"/>
+                                <field name="month_of_order"/>
+                                <field name="year_of_order"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_mart_delivery_order_search" model="ir.ui.view">
+            <field name="name">mart.delivery.order.search</field>
+            <field name="model">mart.delivery.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Delivery Order">
+                    <field name="name" string="Name"
+                           filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="status_do" string="Status"/>
+                    <field name="date"/>
+                    <field name="month_of_order"/>
+                    <field name="year_of_order"/>
+
+                    <separator/>
+                    <filter name="filter_current_month" string="Current Month"
+                            domain="[('month_of_order', '=', context_today().month), ('year_of_order', '=', context_today().year)]"/>
+                    <filter name="filter_current_year" string="Current Year"
+                            domain="[('year_of_order', '=', context_today().year)]"/>
+
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_status" string="Status"
+                                context="{'group_by': 'status_do'}"/>
+                        <filter name="group_by_month" string="Month"
+                                context="{'group_by': 'month_of_order'}"/>
+                        <filter name="group_by_year" string="Year"
+                                context="{'group_by': 'year_of_order'}"/>
+                        <filter name="group_by_date" string="Date"
+                                context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Window -->
+        <record id="action_mart_delivery_order" model="ir.actions.act_window">
+            <field name="name">Delivery Order</field>
+            <field name="res_model">mart.delivery.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_mart_delivery_order_search"/>
+            <field name="context">{'search_default_filter_current_year': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No delivery order records found!
+                </p>
+                <p>
+                    This view shows analytical data from delivery orders with computed date components.
+                    The data is automatically updated daily by a scheduled job.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem id="menu_mart_delivery_order"
+                  name="Delivery Orders"
+                  parent="menu_mart_status_vehicle_root"
+                  action="action_mart_delivery_order"
+                  sequence="11"/>
+    </data>
+</odoo>

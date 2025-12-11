@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+          <record id="ir_cron_refresh_mart_revenue_by_unit" model="ir.cron">
+                <field name="name">Refresh Mart Revenue By Unit</field>
+                <field name="model_id" ref="model_mart_revenue_by_unit"/>
+                <field name="type">ir.actions.server</field>
+                <field name="state">code</field>
+                <field name="code">model.refresh_mart_data()</field>
+                <field name="interval_number">1</field>
+                <field name="interval_type">days</field>
+                <field name="numbercall">-1</field>
+                <field name="active">True</field>
+                <field name="doall">False</field>
+                <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+          </record>
+          <record id="ir_cron_refresh_mart_revenue_customer_to_unit" model="ir.cron">
+                <field name="name">Refresh Mart Revenue Customer to Unit</field>
+                <field name="model_id" ref="model_mart_revenue_customer_to_unit"/>
+                <field name="state">code</field>
+                <field name="code">model.update_revenue_data()</field>
+                <field name="interval_number">1</field>
+                <field name="interval_type">days</field>
+                <field name="numbercall">-1</field>
+                <field name="active" eval="True"/>
+                <field name="doall" eval="False"/>
+          </record>
+          <record id="ir_cron_refresh_mart_customer_origin_destination" model="ir.cron">
+                <field name="name">Refresh Mart Customer Origin Destination</field>
+                <field name="model_id" ref="model_mart_customer_origin_destination"/>
+                <field name="state">code</field>
+                <field name="code">model.refresh_mart_data()</field>
+                <field name="interval_number">1</field>
+                <field name="interval_type">days</field>
+                <field name="numbercall">-1</field>
+                <field name="active" eval="True"/>
+                <field name="doall" eval="False"/>
+          </record>
+    </data>
+
+</odoo>

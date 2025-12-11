@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report definition tanpa paperformat -->
+    <record id="action_report_custom_invoice" model="ir.actions.report">
+        <field name="name">Custom Invoice PDF</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jst_custom_pdf_report.custom_invoice_template</field>
+        <field name="report_file">jst_custom_pdf_report.custom_invoice_template</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

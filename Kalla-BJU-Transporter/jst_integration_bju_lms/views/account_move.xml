@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_sync_to_oracle" model="ir.actions.server">
+        <field name="name">Sync to Oracle</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+success_count = 0
+error_count = 0
+error_messages = []
+
+for record in records:
+    try:
+        if record.move_type == 'out_invoice':
+            record.send_invoice()
+        elif record.move_type == 'in_invoice':
+            record.send_invoice_ap()
+        success_count += 1
+    except Exception as e:
+        error_count += 1
+        error_messages.append(f"Invoice {record.name}: {str(e)}")
+
+# Show summary notification using proper Odoo methods
+if success_count > 0 and error_count == 0:
+    # All successful
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Sync Complete',
+            'message': f'Successfully synced {success_count} invoice(s) to Oracle',
+            'type': 'success',
+            'sticky': False
+        }
+    }
+elif success_count > 0 and error_count > 0:
+    # Mixed results
+    error_summary = "; ".join(error_messages[:3])  # Show first 3 errors
+    if error_count > 3:
+        error_summary += f"; and {error_count - 3} more errors"
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Sync Partially Complete',
+            'message': f'Synced {success_count} invoice(s), failed {error_count}. Errors: {error_summary}',
+            'type': 'warning',
+            'sticky': True
+        }
+    }
+elif error_count > 0:
+    # All failed
+    error_summary = "; ".join(error_messages[:3])  # Show first 3 errors
+    if error_count > 3:
+        error_summary += f"; and {error_count - 3} more errors"
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Sync Failed',
+            'message': f'Failed to sync {error_count} invoice(s). Errors: {error_summary}',
+            'type': 'danger',
+            'sticky': True
+        }
+    }
+        </field>
+    </record>
+
+    <record id="action_resync_to_oracle" model="ir.actions.server">
+        <field name="name">Resync to Oracle</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+success_count = 0
+error_count = 0
+error_messages = []
+
+for record in records:
+    if record.is_failed_sync_to_oracle:
+        try:
+            context = {'is_resend': True}
+            if record.move_type == 'out_invoice':
+                record.with_context(context).send_invoice()
+            elif record.move_type == 'in_invoice':
+                record.with_context(context).send_invoice_ap()
+            success_count += 1
+        except Exception as e:
+            error_count += 1
+            error_messages.append(f"Invoice {record.name}: {str(e)}")
+
+# Show summary notification using proper Odoo methods
+if success_count > 0 and error_count == 0:
+    # All successful
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Resync Complete',
+            'message': f'Successfully resynced {success_count} invoice(s) to Oracle',
+            'type': 'success',
+            'sticky': False
+        }
+    }
+elif success_count > 0 and error_count > 0:
+    # Mixed results
+    error_summary = "; ".join(error_messages[:3])  # Show first 3 errors
+    if error_count > 3:
+        error_summary += f"; and {error_count - 3} more errors"
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Resync Partially Complete',
+            'message': f'Resynced {success_count} invoice(s), failed {error_count}. Errors: {error_summary}',
+            'type': 'warning',
+            'sticky': True
+        }
+    }
+elif error_count > 0:
+    # All failed
+    error_summary = "; ".join(error_messages[:3])  # Show first 3 errors
+    if error_count > 3:
+        error_summary += f"; and {error_count - 3} more errors"
+    action = {
+        'type': 'ir.actions.client',
+        'tag': 'display_notification',
+        'params': {
+            'title': 'Resync Failed',
+            'message': f'Failed to resync {error_count} invoice(s). Errors: {error_summary}',
+            'type': 'danger',
+            'sticky': True
+        }
+    }
+        </field>
+    </record>
+
+<!-- Server Action 1: Get Payment AP from Oracle -->
+    <record id="server_action_get_payment_ap_oracle" model="ir.actions.server">
+        <field name="name">Get Payment AP from Oracle</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_get_payment_ap()
+        </field>
+    </record>
+
+    <!-- Server Action 2: Get Payment AR - TOP from Oracle -->
+    <record id="server_action_get_payment_ar_top_oracle" model="ir.actions.server">
+        <field name="name">Get Payment AR - TOP from Oracle</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = records.action_get_payment_ar_top()
+        </field>
+    </record>
+
+    <!-- Form View Inheritance -->
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">view_move_form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_post']" position="after">
+                <field name="show_field" invisible="1"/>
+                <field name="invoice_policy" invisible="1"/>
+                <field name="is_failed_sync_to_oracle" invisible="1"/>
+                <button string="Get Payment" type="object" name="action_get_payment_ar_top" class="btn-primary" invisible="state != 'posted' or move_type != 'out_invoice'"/>
+                <button string="Resync to Oracle" name="send_invoice" type="object" class="oe_highlight btn btn-secondary" context="{'is_resend': True}" invisible="not is_failed_sync_to_oracle or move_type != 'out_invoice'"/>
+                <button string="Sync to Oracle" type="object" name="send_invoice" class="btn-primary" invisible="state != 'posted' or move_type != 'out_invoice' or oracle_sync_statusCode in ['202',False]"/>
+                <button string="Get Payment" type="object" name="action_get_payment_ap" class="btn-primary" invisible="state != 'posted' or move_type != 'in_invoice'"/>
+                <button string="Resync to Oracle" name="send_invoice_ap" type="object" class="oe_highlight btn btn-secondary" context="{'is_resend': True}" invisible="not is_failed_sync_to_oracle or move_type != 'in_invoice' or (state in ('posted', 'cancel') and not is_failed_sync_to_oracle)"/>
+                <button string="Sync to Oracle" type="object" name="send_invoice_ap" class="btn-primary" invisible="state != 'posted' or move_type != 'in_invoice' or oracle_sync_statusCode in ['202',False]"/>
+            </xpath>
+            <xpath expr=".//group[@id='other_tab_group']" position="inside">
+                <group string="MIDDLEWARE INTEGRATION">
+                    <field name="oracle_number" readonly="1" force_save="1"/>
+                    <field name="failed_payment_ar_top" readonly="1" force_save="1" invisible="failed_payment_ar_top == False"/>
+                    <field name="failed_payment_ap" readonly="1" force_save="1" invisible="failed_payment_ap == False"/>
+                    <field name="oracle_sync_statusCode" readonly="1" force_save="1"/>
+                    <field name="oracle_sync_message" readonly="1" force_save="1"/>
+                    <field name="oracle_sync_date" string="Sync Date to Middleware" readonly="1" force_save="1"/>
+                    <field name="last_middleware_sync_status" readonly="1" force_save="1"/>
+                    <button string="Check Status" type="object" name="action_get_invoice_ar" class="btn-primary" invisible="move_type != 'out_invoice' or oracle_number == False"/>
+                    <button string="Check Status" type="object" name="action_get_invoice_ap" class="btn-primary" invisible="move_type != 'in_invoice' or oracle_number == False"/>
+                </group>
+                <group string="ORACLE INTEGRATION">
+                    <field name="oracle_sync_log_status_code" readonly="1" force_save="1"/>
+                    <field name="oracle_sync_log_message" readonly="1" force_save="1"/>
+                    <field name="oracle_sync_log_date" string="Sync Date to Oracle" readonly="1" force_save="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_out_invoice_tree" model="ir.ui.view">
+        <field name="name">account.out.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="show_field" invisible="1"/>
+                <field name="oracle_number" optional="hide"/>
+                <field name="oracle_sync_statusCode" string="Middleware Sync Status" optional="hide"/>
+                <field name="oracle_sync_message" string="Middleware Sync Message" optional="hide"/>
+                <field name="oracle_sync_date" string="Middleware Sync Date" optional="hide"/>
+                <field name="last_middleware_sync_status" optional="hide"/>
+                <field name="oracle_sync_log_status_code" string="Oracle Sync Status" optional="hide"/>
+                <field name="oracle_sync_log_message" string="Oracle Sync Message" optional="hide"/>
+                <field name="oracle_sync_log_date" string="Oracle Sync Date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add the same fields to in_invoice tree view -->
+    <record id="view_in_invoice_tree" model="ir.ui.view">
+        <field name="name">account.in.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_in_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="show_field" invisible="1"/>
+                <field name="oracle_number" optional="hide"/>
+                <field name="oracle_sync_statusCode" string="Middleware Sync Status" optional="hide"/>
+                <field name="oracle_sync_message" string="Middleware Sync Message" optional="hide"/>
+                <field name="oracle_sync_date" string="Middleware Sync Date" optional="hide"/>
+                <field name="last_middleware_sync_status" optional="hide"/>
+                <field name="oracle_sync_log_status_code" string="Oracle Sync Status" optional="hide"/>
+                <field name="oracle_sync_log_message" string="Oracle Sync Message" optional="hide"/>
+                <field name="oracle_sync_log_date" string="Oracle Sync Date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

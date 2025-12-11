@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="driver_selection_wizard_form" model="ir.ui.view">
+        <field name="name">driver.selection.wizard.form</field>
+        <field name="model">driver.selection.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Select Driver" create="0" edit="0">
+                <sheet>
+
+                    <group>
+                        <group>
+                            <field name="fleet_do_id" invisible="1"/>
+                            <field name="selected_driver_id" invisible="1"/>
+                            <!-- keep parity with your vehicle wizard -->
+                            <field name="filter_company_id" invisible="1"/>
+                            <field name="filter_status" invisible="1"/>
+                        </group>
+                        <group>
+                            <!-- keep empty/hidden like your sample -->
+                        </group>
+                    </group>
+
+                    <group string="Selected Driver" invisible="selected_driver_id == False">
+                        <field name="selected_driver_display" readonly="1"/>
+                    </group>
+
+                    <!-- Candidate list (cannot add/delete/edit) -->
+                    <field name="driver_ids" nolabel="1" create="0" edit="0" delete="0"
+                           context="{'hide_add': 1}"
+                           options="{'no_create': True, 'no_create_edit': True}">
+                        <tree string="Drivers" create="0" edit="0" delete="0" class="o_list_no_wrap">
+                            <field name="id" column_invisible="1"/>
+                            <button name="action_select_this_driver"
+                                    string="Select"
+                                    type="object"
+                                    class="btn-primary btn-sm"
+                                    icon="fa-check"
+                                    context="{'wizard_id': parent.id}"/>
+                            <field name="name"/>
+                            <field name="availability" widget="badge" decoration-success="availability == 'Ready'"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="company_id"/>
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_driver_selection_wizard" model="ir.actions.act_window">
+        <field name="name">Select Driver</field>
+        <field name="res_model">driver.selection.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'dialog_size': 'extra-large'}</field>
+    </record>
+</odoo>

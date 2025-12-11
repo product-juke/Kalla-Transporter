@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Fleet Service Categories -->
+        <record id="fleet_service_category_general_repair" model="fleet.service.category">
+            <field name="service_category">General Repair</field>
+        </record>
+        
+        <record id="fleet_service_category_regular_check" model="fleet.service.category">
+            <field name="service_category">Regular Check</field>
+        </record>
+        
+        <record id="fleet_service_category_sublet" model="fleet.service.category">
+            <field name="service_category">Sublet</field>
+        </record>
+        
+        <record id="fleet_service_category_tire" model="fleet.service.category">
+            <field name="service_category">Tire</field>
+        </record>
+    </data>
+</odoo>

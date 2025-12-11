@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="fleet_group_user_marketing" model="res.groups">
+        <field name="name">Marketing</field>
+        <field name="category_id" ref="base.module_category_human_resources_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('fleet.fleet_group_user'))]"/>
+    </record>
+
+    <record id="fleet_group_user_plan_armada" model="res.groups">
+        <field name="name">Plan Armada</field>
+        <field name="category_id" ref="base.module_category_human_resources_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('fleet.fleet_group_user'))]"/>
+    </record>
+
+    <record id="fleet_group_user_last_checkpoint" model="res.groups">
+        <field name="name">Last Checkpoint</field>
+        <field name="category_id" ref="base.module_category_human_resources_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('fleet.fleet_group_user'))]"/>
+    </record>
+
+    <record id="ir_rule_user_fleet_last_status_ready" model="ir.rule">
+        <field name="name">Fleet Last Status - Ready</field>
+        <field name="model_id" ref="model_fleet_vehicle"/>
+        <field name="domain_force">[('vehicle_status', '=', 'ready')]</field>
+        <field name="groups" eval="[(4, ref('fleet_group_user_marketing'))]"/>
+    </record>
+
+    <record id="ir_rule_user_fleet_status_do_match" model="ir.rule">
+        <field name="name">Fleet Status DO - DO Match</field>
+        <field name="model_id" ref="model_fleet_do"/>
+        <field name="domain_force">[('status_do', '=', 'DO Match')]</field>
+        <field name="groups" eval="[(4, ref('fleet_group_user_plan_armada'))]"/>
+    </record>
+
+    <record id="ir_rule_admin_fleet" model="ir.rule">
+        <field name="name">Fleet Admin</field>
+        <field name="model_id" ref="model_fleet_do"/>
+        <field name="domain_force">[]</field>
+        <field name="groups" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+
+    <record id="fleet_group_user_m_fleet_route" model="res.groups">
+        <field name="name">Master Route</field>
+        <field name="category_id" ref="base.module_category_human_resources_fleet"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('fleet.fleet_group_user'))]"/>
+    </record>
+</odoo>

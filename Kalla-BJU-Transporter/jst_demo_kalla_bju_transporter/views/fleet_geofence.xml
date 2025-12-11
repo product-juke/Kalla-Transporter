@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fleet_geofence_view_tree" model="ir.ui.view">
+        <field name="name">fleet.geofence.view.tree</field>
+        <field name="model">fleet.geofence</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                    <!-- Button Update Data -->
+                    <button string="Sync Data" type="object" display="always" name="action_update_list_data" class="btn btn-secondary"/>
+                </header>
+                <field name="geo_id"/>
+                <field name="geo_code"/>
+                <field name="geo_nm"/>
+                <field name="type"/>
+                <field name="shape_nm"/>
+                <field name="colo"/>
+                <field name="geo_type_nm"/>
+                <field name="tag_nm" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_geofence_view_form" model="ir.ui.view">
+        <field name="name">fleet.geofence.view.form</field>
+        <field name="model">fleet.geofence</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1>
+                        <field name="geo_nm" readonly="1" force_save="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="geo_id"/>
+                            <field name="geo_code"/>
+                            <field name="type"/>
+                            <field name="shape_nm"/>
+                            <field name="colo"/>
+                            <field name="geo_type_nm"/>
+                            <field name="tag_nm"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_geofence_action" model="ir.actions.act_window">
+        <field name="name">Geofence</field>
+        <field name="res_model">fleet.geofence</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="fleet_geofence_menu"
+            name="Geofence"
+            action="fleet_geofence_action"
+            sequence="21"
+            parent="fleet.fleet_configuration"/>
+
+<!--    <data noupdate="1">-->
+<!--      <record id="ir_cron_hit_endpoint_scheduler_geofence" model="ir.cron">-->
+<!--          <field name="name">Sync Geofence Data (1h)</field>-->
+<!--          <field name="model_id" ref="jst_demo_kalla_bju_transporter.model_fleet_geofence"/>-->
+<!--          <field name="state">code</field>-->
+<!--          <field name="code">model.hit_endpoint_scheduler()</field>-->
+<!--          <field name="interval_number">1</field>-->
+<!--          <field name="interval_type">hours</field>-->
+<!--          <field name="numbercall">-1</field>-->
+<!--          <field name="active" eval="True"/>-->
+<!--      </record>-->
+<!--    </data>-->
+
+</odoo>

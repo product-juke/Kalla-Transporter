@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+      <record id="ir_cron_insert_data_mart_to_staging_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Staging (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_vehicle_utilization"/>
+          <field name="state">code</field>
+          <field name="code">model.insert_data_mart_to_staging_table()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+      <record id="ir_cron_insert_data_mart_to_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_vehicle_utilization_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.insert_data_mart_summary()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+    </data>
+    <data>
+      <record id="ir_cron_insert_data_mart_to_monthly_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Monthly Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_vehicle_utilization_monthly_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.insert_data_mart_summary()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+      <record id="ir_cron_insert_data_mart_to_weekly_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Weekly Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_vehicle_utilization_weekly_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.insert_data_mart_summary()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+      <record id="ir_cron_insert_data_mart_to_daily_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Daily Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_vehicle_utilization_daily_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.insert_data_mart_daily_summary()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+      <record id="ir_cron_insert_data_mart_to_daily_percentage_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Daily Percentage Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_daily_percentage_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.refresh_mart_data()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+      <record id="ir_cron_insert_data_mart_to_customer_vehicle_utilization_summary_table" model="ir.cron">
+          <field name="name">Insert Data Mart - Mart Customer Vehicle Summary (1h)</field>
+          <field name="model_id" ref="jst_tp_utilization.model_mart_customer_vehicle_utilization_smry"/>
+          <field name="state">code</field>
+          <field name="code">model.refresh_mart_data()</field>
+          <field name="interval_number">1</field>
+          <field name="interval_type">hours</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+    </data>
+
+</odoo>

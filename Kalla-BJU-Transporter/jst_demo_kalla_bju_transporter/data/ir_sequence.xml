@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <record id="seq_do" model="ir.sequence">-->
+<!--        <field name="name">Fleet DO</field>-->
+<!--        <field name="code">fleet.do</field>-->
+<!--        <field name="prefix">DO/</field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Contract    -->
+    <record id="seq_contract" model="ir.sequence">
+        <field name="name">Contract</field>
+        <field name="code">create.contract</field>
+        <field name="prefix">Contract/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_contract_lmks" model="ir.sequence">
+        <field name="name">Contract LMKS</field>
+        <field name="code">create.contract.LMKS</field>
+        <field name="prefix">Contract/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <!-- Sequence Contract Line    -->
+    <record id="seq_contract_line" model="ir.sequence">
+        <field name="name">Contract Line</field>
+        <field name="code">create.contract.line</field>
+        <field name="prefix">/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <!-- Sequence Delivery Order LMKS    -->
+<!--    <record id="seq_fleet_do_lmks" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence LMKS</field>-->
+<!--        <field name="code">fleet.do.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order LJKT    -->
+<!--    <record id="seq_fleet_do_ljkt" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence LJKT</field>-->
+<!--        <field name="code">fleet.do.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order BPP1    -->
+<!--    <record id="seq_fleet_do_bpp1" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence BPP1</field>-->
+<!--        <field name="code">fleet.do.BPP1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order SBY1    -->
+<!--    <record id="seq_fleet_do_sby1" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence SBY1</field>-->
+<!--        <field name="code">fleet.do.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order LWU    -->
+<!--    <record id="seq_fleet_do_lwu" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence LWU</field>-->
+<!--        <field name="code">fleet.do.LWU</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order KDR1    -->
+<!--    <record id="seq_fleet_do_KDR1" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence KDR1</field>-->
+<!--        <field name="code">fleet.do.KDR1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Delivery Order PDC1    -->
+<!--    <record id="seq_fleet_do_PDC1" model="ir.sequence">-->
+<!--        <field name="name">Delivery Order Sequence PDC1</field>-->
+<!--        <field name="code">fleet.do.PDC1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order LMKS    -->
+<!--    <record id="seq_sale_order_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence LMKS</field>-->
+<!--        <field name="code">sale.order.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order LJKT    -->
+<!--    <record id="seq_sale_order_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence LJKT</field>-->
+<!--        <field name="code">sale.order.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order SBY1    -->
+<!--    <record id="seq_sale_order_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence SBY1</field>-->
+<!--        <field name="code">sale.order.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order BPP1    -->
+<!--    <record id="seq_sale_order_bpp1" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence BPP1</field>-->
+<!--        <field name="code">sale.order.BPP1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order LWU    -->
+<!--    <record id="seq_sale_order_lwu" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence LWU</field>-->
+<!--        <field name="code">sale.order.LWU</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order KDR1    -->
+<!--    <record id="seq_sale_order_KDR1" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence KDR1</field>-->
+<!--        <field name="code">sale.order.KDR1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order PDC1    -->
+<!--    <record id="seq_sale_order_PDC1" model="ir.sequence">-->
+<!--        <field name="name">Sale Order Sequence PDC1</field>-->
+<!--        <field name="code">sale.order.PDC1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purchase Order LMKS    -->
+<!--    <record id="seq_purchase_order_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence LMKS</field>-->
+<!--        <field name="code">purchase.order.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purchase Order LJKT    -->
+<!--    <record id="seq_purchase_order_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence LJKT</field>-->
+<!--        <field name="code">purchase.order.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purchase Order SBY1    -->
+<!--    <record id="seq_purchase_order_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence SBY1</field>-->
+<!--        <field name="code">purchase.order.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purchase Order BPP1    -->
+<!--    <record id="seq_purchase_order_bpp1" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence BPP1</field>-->
+<!--        <field name="code">purchase.order.BPP1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purcahse Order LWU    -->
+<!--    <record id="seq_sale_order_lwu" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence LWU</field>-->
+<!--        <field name="code">purchase.order.LWU</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Purchase Order KDR1    -->
+<!--    <record id="seq_purchase_order_KDR1" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence KDR1</field>-->
+<!--        <field name="code">purchase.order.KDR1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!-- Sequence Sale Order PDC1    -->
+<!--    <record id="seq_purchase_order_PDC1" model="ir.sequence">-->
+<!--        <field name="name">Purchase Order Sequence PDC1</field>-->
+<!--        <field name="code">purchase.order.PDC1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!--  Sequence Contract  -->
+<!--    <record id="seq_contract" model="ir.sequence">-->
+<!--        <field name="name">Contract</field>-->
+<!--        <field name="code">create.contract</field>-->
+<!--        <field name="prefix">Contract/</field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!--  Sequence Contract Line  -->
+<!--    <record id="seq_contract_line" model="ir.sequence">-->
+<!--        <field name="name">Contract Line</field>-->
+<!--        <field name="code">create.contract.line</field>-->
+<!--        <field name="prefix">/</field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!--  Sequence BOP Line LMKS  -->
+<!--    <record id="seq_bop_line_LMKS" model="ir.sequence">-->
+<!--        <field name="name">BOP Line LMKS</field>-->
+<!--        <field name="code">bop.line.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--    </record>-->
+    <!--  Sequence BOP Line LJKT  -->
+<!--    <record id="seq_bop_line_LJKT" model="ir.sequence">-->
+<!--        <field name="name">BOP Line LJKT</field>-->
+<!--        <field name="code">bop.line.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!--  Sequence BOP Line SBY1  -->
+<!--    <record id="seq_bop_line_SBY1" model="ir.sequence">-->
+<!--        <field name="name">BOP Line SBY1</field>-->
+<!--        <field name="code">bop.line.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE Transporter LMKS  -->
+<!--    <record id="seq_custom_invoice_TRP_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice TRP LMKS</field>-->
+<!--        <field name="code">custom.invoice.TRP.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE Trucking LMKS  -->
+<!--    <record id="seq_custom_invoice_TRU_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice TRU LMKS</field>-->
+<!--        <field name="code">custom.invoice.TRU.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence VLI LMKS  -->
+<!--    <record id="seq_custom_invoice_VLI_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice VLI LMKS</field>-->
+<!--        <field name="code">custom.invoice.VLI.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE Transporter LJKT  -->
+<!--    <record id="seq_custom_invoice_TRP_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice TRP LJKT</field>-->
+<!--        <field name="code">custom.invoice.TRU.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE VLI LJKT  -->
+<!--    <record id="seq_custom_invoice_VLI_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice VLI LJKT</field>-->
+<!--        <field name="code">custom.invoice.VLI.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE Transporter SBY1  -->
+<!--    <record id="seq_custom_invoice_TRP_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice TRP SBY1</field>-->
+<!--        <field name="code">custom.invoice.TRP.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!--  Sequence INVOICE VLI SBY1  -->
+<!--    <record id="seq_custom_invoice_VLI_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Custom Invoice VLI SBY1</field>-->
+<!--        <field name="code">custom.invoice.VLI.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">3</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  Transporter LMKS   -->
+<!--    <record id="seq_custom_bill_TRP_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL TRP LMKS</field>-->
+<!--        <field name="code">custom.bill.TRP.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  Trucking LMKS   -->
+<!--    <record id="seq_custom_bill_TRU_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL TRU LMKS</field>-->
+<!--        <field name="code">custom.bill.TRU.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  VLIE LMKS   -->
+<!--    <record id="seq_custom_bill_VLI_LMKS" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL VLI LMKS</field>-->
+<!--        <field name="code">custom.bill.VLI.LMKS</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  Transporter LJKT   -->
+<!--    <record id="seq_custom_bill_TRP_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Custom Bill TRP LJKT</field>-->
+<!--        <field name="code">custom.bill.TRU.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  VLI LJKT   -->
+<!--    <record id="seq_custom_bill_VLI_LJKT" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL VLI LJKT</field>-->
+<!--        <field name="code">custom.bill.VLI.LJKT</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+    <!-- Sequence Vendor BILL Custom  Transporter LJKT   -->
+<!--    <record id="seq_custom_bill_TRP_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL TRP SBY1</field>-->
+<!--        <field name="code">custom.bill.TRP.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+<!--    <record id="seq_custom_bill_VLI_SBY1" model="ir.sequence">-->
+<!--        <field name="name">Custom BILL VLI SBY1</field>-->
+<!--        <field name="code">custom.bill.VLI.SBY1</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--    </record>-->
+
+    <!-- Default Sequence Invoice & BILL   -->
+<!--    <record id="seq_account_move_custom" model="ir.sequence">-->
+<!--        <field name="name">Invoice Default Number</field>-->
+<!--        <field name="code">account.move.inv</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--        <field name="active">True</field>-->
+<!--        <field name="company_id" eval="False"/> &lt;!&ndash; Global, bukan khusus company &ndash;&gt;-->
+<!--    </record>-->
+
+<!--    <record id="seq_account_move_bill_custom" model="ir.sequence">-->
+<!--        <field name="name">BILL Default Number</field>-->
+<!--        <field name="code">account.move.bill</field>-->
+<!--        <field name="prefix"></field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="number_next">1</field>-->
+<!--        <field name="number_increment">1</field>-->
+<!--        <field name="implementation">no_gap</field>-->
+<!--        <field name="active">True</field>-->
+<!--        <field name="company_id" eval="False"/> &lt;!&ndash; Global, bukan khusus company &ndash;&gt;-->
+<!--    </record>-->
+<!--    <record id="seq_bop_line" model="ir.sequence">-->
+<!--        <field name="name">BOP Line</field>-->
+<!--        <field name="code">bop.line</field>-->
+<!--        <field name="prefix">BOP/</field>-->
+<!--        <field name="padding">5</field>-->
+<!--        <field name="company_id" eval="False"/>-->
+<!--    </record>-->
+</odoo>

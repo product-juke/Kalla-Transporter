@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_invoice_detail_order_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div t-if="doc.company_id.portfolio_id and doc.company_id.portfolio_id.name.lower() in ('transporter', 'trucking')" class="page" style="font-family: 'Times New Roman', Times, serif; font-size: 10px;">
+                    <t t-set="detail_order" t-value="doc.get_invoice_detail_orders()" />
+                    <t t-set="order_total" t-value="detail_order['total']" />
+                    <t t-set="iter" t-value="0"/>
+
+                    <!-- Header -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0; font-size: 14px; font-weight: bold;">REKAPAN PENGIRIMAN <span t-field="doc.partner_id.name"/></h2>
+                        <h3 style="margin: 5px 0; font-size: 12px;">PERIODE <span t-esc="doc.periode_rekapan"/></h3>
+                        <p style="margin: 5px 0;">NO INVOICE : <span t-esc="doc.name"/></p>
+                    </div>
+
+                    <!-- Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <thead>
+                            <tr style="background-color: #00B050;">
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">No</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Manifest</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">TIPE UNIT</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">NOPOL</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Nomor Mesin</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Vendor</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Destination</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">NAMA TOKO</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Period</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Price</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">PPN 1.1%</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">PPH 23</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">GRAND TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.get_invoice_detail_orders()['rows']" t-as="row">
+                                <t t-set="iter" t-value="iter + 1"/>
+                                <tr>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;"><span t-esc="iter" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['manifest']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['unit_type']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['license_plate']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['vin_sn']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['vendor_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['destination_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['store_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['period']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;"><span t-esc="row['price_total']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;"><span t-esc="row['tax_ppn_1_1']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;"><span t-esc="row['tax_pph_23']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;"><span t-esc="row['grand_total']" /></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; background-color: #DDD9C4;">
+                                <td colspan="9" style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">TOTAL</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp <span t-esc="order_total['price_total']" /></td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp <span t-esc="order_total['tax_ppn_1_1']" /></td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp <span t-esc="order_total['tax_pph_23']" /></td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp <span t-esc="order_total['grand_total']" /></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Terbilang -->
+                    <div style="margin: 20px 0;">
+                        <p style="font-weight: bold; margin-bottom: 5px;">TERBILANG</p>
+                        <p style="font-style: italic;"><span t-esc="detail_order['terbilang']" /></p>
+                    </div>
+
+                    <!-- Bank Info -->
+                    <div style="float: left; width: 50%;">
+                        <p><strong>NAME : <span t-esc="detail_order['company'].name" /></strong></p>
+                        <p><strong>ACCOUNT : A/C. <span t-field="doc.partner_bank_id.acc_number" /></strong></p>
+                        <p><strong>BANK : <span t-field="doc.partner_bank_id.bank_id.name" /></strong></p>
+                    </div>
+
+                    <!-- Signature -->
+                    <div style="float: right; width: 40%; text-align: center;">
+                        <p><span t-field="doc.partner_id.city" />, <span t-esc="detail_order['current_date']" /></p>
+                        <br/><br/>
+                        <p><strong><span t-field="doc.invoice_user_id.partner_id.name" /></strong></p>
+                        <p><span t-field="doc.invoice_user_id.partner_id.function" /></p>
+                        <br/>
+                        <p><strong><span t-esc="detail_order['company'].name" /></strong></p>
+                    </div>
+
+<!--                    <div style="clear: both;"></div>-->
+                </div>
+
+<!--            ========    VLI    ======== -->
+                <div t-if="doc.company_id.portfolio_id and doc.company_id.portfolio_id.name.lower() == 'vli'" class="page" style="font-family: 'Arial', serif; font-size: 10px;">
+                    <t t-set="detail_order" t-value="doc.get_invoice_detail_orders()" />
+                    <t t-set="order_total" t-value="detail_order['total']" />
+                    <t t-set="iter" t-value="0"/>
+
+                    <!-- Header -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2 style="margin: 0; font-size: 14px; font-weight: bold;">Rekapan Data Pengiriman</h2>
+                        <p style="margin: 5px 0; background-color: #F2F2F2;"><span t-esc="doc.name"/></p>
+                        <br />
+                        <div style="margin: 5px 0; background-color: #F2F2F2; width: 100%;">
+                            <p style="width: 50%; text-align: left; margin: 5px 0; background-color: #F2F2F2; float: left;"><strong>Customer:</strong>  <span t-field="doc.partner_id.name"/></p>
+                            <p style="width: 50%; text-align: right; margin: 5px 0; background-color: #F2F2F2; float: right;"><strong t-field="doc.partner_id.city"/>, <strong t-esc="detail_order['current_date']" /></p>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                        <thead>
+                            <tr style="background-color: #D0D0D0;">
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">No</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Type</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Nopol/Noka</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Nomor Mesin</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Warna</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Tahun</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Origin</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Destinasi</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Moda</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;"><sup>*</sup>Harga</th>
+                                <th style="border: 1px solid #000; padding: 5px; font-size: 8px;">Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.get_invoice_detail_orders()['rows']" t-as="row">
+                                <t t-set="iter" t-value="iter + 1"/>
+                                <tr>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;"><span t-esc="iter" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['store_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['license_plate']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['vin_sn']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['manifest']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;"> - </td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['origin_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['destination_name']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; font-size: 8px;"><span t-esc="row['delivery_category']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: right; font-size: 8px;"><span t-esc="row['price_total_in_vli']" /></td>
+                                    <td style="border: 1px solid #000; padding: 3px; text-align: center; font-size: 8px;"> - </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr style="font-weight: bold; background-color: #F2F2F2;">
+                                <td colspan="9" style="border: 1px solid #000; padding: 5px; text-align: center; font-size: 9px;">TOTAL</td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;">Rp <span t-esc="order_total['price_total_in_vli']" /></td>
+                                <td style="border: 1px solid #000; padding: 5px; text-align: right; font-size: 9px;"> </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Bank Info -->
+                    <div style="float: left; width: 50%;"> </div>
+
+                    <!-- Signature -->
+                    <div style="float: right; width: 40%; text-align: center;">
+                        <p><em>Prepared,</em></p>
+                        <br/><br/>
+                        <p><strong style="text-decoration: underline;"><span t-field="doc.invoice_user_id.partner_id.name" /></strong></p>
+                        <p><span t-field="doc.invoice_user_id.partner_id.function" /></p>
+                    </div>
+
+<!--                    <div style="clear: both;"></div>-->
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

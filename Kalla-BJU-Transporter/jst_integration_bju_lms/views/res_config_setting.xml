@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="integration_bju_config_settings_view_form" model="ir.ui.view">
+        <field name="name">integration_bju_config_settings_view_form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="show_field" invisible="1"/>
+                <app string="Integration" data-string="Integration" name="jst_integration_bju_lms" logo="/jst_integration_bju/static/description/integration.png">
+                    <block title="GENERAL" name="integration_settings_container">
+                        <setting id="url_bju">
+                            <field name="url_bju"/>
+                        </setting>
+                        <setting id="port">
+                            <field name="port"/>
+                        </setting>
+                        <setting id="Authorization">
+                            <field name="Authorization"/>
+                        </setting>
+                        <setting id="clientId">
+                            <field name="clientId"/>
+                        </setting>
+                        <setting id="UserAgent">
+                            <field name="UserAgent"/>
+                        </setting>
+                    </block>
+                    <block title="CUSTOMER" name="endpoint_customer_settings_container">
+                        <setting id="sync_customer_to_oracle">
+                            <field name="sync_customer_to_oracle"/>
+                        </setting>
+                        <setting id="use_queue_customer">
+                            <field name="use_queue_customer"/>
+                        </setting>
+                    </block>
+                    <block title="CUSTOMER INVOICE" name="endpoint_customer_invoice_settings_container">
+                        <setting id="sync_ar_to_oracle">
+                            <field name="sync_ar_to_oracle"/>
+                        </setting>
+                        <setting id="use_queue_ar">
+                            <field name="use_queue_ar"/>
+                        </setting>
+                    </block>
+                    <block title="VENDOR BILL" name="endpoint_vendor_bill_settings_container">
+                        <setting id="sync_ap_to_oracle">
+                            <field name="sync_ap_to_oracle"/>
+                        </setting>
+                        <setting id="use_queue_ap">
+                            <field name="use_queue_ap"/>
+                        </setting>
+                    </block>
+<!--                    <block title="RECEIPT" name="endpoint_receipt_settings_container">-->
+<!--                        <setting id="sha256Token">-->
+<!--                            <field name="sha256Token"/>-->
+<!--                        </setting>-->
+<!--                        <setting id="clientIdReceipt">-->
+<!--                            <field name="clientIdReceipt"/>-->
+<!--                        </setting>-->
+<!--                    </block>-->
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res_config_settings_view_form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']/block[@id='pay_invoice_online_setting_container']" position="inside">
+                <setting id="writeoff_account_id">
+                    <field name="writeoff_account_id"/>
+                </setting>
+                <setting id="writeoff_label">
+                    <field name="writeoff_label"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

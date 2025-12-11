@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_bop_view_tree" model="ir.ui.view">
+        <field name="name">fleet.bop.view.tree</field>
+        <field name="model">fleet.bop</field>
+        <field name="arch" type="xml">
+            <tree string="Fleet BOP" create="1" edit="1">
+                <field name="category_id"/>
+                <field name="origin_id"/>
+                <field name="destination_id"/>
+                <field name="total_distance"/>
+                <field name="distance_one_way"/>
+                <field name="speed_avg_setting"/>
+                <field name="leadtime_on_delivery_hour"/>
+                <field name="leadtime_on_return_hour"/>
+                <field name="working_time"/>
+                <field name="bbm_type"/>
+                <field name="harga_bbm"/>
+                <field name="bbm_od"/>
+                <field name="bbm_or"/>
+                <field name="jumlah_driver"/>
+                <field name="jumlah_helper"/>
+                <field name="honor_driver"/>
+                <field name="honor_helper"/>
+                <field name="total_bop_driver"/>
+                <field name="total_bop_unit"/>
+                <field name="total_bop"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="fleet_bop_view_form" model="ir.ui.view">
+        <field name="name">fleet.bop.view.form</field>
+        <field name="model">fleet.bop</field>
+        <field name="arch" type="xml">
+            <form string="Fleet BOP">
+                <sheet>
+                    <group string="General Information">
+                            <field name="category_id"/>
+                            <field name="merk_unit"/>
+                            <field name="origin_id"/>
+                            <field name="destination_id"/>
+                            <field name="customer"/>
+                            <field name="distance_one_way"/>
+                            <field name="total_distance"/>
+                            <field name="speed_avg_setting"/>
+                    </group>
+                    <group string="Operational Time" col="3">
+                            <group string="On Delivery">
+                                <field name="leadtime_on_delivery_hour" readonly="1"/>
+                                <field name="leadtime_on_delivery_day" readonly="1"/>
+                                <field name="loading_time" string="Loading Time (Jam)"/>
+                                <field name="istirahat_od_6hr" readonly="1"/>
+                                <field name="istirahat_od_14hr" readonly="1"/>
+                            </group>
+                            <group string="On Return">
+                                <field name="leadtime_on_return_hour" readonly="1"/>
+                                <field name="leadtime_on_return_day" readonly="1"/>
+                                <field name="unloading_time"/>
+                                <field name="istirahat_or_6hr" readonly="1"/>
+                                <field name="istirahat_or_14hr" readonly="1"/>
+                            </group>
+                            <group string="Cycle Time">
+                                <field name="working_time" readonly="1"/>
+                                <field name="total_cycle_time" readonly="1"/>
+                                <field name="total_cycle_time_day" readonly="1"/>
+                                <field name="working_day_setting" string="Working Day Setting (Hari)"/>
+                                <field name="plan_cycle_time" readonly="1"/>
+                            </group>
+                    </group>
+
+                    <group col="3">
+                        <group string="Bahan Bakar">
+                            <field name="bbm_type"/>
+                            <field name="harga_bbm" widget="monetary"/>
+                            <field name="bbm_ratio_od_setting"/>
+                            <field name="bbm_ratio_or_setting"/>
+                            <field name="bbm_od" readonly="1"/>
+                            <field name="bbm_or" readonly="1"/>
+                        </group>
+
+                        <group string="Driver">
+                            <field name="jumlah_driver"/>
+                            <field name="honor_driver"/>
+                            <field name="uang_makan_driver"/>
+                            <field name="jumlah_helper"/>
+                        </group>
+
+                        <group string="Helper">
+                            <field name="upah_helper" string="% Set Upah Helper"/>
+                            <field name="honor_helper" readonly="1" widget="monetary"/>
+                            <field name="uang_makan_helper"/>
+                        </group>
+                    </group>
+
+                    <group string="Biaya Operasional Perjalanan (BOP)" col="4">
+                        <group string="BBM Cost">
+                            <field name="bbm_cost_od" readonly="1" widget="monetary"/>
+                            <field name="bbm_cost_or" readonly="1" widget="monetary"/>
+                        </group>
+
+                        <group string="Driver">
+                            <field name="set_jam_ewh"/>
+                            <field name="honor_driver_day" widget="monetary"/>
+                            <field name="total_honor_driver" widget="monetary"/>
+                            <field name="uang_makan_driver_day" string="Uang Makan / Hari"/>
+                            <field name="uang_makan_driver_days" widget="monetary"/>
+                            <field name="total_uang_makan_driver" widget="monetary"/>
+                        </group>
+
+                        <group string="Helper">
+                            <field name="fix_honor_helper" widget="monetary"/>
+                            <field name="fix_uang_makan_helper" widget="monetary"/>
+                        </group>
+
+                        <group string="Biaya Lainnya">
+                            <field name="shipment" widget="monetary"/>
+                            <field name="tol_parkir" widget="monetary"/>
+                            <field name="buruh_muat_bongkar" widget="monetary"/>
+                            <field name="retribusi" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <group string="Total BOP">
+                        <field name="total_bop_driver" widget="monetary" style="font-weight:bold;"/>
+                        <field name="total_bop_unit" widget="monetary" style="font-weight:bold;"/>
+                        <field name="total_bop" widget="monetary" style="font-weight:bold;"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="create_bop_action" model="ir.actions.act_window">
+        <field name="name">Formula BOP</field>
+        <field name="res_model">fleet.bop</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context"></field>
+    </record>
+    <menuitem
+            id="create_bop_menu"
+            name="Formula BOP"
+            action="create_bop_action"
+            parent="fleet.menu_root"
+            sequence="8"/>
+</odoo>

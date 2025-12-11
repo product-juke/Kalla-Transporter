@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_so_monitoring" model="ir.actions.client">
+            <field name="name">Sales Order Monitoring</field>
+            <field name="tag">so_monitoring</field>
+        </record>
+
+        <menuitem
+            id="sales_order_monitoring_menu"
+            name="Sales Order Monitoring"
+            sequence="2"
+            action="action_so_monitoring"
+            parent="jst_demo_kalla_bju_transporter.root_transporter"/>
+    </data>
+</odoo>

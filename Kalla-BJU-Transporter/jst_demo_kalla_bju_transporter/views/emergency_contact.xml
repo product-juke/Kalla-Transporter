@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Emergency Contact Relationship Views -->
+    <record id="view_emergency_contact_relationship_form" model="ir.ui.view">
+        <field name="name">emergency.contact.relationship.form</field>
+        <field name="model">emergency.contact.relationship</field>
+        <field name="arch" type="xml">
+            <form string="Emergency Contact Relationship">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Relationship Name" required="1"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group name="basic_info" string="Basic Information">
+<!--                            <field name="code" required="1"/>-->
+                            <field name="sequence"/>
+                        </group>
+                        <group name="company_info" string="Company Information">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <group name="description_info" string="Description">
+                        <field name="description" nolabel="1" placeholder="Description of this relationship type..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_emergency_contact_relationship_tree" model="ir.ui.view">
+        <field name="name">emergency.contact.relationship.tree</field>
+        <field name="model">emergency.contact.relationship</field>
+        <field name="arch" type="xml">
+            <tree string="Emergency Contact Relationships" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+<!--                <field name="code"/>-->
+                <field name="description" optional="hide"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_emergency_contact_relationship_search" model="ir.ui.view">
+        <field name="name">emergency.contact.relationship.search</field>
+        <field name="model">emergency.contact.relationship</field>
+        <field name="arch" type="xml">
+            <search string="Emergency Contact Relationships">
+                <field name="name"/>
+<!--                <field name="code"/>-->
+                <filter string="Active" name="active_relationships"
+                        domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive_relationships"
+                        domain="[('active', '=', False)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_emergency_contact_relationship" model="ir.actions.act_window">
+        <field name="name">Emergency Contact Relationships</field>
+        <field name="res_model">emergency.contact.relationship</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_emergency_contact_relationship_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first relationship type!
+            </p>
+            <p>
+                Define relationship types that can be used for emergency contacts.
+                These will appear as options when creating emergency contacts.
+            </p>
+        </field>
+    </record>
+
+    <!-- Emergency Contact Form View -->
+    <record id="view_emergency_contact_form" model="ir.ui.view">
+        <field name="name">emergency.contact.form</field>
+        <field name="model">emergency.contact</field>
+        <field name="arch" type="xml">
+            <form string="Emergency Contact">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Contact Name" required="1"/>
+                        </h1>
+                        <div class="o_row" name="relationship_info">
+                            <field name="relationship_id" required="1" options="{'no_create': False, 'no_open': False}"/>
+                            <field name="relationship_note" placeholder="Additional details"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group name="basic_info" string="Basic Information">
+                            <field name="driver_id" required="1"/>
+                            <field name="phone" required="1" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="is_primary"/>
+                        </group>
+                        <group name="additional_info" string="Additional Information">
+                            <field name="address"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Additional notes about this emergency contact..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Emergency Contact Tree View -->
+    <record id="view_emergency_contact_tree" model="ir.ui.view">
+        <field name="name">emergency.contact.tree</field>
+        <field name="model">emergency.contact</field>
+        <field name="arch" type="xml">
+            <tree string="Emergency Contacts" sample="1">
+                <field name="name"/>
+                <field name="driver_id"/>
+                <field name="relationship_id"/>
+                <field name="phone"/>
+                <field name="email" optional="hide"/>
+                <field name="is_primary" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Emergency Contact Search View -->
+    <record id="view_emergency_contact_search" model="ir.ui.view">
+        <field name="name">emergency.contact.search</field>
+        <field name="model">emergency.contact</field>
+        <field name="arch" type="xml">
+            <search string="Emergency Contacts">
+                <field name="name"/>
+                <field name="driver_id"/>
+                <field name="phone"/>
+                <field name="relationship_id"/>
+                <filter string="Primary Contacts" name="primary_contacts"
+                        domain="[('is_primary', '=', True)]"/>
+                <filter string="Active" name="active_contacts"
+                        domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive_contacts"
+                        domain="[('active', '=', False)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Driver" name="group_driver" context="{'group_by': 'driver_id'}"/>
+                    <filter string="Relationship" name="group_relationship" context="{'group_by': 'relationship_id'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Emergency Contact Action -->
+    <record id="action_emergency_contact" model="ir.actions.act_window">
+        <field name="name">Emergency Contacts</field>
+        <field name="res_model">emergency.contact</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_emergency_contact_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first emergency contact!
+            </p>
+            <p>
+                Emergency contacts are essential for driver safety and communication during emergencies.
+                You can add multiple emergency contacts per driver with different relationships.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_emergency_contact_config"
+              name="Emergency Contact Config"
+              parent="hr.menu_config_employee"
+              sequence="5"/>
+
+    <menuitem id="menu_emergency_contact_relationship"
+              name="Relationship Types"
+              parent="menu_emergency_contact_config"
+              action="action_emergency_contact_relationship"
+              sequence="1"/>
+
+    <menuitem id="menu_emergency_contact"
+              name="Emergency Contacts"
+              parent="menu_emergency_contact_config"
+              action="action_emergency_contact"
+              sequence="10"/>
+
+</odoo>

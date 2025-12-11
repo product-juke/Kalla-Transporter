@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Cron Job untuk Data Mart Driver Violation -->
+        <record id="cron_generate_mart_driver_violation" model="ir.cron">
+            <field name="name">Generate Data Mart Driver Violation</field>
+            <field name="model_id" ref="model_mart_driver_violation"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+            <field name="priority">5</field>
+        </record>
+        <record id="cron_update_driver_experience_mart" model="ir.cron">
+            <field name="name">Generate Data Mart Driver Experience</field>
+            <field name="model_id" ref="model_mart_driver_experience"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_update_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="priority">6</field>
+        </record>
+        <record id="cron_generate_mart_status_driver" model="ir.cron">
+            <field name="name">Generate Data Mart Driver Status</field>
+            <field name="model_id" ref="model_mart_status_driver"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall">False</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(hours=1)).strftime('%Y-%m-%d %H:00:00')"/>
+        </record>
+        <record id="cron_sync_vehicle_status_data_mart" model="ir.cron">
+            <field name="name">Generate Data Mart Vehicle Status</field>
+            <field name="model_id" ref="model_mart_status_vehicle"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_sync_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="user_id" ref="base.user_root"/>
+        </record>
+        <record id="cron_update_delivery_order_data_mart" model="ir.cron">
+            <field name="name">Generate Data Mart Delivery Order</field>
+            <field name="model_id" ref="model_mart_delivery_order"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_update_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="nextcall" eval="DateTime.now().replace(hour=1, minute=0, second=0)"/>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+        <record id="ir_cron_vehicle_target_datamart" model="ir.cron">
+            <field name="name">Generate Vehicle Target Data Mart</field>
+            <field name="model_id" ref="model_mart_target_vehicle"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="priority">5</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+        <record id="ir_cron_generate_delivery_revenue_data_mart" model="ir.cron">
+            <field name="name">Generate Delivery Category Revenue Data Mart</field>
+            <field name="model_id" ref="model_mart_delivery_category_revenue"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="priority">5</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+        <record id="cron_generate_delivery_order_revenue_mart" model="ir.cron">
+            <field name="name">Generate Delivery Order Revenue Data Mart</field>
+            <field name="model_id" ref="model_mart_delivery_order_revenue"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+            <field name="doall" eval="False"/>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="priority">5</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+        <record id="cron_generate_vehicle_performance_data_mart" model="ir.cron">
+            <field name="name">Generate Vehicle Performance Data Mart</field>
+            <field name="model_id" ref="model_mart_vehicle_performance"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="priority">5</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+        <record id="cron_generate_branch_performance_data_mart" model="ir.cron">
+            <field name="name">Generate Branch Performance Data Mart</field>
+            <field name="model_id" ref="model_mart_branch_performance"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.cron_generate_data_mart()</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="doall">False</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+        <record id="cron_refresh_customer_invoice_data_mart" model="ir.cron">
+            <field name="name">Generate Customer Invoice Data Mart</field>
+            <field name="model_id" ref="model_mart_customer_invoice"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_refresh_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active">True</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=2, minute=0, second=0)"/>
+        </record>
+        <record id="ir_cron_generate_customer_contract_data_mart" model="ir.cron">
+            <field name="name">Generate Customer Contract Data Mart</field>
+            <field name="model_id" ref="model_mart_customer_contract"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_generate_data_mart()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+            <field name="priority">5</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        </record>
+
+    </data>
+</odoo>

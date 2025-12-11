@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">view_partner_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <field name="is_failed_sync_to_oracle" invisible="1"/>
+                    <field name="show_field" invisible="1"/>
+                    <button string="Resync to Oracle" name="button_send_customer" type="object" class="oe_highlight btn btn-secondary" invisible="not is_failed_sync_to_oracle" context="{'is_resend': True}"/>
+                    <button string="Sync to Oracle" name="button_send_customer" type="object" class="oe_highlight" invisible="is_failed_sync_to_oracle"/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='function']" position="after">
+                <field name="contact_person"/>
+            </xpath>
+            <xpath expr="//field[@name='property_supplier_payment_term_id']" position="after">
+                <field name="Supplier"/>
+                <field name="SupplierSite"/>
+            </xpath>
+            <xpath expr="//field[@name='website']" position="before">
+<!--                <field name="no_fax"/>-->
+                <field name="date_of_birth"/>
+                <field name="place_of_birth"/>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="integration_status" string="Integration Status">
+                    <group>
+                        <group string="MIDDLEWARE INTEGRATION">
+                            <field name="oracle_sync_statusCode" readonly="1" force_save="1"/>
+                            <field name="oracle_sync_message" readonly="1" force_save="1"/>
+                            <field name="oracle_sync_date" string="Sync Date to Middleware" readonly="1" force_save="1"/>
+                            <button string="Check Status" type="object" name="action_get_customer" class="btn-primary" invisible="vat == False"/>
+                        </group>
+                        <group string="ORACLE INTEGRATION">
+                            <field name="oracle_sync_log_status_code" readonly="1" force_save="1"/>
+                            <field name="oracle_sync_log_message" readonly="1" force_save="1"/>
+                            <field name="oracle_sync_log_date" string="Sync Date to Oracle" readonly="1" force_save="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="create_contract_view_tree" model="ir.ui.view">
+        <field name="name">create.contract.view.tree</field>
+        <field name="model">create.contract</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="responsible_id"/>
+                <field name="payment_term_id"/>
+                <field name="company_ids" widget="many2many_tags"/>
+                <field name="company_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="line_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="create_contract_view_form" model="ir.ui.view">
+        <field name="name">create.contract.view.form</field>
+        <field name="model">create.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_contract_quotations_new" type="object" class="oe_highlight" string="New Quotation"/>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_po" type="object" class="oe_stat_button" icon="fa-pencil-square-o" invisible="po_count == 0">
+                            <field name="po_count" widget="statinfo" string="SO"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" force_save="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="cust_contract_name"/>
+                            <field name="product_category_id"/>
+                            <field name="invoiced_by" invisible="company_portfolio != 'Transporter' " />
+                            <field name="company_portfolio" invisible="1"/>
+                            <field name="product_name" invisible="1"/>
+<!--                            <field name="partner_id" string="Customer" domain="[('is_customer','=',True), ('product_filter_id', 'in',product_category_id)]" required="1"/>-->
+                            <field name="partner_id" string="Customer" domain="[('is_customer','=',True), ('product_filter_ids', 'in', product_category_id)]" required="1"/>                            <field name="customer_product_ids" widget="many2many_tags" required="1"/>
+                            <field name="delivery_category_id" domain= "[('product_category_id', '=',product_category_id)]" required="1"/>
+                            <field name="delivery_name" invisible="1"/>
+                            <field name="integrated" invisible="product_name != 'VLI'"/>
+                            <field name="branch_project" required="1"/>
+                            <field name="contract_type" required="1"/>
+                            <field name="phone" readonly="1"/>
+                            <field name="email" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="responsible_id" required="1"/>
+                            <field name="company_ids" required="1" widget="many2many" context="{'tree_view_ref': 'create.contract.view_company_minimal_tree'}"/>
+<!--                            <field name="company_id" required="1"/>-->
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                            <field name="crm_id" invisible="True" required="1"/>
+                            <field name="working_day_ids" widget="many2many_tags"/>
+                            <field name="insurance_by" required="1"/>
+                            <field name="payment_term_id" required="1"/>
+                            <field name="invoice_policy" required="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="details" string="Contract Event">
+                            <field name="line_ids">
+                                <tree editable="bottom" default_order='id_contract'>
+<!--                                    <field name="name"/>-->
+                                    <field name="is_line" width="200"/>
+                                    <field name="id_contract" width="200" readonly="True"/>
+                                    <field name="start_date" width="200"/>
+                                    <field name="end_date" width="200"/>
+                                    <field name="product_domain" column_invisible="1"/>
+                                    <field name="product_id" width="200" required="1" domain="product_domain or []"/>
+                                    <field name="origin_id" width="200" required="1"/>
+                                    <field name="destination_id" width="200" required="1"/>
+                                    <field name="distance" width="200"/>
+                                    <field name="sla" width="200"/>
+                                    <field name="qty_tonase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_kubikasi" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_unit" width="200" column_invisible="parent.product_name == 'Transporter'"/>
+                                    <field name="qty_dus" width="200"/>
+                                    <field name="qty_ritase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_target_ritase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_actual_tonase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="price" width="200"/>
+                                    <field name="bop" width="200" readonly="0"/>
+                                    <field name="is_handling_type" width="200"/>
+                                    <field name="active" width="200" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="details" string="Detail Order">
+                            <field name="product_detail_ids">
+                                <tree editable="bottom">
+                                    <field name="go_to_so"/>
+                                    <field name="contract_id" invisible="1" column_invisible="True"/>
+                                    <field name="ce_code"/>
+                                    <field name="route_category_id"/>
+                                    <field name="product_domain" column_invisible="1"/>
+                                    <field name="product_id" string="NAME" domain="product_domain"/>
+                                    <field name="product_code" string="NOMOR RANGKA" column_invisible="parent.product_name != 'VLI'"/>
+                                    <field name="product_code" string="PRODUCT CODE" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="product_description"/>
+                                    <field name="origin_id"/>
+                                    <field name="destination_id"/>
+                                    <field name="qty" column_invisible="0"/>
+                                    <field name="uom_id" column_invisible="0"/>
+                                    <field name="qty_tonase" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_ritase" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_kubikasi" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="unit_price" column_invisible="0"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="details" string="Inactive Contract Event">
+                            <field name="inactive_line_ids" context="{'hide_add': 1}">
+                                <tree editable="bottom" default_order='id_contract' create="False" edit="False" delete="False">
+<!--                                    <field name="name"/>-->
+                                    <field name="id_contract" width="200" readonly="True"/>
+                                    <field name="start_date" width="200"/>
+                                    <field name="end_date" width="200"/>
+                                    <field name="product_domain" column_invisible="1"/>
+                                    <field name="product_id" width="200" required="1" domain="product_domain or []"/>
+                                    <field name="origin_id" width="200" required="1"/>
+                                    <field name="destination_id" width="200" required="1"/>
+                                    <field name="distance" width="200"/>
+                                    <field name="sla" width="200"/>
+                                    <field name="qty_tonase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_kubikasi" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="qty_unit" width="200" column_invisible="parent.product_name == 'Transporter'"/>
+                                    <field name="qty_dus" width="200"/>
+                                    <field name="qty_ritase" width="200" column_invisible="parent.product_name == 'VLI'"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                    <field name="price" width="200"/>
+                                    <field name="bop" width="200" readonly="0"/>
+                                    <field name="is_active" width="200" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="create_contract_view_search" model="ir.ui.view">
+        <field name="name">create.contract.view.search</field>
+        <field name="model">create.contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+<!--                <field name="contract_no"/>-->
+                <field name="contract_type"/>
+                <field name="responsible_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="create_contract_action" model="ir.actions.act_window">
+        <field name="name">Create Contract</field>
+        <field name="res_model">create.contract</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="domain">[('company_id','in',context.get('allowed_company_ids'))]</field>
+        <field name="context"></field>
+    </record>
+
+    <!-- List Tree untuk company ids  -->
+    <record id="view_company_minimal_tree" model="ir.ui.view">
+        <field name="name">res.company.minimal.tree</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem
+            id="create_contract_menu"
+            name="Contract"
+            action="create_contract_action"
+            parent="jst_demo_kalla_bju_transporter.root_transporter"
+            sequence="2"/>
+
+</odoo>

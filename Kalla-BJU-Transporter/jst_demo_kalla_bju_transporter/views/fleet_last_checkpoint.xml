@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='action_fleet_last_checkpoint' model='ir.actions.act_window'>
+        <field name="name">Last Checkpoint</field>
+        <field name="res_model">fleet.last.checkpoint</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="fleet_last_checkpoint_view_tree" model="ir.ui.view">
+      <field name="name">fleet.last.checkpoint.view.tree</field>
+      <field name="model">fleet.last.checkpoint</field>
+      <field name="arch" type="xml">
+        <tree>
+            <header>
+                <button string="Sync Data" type="object" display="always" name="action_open_sync_wizard" class="btn btn-secondary"/>
+            </header>
+
+            <field name="vehicle_id"/>
+            <field name="vehicle_code" string="Vehicle"/>
+            <field name="nopol"/>
+            <field name="nomor_do"/>
+            <field name="group_name"/>
+            <field name="start_time"/>
+            <field name="stop_time"/>
+            <field name="start_acc" decoration-success="start_acc == 'ON'" decoration-danger="start_acc == 'OFF'" decoration-bf="True"/>
+            <field name="stop_acc" decoration-success="stop_acc == 'ON'" decoration-danger="stop_acc == 'OFF'" decoration-bf="True"/>
+            <field name="start_speed"/>
+            <field name="stop_speed"/>
+            <field name="code_cp_a"/>
+            <field name="code_cp_b"/>
+            <field name="event" decoration-success="event == 'IN'" decoration-danger="event == 'OUT'" decoration-bf="True"/>
+        </tree>
+    </field>
+  </record>
+
+    <data>
+      <menuitem
+        id="menu_last_checkpoint"
+        name="Last Checkpoint"
+        parent="jst_demo_kalla_bju_transporter.root_transporter"
+        action="action_fleet_last_checkpoint"
+        sequence="13"
+      />
+    </data>
+
+<!--    <record id="hit_endpoint_scheduler_menu" model="ir.actions.server">-->
+<!--        <field name="name">Update Last Checkpoint</field>-->
+<!--        <field name="model_id" ref="model_fleet_last_checkpoint"/>-->
+<!--        <field name="binding_model_id" ref="model_fleet_last_checkpoint"/>-->
+<!--        <field name="binding_view_types">tree,form</field>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code"><![CDATA[-->
+<!--            for rec in records:-->
+<!--                rec.hit_endpoint_scheduler()-->
+<!--        ]]></field>-->
+<!--    </record>-->
+
+    <data noupdate="1">
+      <record id="ir_cron_hit_endpoint_scheduler" model="ir.cron">
+          <field name="name">Sync Checkpoint Data (1h)</field>
+          <field name="model_id" ref="jst_demo_kalla_bju_transporter.model_fleet_last_checkpoint"/>
+          <field name="state">code</field>
+          <field name="code">model.hit_endpoint_scheduler()</field>
+          <field name="interval_number">20</field>
+          <field name="interval_type">minutes</field>
+          <field name="numbercall">-1</field>
+          <field name="active" eval="True"/>
+      </record>
+    </data>
+
+</odoo>

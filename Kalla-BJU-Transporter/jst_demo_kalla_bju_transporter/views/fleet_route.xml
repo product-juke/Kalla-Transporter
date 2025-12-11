@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fleet_route_view_tree" model="ir.ui.view">
+        <field name="name">fleet.route.view.tree</field>
+        <field name="model">fleet.route</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="fleet_category_id"/>
+                <field name="autoid"/>
+                <field name="code"/>
+                <field name="origin_id"/>
+                <field name="destination_id"/>
+                <field name="rate" sum="Total"/>
+                <field name="company_id" optional="hide"/>
+                <field name="currency_id" optional="hide"/>
+                <field name="sla" sum="Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fleet_route_view_form" model="ir.ui.view">
+        <field name="name">fleet.route.view.form</field>
+        <field name="model">fleet.route</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1>
+                        <field name="name" readonly="1" force_save="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="fleet_category_id"/>
+                            <field name="autoid"/>
+                            <field name="code"/>
+                            <field name="origin_id"/>
+                            <field name="destination_id"/>
+                        </group>
+                        <group>
+                            <field name="rate"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="sla"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_route_action" model="ir.actions.act_window">
+        <field name="name">Route</field>
+        <field name="res_model">fleet.route</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="fleet_route_menu"
+            name="Route"
+            action="fleet_route_action"
+            sequence="20"
+            parent="fleet.fleet_configuration"/>
+
+</odoo>

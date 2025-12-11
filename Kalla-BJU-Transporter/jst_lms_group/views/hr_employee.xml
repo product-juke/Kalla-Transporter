@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_jst_lms_group" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.jst_lms_group</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='personal_information']" position="attributes">
+                <attribute name="groups">hr.group_hr_user,jst_lms_group.group_logistic_lms_plan_armada,jst_lms_group.group_logistic_lms_adh,jst_lms_group.group_logistic_lms_kacab,jst_lms_group.group_logistic_lms_spv</attribute>
+            </xpath>
+            <xpath expr="//field[@name='permit_no']" position="attributes">
+                <attribute name="groups">hr.group_hr_user,jst_lms_group.group_logistic_lms_plan_armada,jst_lms_group.group_logistic_lms_adh,jst_lms_group.group_logistic_lms_kacab,jst_lms_group.group_logistic_lms_spv</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

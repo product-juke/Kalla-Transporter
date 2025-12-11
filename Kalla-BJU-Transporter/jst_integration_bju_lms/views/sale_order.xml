@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_quotation_tree_with_onboarding" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="oracle_number" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree (orders)</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="oracle_number" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_status']" position="after">
+                <field name="amount_due" optional="hide"/>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="after">
+                <field name="invoice_date_due" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_information']/group" position="inside">
+                <group string="Oracle Integration" name="oracle_integration">
+                    <field name="oracle_number"/>
+                    <field name="failed_payment_ar_cbd" readonly="1" force_save="1" invisible="failed_payment_ar_cbd == False"/>
+                </group>
+            </xpath>
+<!--            <xpath expr="//button[@name='payment_action_capture']" position="before">-->
+<!--                <button name="action_get_payment_cbd" type="object" string="Get Payment" class="oe_highlight" invisible="state not in ['sale','auto_gin'] or invoice_policy != 'order'"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="invoice_date_due" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_invoice_view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="jst_demo_kalla_bju_transporter.transporter_sale_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="show_field" invisible="1" />
+                <field name="invoice_policy_required" invisible="1" />
+                <!-- <field
+                    name="invoice_policy"
+                    required="invoice_policy_required"
+                    readonly="1"
+                    invisible="show_field != 'Transporter'"
+                /> -->
+                <field
+                    name="invoice_policy"
+                    readonly="1"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

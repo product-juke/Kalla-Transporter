@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="m_fleet_route_view_tree" model="ir.ui.view">
+        <field name="name">m.fleet.route.view.tree</field>
+        <field name="model">m.fleet.route</field>
+        <field name="arch" type="xml">
+            <tree>
+                <header>
+                  <!-- Button Update Data -->
+                  <button string="Sync Data" type="object" display="always" name="action_update_list_data" class="btn btn-secondary"/>
+                </header>
+                <field name="autoid"/>
+                <field name="geo_code"/>
+                <field name="geo_nm"/>
+                <field name="color"/>
+                <field name="radius"/>
+                <field name="alert"/>
+                <field name="geo_id_asal"/>
+                <field name="geo_id_tujuan"/>
+                <field name="enabled"/>
+                <field name="geo_asal_code"/>
+                <field name="geo_asal_name"/>
+                <field name="geo_tujuan_code"/>
+                <field name="geo_tujuan_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="m_fleet_route_view_form" model="ir.ui.view">
+        <field name="name">m.fleet.route.view.form</field>
+        <field name="model">m.fleet.route</field>
+        <field name="arch" type="xml">
+          <form>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="autoid" readonly="1"/>
+                        <field name="geo_code"/>
+                        <field name="geo_nm"/>
+                        <field name="color"/>
+                        <field name="radius"/>
+                        <field name="alert"/>
+                    </group>
+                    <group>
+                        <field name="geo_id_asal"/>
+                        <field name="geo_id_tujuan"/>
+                        <field name="enabled"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Geo Asal">
+                        <group>
+                            <field name="geo_asal_code"/>
+                            <field name="geo_asal_name"/>
+                        </group>
+                    </page>
+                    <page string="Geo Tujuan">
+                        <group>
+                            <field name="geo_tujuan_code"/>
+                            <field name="geo_tujuan_name"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+          </form>
+        </field>
+    </record>
+
+    <record id="m_fleet_route_action" model="ir.actions.act_window">
+        <field name="name">Master Route</field>
+        <field name="res_model">m.fleet.route</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="m_fleet_route_menu"
+            name="Master Route"
+            action="m_fleet_route_action"
+            sequence="25"
+            parent="fleet.fleet_configuration"/>
+
+<!--    <data noupdate="1">-->
+<!--        <record id="ir_cron_hit_master_route_endpoint_scheduler" model="ir.cron">-->
+<!--            <field name="name">Sync Master Data Route (1h)</field>-->
+<!--            <field name="model_id" ref="jst_demo_kalla_bju_transporter.model_m_fleet_route"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">model.hit_endpoint_scheduler()</field>-->
+<!--            <field name="interval_number">1</field>-->
+<!--            <field name="interval_type">hours</field>-->
+<!--            <field name="numbercall">-1</field>-->
+<!--            <field name="active" eval="True"/>-->
+<!--        </record>-->
+<!--    </data>-->
+
+</odoo>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_vehicle_log_services_view_tree_inherit_custom" model="ir.ui.view">
+        <field name="name">fleet.vehicle.log.services.view.tree.inherit.custom</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                <field name="keluhan"/>
+                <field name="no_afs"/>
+                <field name="no_wo"/>
+                <field name="kode_part"/>
+                <field name="jenis_order"/>
+                <field name="detail_type"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="fleet_vehicle_log_services_view_form_inherit_custom" model="ir.ui.view">
+        <field name="name">fleet.vehicle.log.services.view.form.inherit.custom</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                <field name="keluhan"/>
+                <field name="detail_type"/>
+                <field name="license_plat"/>
+                <field name="no_afs"/>
+                <field name="no_wo"/>
+                <field name="jenis_order"/>
+                <field name="kode_part"/>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="date_in"/>
+                <field name="periode"/>
+            </xpath>
+            <xpath expr="//field[@name='amount']" position="after">
+                <field name="qty"/>
+                <field name="total"/>
+            </xpath>
+            <xpath expr="//field[@name='description']" position="before">
+                <field name="service_type_id"/>
+                <field name="category"/>
+                <field name="cost_category"/>
+            </xpath>
+            <xpath expr="//field[@name='vehicle_id']" position="after">
+                <field name="product_category_id"/>
+                <field name="branch"/>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <menuitem-->
+<!--            id="fleet_route_menu"-->
+<!--            name="Route"-->
+<!--            action="fleet_route_action"-->
+<!--            sequence="20"-->
+<!--            parent="fleet.fleet_configuration"/>-->
+
+</odoo>

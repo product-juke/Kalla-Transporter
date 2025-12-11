@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_outstanding_customers_dashboard" model="ir.actions.client">
+            <field name="name">Outstanding Customers Dashboard </field>
+            <field name="tag">outstanding_customers_dashboard</field>
+        </record>
+        <!-- <menuitem id="menu_outstanding_customers_dashboard"
+                  name="Outstanding Customers Dashboard "
+                  parent="sale.menu_sale_report"
+                  action="action_outstanding_customers_dashboard"
+                  sequence="10" /> -->
+    </data>
+</odoo>

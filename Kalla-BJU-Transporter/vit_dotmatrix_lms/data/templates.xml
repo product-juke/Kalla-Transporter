@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<record id="template_dotmatrix_tam_sale" model="mail.template">
+<field name="name">Dot Matrix TAM Sale</field>
+<field name="model_id" ref="sale.model_sale_order"/>
+<field name="subject">Dot Matrix TAM Template for Sale Order</field>
+<field name="body_html" type="html">
+<t t-raw="''"/>
+<t t-raw="'KALLA TRANSPORT &amp; LOGISTICS'"/>
+<t t-raw="'HO Wisma Kalla, Jl. Dr. Sam Ratulangi No.10 Kota Makassar-Sulawesi Selatan'"/>
+
+<t t-raw="'PENGIRIM: PT. BUMI JASA UTAMA                     PENERIMA: ' + (object.partner_id.name or '')"/>
+<t t-raw="'Alamat: Jl. Perintis Kemerdekaan KM 16 No.24,     Alamat: ' + (object.partner_id.street or '')"/>
+<t t-raw="'Makassar, Sulawesi Selatan, Telp: 0821-1399-0323  Telp: ' + (object.partner_id.phone or '')"/>
+
+<t t-set="first_line" t-value="object.order_line[0]"/>
+<t t-set="lines" t-value="object.order_line"/>
+<t t-set="dos" t-value="[l.do_id for l in lines if l.do_id]"/>
+<t t-set="first_do" t-value="dos and dos[0] or False"/>
+
+<t t-raw="'Tgl: ' + (object.date_order.strftime('%d/%m/%y') if object.date_order else '') + '| No: ' + (first_do.name if first_do else '-') + '| ' + (first_line.origin_id.name or '') + '→' + (first_line.destination_id.name or '')"/>
+<t t-set="total_doc" t-value="0"/>
+<t t-set="total_volume" t-value="0"/>
+<t t-foreach="object.sale_order_option_ids" t-as="line" t-foreach-index="i">
+<t t-if="line.is_selected">
+<t t-set="total_doc" t-value="total_doc + 1"/>
+<t t-set="total_volume" t-value="total_volume + (line.qty_kubikasi_actual or 0)"/>
+</t>
+</t>
+<t t-raw="'TOTAL - Shipping Document: ' + str(total_doc) + ' | Colly: 0 | Weight/Volume: ' + str(total_volume)"/>
+<t t-raw="'HADJI KALLA| DRIVER: ' + ((first_do and first_do.driver_id and (first_do.driver_id.name or '')) or '-')  + ' | UNIT: ' + ((first_do and first_do.vehicle_id and (first_do.vehicle_id.license_plate or '')) or '-')"/>
+
+<t t-raw="'NO |NO.SHIPPING          |AREA|QTY(Colly)|WEIGHT(Kg) |VOLUME(m3)'"/>
+<t t-raw="'---|---------------------|----|----------|-----------|----------'"/>
+<t t-set="counter" t-value="1"/>
+<t t-foreach="object.sale_order_option_ids" t-as="line" t-foreach-index="i">
+<t t-if="line.is_selected">
+<t t-raw="str(counter).ljust(2) + ' |' + (object.name or '').ljust(11) + '|SID |0         |0          |' + str(line.qty_kubikasi_actual or '0,0000')"/>
+<t t-set="counter" t-value="counter + 1"/>
+</t>
+</t>
+
+<t t-raw="'NOTE: ________________________________________________'"/>
+
+<t t-raw="'Admin:___________ Driver:___________ Penerima:___________'"/>
+<t t-raw="'Catatan: untuk lembar shipping dokumen harap diserahkan'"/>
+<t t-raw="'1.Putih: Cabang Hadji Kalla | 2. Merah &amp; Kuning: BJU (Arsip &amp; lampiran invoicing)'"/>
+</field>
+</record>
+
+</data>
+</odoo>

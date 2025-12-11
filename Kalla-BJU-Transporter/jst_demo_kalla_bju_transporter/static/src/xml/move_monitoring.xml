@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-name="invoice_monitoring.Dashboard">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div class="o_control_panel p-0" style="height: 100vh; overflow-y: auto; padding: 20px;">
+            <div class="container-fluid py-3">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="text-center flex-grow-1">Invoice Monitoring</h1>
+                    <button class="btn btn-primary" t-on-click="loadDashboardData">
+                        <i class="fa fa-refresh"/> Refresh
+                    </button>
+                </div>
+
+                <div t-if="state.loading" class="text-center p-4">
+                    <i class="fa fa-spinner fa-spin fa-2x"/>
+                    <p>Loading dashboard data...</p>
+                </div>
+
+                <div t-else="">
+                    <!-- Invoice Section -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="m-0 text-white">Invoice Status Monitoring</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 justify-content-center">
+                                <t t-foreach="['done_not_invoiced', 'draft_invoices', 'done_not_sent', 'done_not_paid', 'paid_invoices', 'doc_delivery']" t-as="filterType" t-key="filterType">
+                                    <div class="col-md-2 col-sm-6">
+                                        <div class="card h-100 shadow-sm" style="cursor: pointer; transition: transform 0.2s;" t-on-click="() => this.onCardClick(filterType)">
+                                            <div class="card-body text-center">
+                                                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+                                                    <h5 class="card-title" t-esc="getCardTitle(filterType)"></h5>
+                                                    <div class="my-3">
+                                                        <img t-att-src="getCardIcon(filterType)" class="img-fluid" style="width: 50px;" t-att-alt="getCardTitle(filterType)"/>
+                                                    </div>
+                                                    <p class="card-text mt-3">
+                                                        Total: <span t-att-class="'badge text-white ' + getCardColor(filterType)">
+                                                            <t t-esc="state.stats[filterType] || 0"/>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detail Modal -->
+                <div t-if="state.showDetails" class="modal show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" t-esc="getCardTitle(state.selectedFilter)"/>
+                                <button type="button" class="btn-close" t-on-click="closeDetails"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div t-if="state.detailData.length === 0" class="text-center p-4">
+                                    <i class="fa fa-info-circle fa-2x text-info mb-3"></i>
+                                    <p>Tidak ada data untuk ditampilkan.</p>
+                                </div>
+                                <div t-else="" class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Customer</th>
+                                                <th>Total Amount</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="state.detailData" t-as="item" t-key="item.id">
+                                                <tr>
+                                                    <td t-esc="item.name || 'N/A'"/>
+                                                    <td t-esc="item.partner_name || 'N/A'"/>
+                                                    <td t-esc="formatCurrency(item.amount_total || 0)"/>
+                                                    <td t-esc="formatDate(item.invoice_date || item.date_order)"/>
+                                                    <td>
+                                                        <span t-if="item.state === 'draft'" class="badge bg-secondary">Draft</span>
+                                                        <span t-elif="item.state === 'posted'" class="badge bg-success">Posted</span>
+                                                        <span t-elif="item.state === 'sale'" class="badge bg-info">Sale Order</span>
+                                                        <span t-elif="item.payment_state === 'paid'" class="badge bg-success">Paid</span>
+                                                        <span t-elif="item.payment_state === 'not_paid'" class="badge bg-danger">Not Paid</span>
+                                                        <span t-elif="item.payment_state === 'partial'" class="badge bg-warning">Partial</span>
+                                                        <span t-else="" class="badge bg-light text-dark" t-esc="item.state || 'Unknown'"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" t-on-click="closeDetails">
+                                    <i class="fa fa-times"></i> Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</odoo>

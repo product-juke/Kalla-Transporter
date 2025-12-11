@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Group untuk Marketing -->
+    <record id="jst_lms_group.group_logistic_lms_marketing" model="res.groups">
+        <field name="name">LMS Marketing</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk Plan Armada-->
+    <record id="jst_lms_group.group_logistic_lms_plan_armada" model="res.groups">
+        <field name="name">LMS Plan Armada</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk SPV-->
+    <record id="jst_lms_group.group_logistic_lms_spv" model="res.groups">
+        <field name="name">LMS SPV</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk CASHIER-->
+    <record id="jst_lms_group.group_logistic_lms_cashier" model="res.groups">
+        <field name="name">LMS Cashier</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk Revenue Control-->
+    <record id="jst_lms_group.group_logistic_lms_revenue_control" model="res.groups">
+        <field name="name">LMS Revenue Control</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk Kacab -->
+    <record id="jst_lms_group.group_logistic_lms_kacab" model="res.groups">
+        <field name="name">LMS Kacab</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk ADH -->
+    <record id="jst_lms_group.group_logistic_lms_adh" model="res.groups">
+        <field name="name">LMS ADH</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+    <!-- Group untuk Doc Delivery -->
+    <record id="jst_lms_group.group_logistic_lms_doc_delivery" model="res.groups">
+        <field name="name">LMS Document Delivery</field>
+        <field name="category_id" ref="base.module_category_sales_management"/>
+    </record>
+
+
+    <!-- Set group di Root Transporter -->
+    <record id="jst_demo_kalla_bju_transporter.root_transporter" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale Transporter Menu -->
+    <record id="jst_demo_kalla_bju_transporter.sale_transporter" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <record id="jst_demo_kalla_bju_transporter.sale_order_line_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Create Contract Menu -->
+    <record id="jst_demo_kalla_bju_transporter.create_contract_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Delivery Order Menu -->
+    <record id="jst_demo_kalla_bju_transporter.fleet_do_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Product Customer Menu -->
+    <record id="jst_demo_kalla_bju_transporter.product_customer_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Delivery Category Menu -->
+    <record id="jst_demo_kalla_bju_transporter.delivery_category_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Day of Week Menu -->
+    <record id="jst_demo_kalla_bju_transporter.dayofweek_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+    <!-- Set group di BOP List Menu -->
+    <record id="jst_demo_kalla_bju_transporter.bop_line_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Plan Armada Menu -->
+    <record id="jst_demo_kalla_bju_transporter.plan_armada_menuitem" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Export MCM Menu -->
+    <record id="jst_demo_kalla_bju_transporter.menu_action_report_mcm_driver" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Last Checkpoint Menu -->
+    <record id="jst_demo_kalla_bju_transporter.menu_last_checkpoint" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di To Invoice Menu -->
+    <record id="jst_demo_kalla_bju_transporter.menu_sale_invoicing_transport" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Operational Logistic/To Invoice/Orders to Invoice Menu -->
+    <record id="jst_demo_kalla_bju_transporter.menu_sale_order_invoice_transport" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Delivery Document -->
+    <record id="jst_tp_delivery_document.sale_delivery_document_transporter" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Reporting Menu -->
+    <record id="jst_demo_kalla_bju_transporter.menu_sale_report_transport" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Modul Fleet -->
+    <record id="fleet.menu_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Modul Fleet/Fleet -->
+    <record id="fleet.fleet_vehicles" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Modul Fleet/Fleet/Fleet -->
+    <record id="fleet.fleet_vehicle_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Modul Fleet/Fleet/Odometer -->
+    <record id="fleet.fleet_vehicle_odometer_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale Fleet/Settings -->
+    <record id="fleet.fleet_configuration" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+    <!-- Menu Fleet/Fleet/Service -->
+    <record id="fleet.fleet_vehicle_log_services_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Menu Fleet/Driver -->
+    <record id="jst_demo_kalla_bju_transporter.driver_transporter" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+            <!-- Menu Fleet/Master Origin -->
+    <record id="jst_demo_kalla_bju_transporter.master_origin_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+                <!-- Menu Fleet/Master Destination -->
+    <record id="jst_demo_kalla_bju_transporter.master_destination_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+    <!-- Menu Fleet/Geofence -->
+    <record id="jst_demo_kalla_bju_transporter.fleet_geofence_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+    <!-- Menu Fleet/Master Route -->
+    <record id="jst_demo_kalla_bju_transporter.m_fleet_route_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Hr Root -->
+    <record id="hr.menu_hr_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Main Menu Hr Main -->
+    <record id="hr.menu_hr_main" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Employee -->
+    <record id="hr.menu_hr_employee_user" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Employee/Users -->
+    <record id="hr.menu_hr_employee_user" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Employee/Payroll -->
+    <record id="hr.menu_hr_employee_payroll" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Skill Type -->
+    <record id="hr_skills.hr_skill_type_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Resume Line Type -->
+    <record id="hr_skills.hr_resume_line_type_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Violation -->
+    <record id="jst_demo_kalla_bju_transporter.hr_violation_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Insurance -->
+    <record id="jst_demo_kalla_bju_transporter.hr_insurance_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Configuration -->
+    <record id="hr.menu_human_resources_configuration" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Config/Employee -->
+    <record id="hr.menu_config_employee" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Sale HR Employee/Departement -->
+    <record id="hr.menu_hr_department_kanban" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Menu HR Employee/Report -->
+    <record id="hr.hr_menu_hr_reports" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+<!--    &lt;!&ndash; Set group di Menu HR Employee/Report/Timesheet &ndash;&gt;-->
+<!--    <record id="hr.menu_hr_reporting_timesheet" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+    <!-- Set group di Menu HR Employee/Report/Skill -->
+    <record id="hr_skills.hr_employee_skill_report_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+    <!-- Set group di Menu HR Employee/Configuration/Work Location -->
+    <record id="hr.menu_hr_work_location_tree" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Main Menu Purchase -->
+    <record id="purchase.menu_purchase_root" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery'),
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Purchase RFQ -->
+    <record id="purchase.menu_purchase_rfq" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Purchase/Order -->
+    <record id="purchase.menu_procurement_management" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery')
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Purchase/Order/Order -->
+    <record id="purchase.menu_purchase_form_action" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier'),
+            ref('jst_lms_group.group_logistic_lms_doc_delivery'),
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Purchase/Order/RFQ -->
+    <record id="purchase.menu_purchase_rfq" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Set group Main Menu Purchase/Orders/Vendor -->
+    <record id="purchase.menu_procurement_management_supplier_name" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Main Menu Purchase/Products -->
+    <record id="purchase.menu_purchase_products" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Set group Menu Operational Logistic/contact -->
+    <record id="jst_demo_kalla_bju_transporter.contact_transporter" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_marketing'),
+            ref('jst_lms_group.group_logistic_lms_revenue_control')
+        ])]"/>
+    </record>
+
+
+
+
+
+    <!-- Set group Menu Purchase/Products/Product Variant -->
+    <record id="purchase.product_product_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Menu Purchase/Products/Product Variant -->
+    <record id="purchase.product_product_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Main Menu Purchase/Report -->
+    <record id="purchase.purchase_report_main" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+    <!-- Set group Menu Purchase/Report/Purchase -->
+    <record id="purchase.purchase_report" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_adh'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv'),
+            ref('jst_lms_group.group_logistic_lms_cashier')
+        ])]"/>
+    </record>
+
+
+    <!-- Set group Main Menu Purchase/Configuration -->
+    <record id="purchase.menu_purchase_config" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group Menu Purchase/Configuration/Unit of Measure -->
+    <record id="purchase.menu_purchase_uom_categ_form_action" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group Menu Purchase/Configuration/Product Category -->
+    <record id="purchase.menu_product_category_config_purchase" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+    <!-- Set group Menu Purchase/Configuration/Product Attribute -->
+    <record id="purchase.menu_product_attribute_action" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [
+            ref('jst_lms_group.group_logistic_lms_kacab'),
+            ref('jst_lms_group.group_logistic_lms_plan_armada'),
+            ref('jst_lms_group.group_logistic_lms_spv')
+        ])]"/>
+    </record>
+
+<!--    &lt;!&ndash; Set group Main Menu Accounting &ndash;&gt;-->
+<!--    <record id="account_accountant.menu_accounting" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group Main Menu Accounting/Customer &ndash;&gt;-->
+<!--    <record id="account.menu_finance_receivables" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group Main Menu Accounting/rekap invoice &ndash;&gt;-->
+<!--    <record id="jst_accounting_rekap_invoice.rekap_invoice_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group Main Menu Accounting/rekap invoice Stage &ndash;&gt;-->
+<!--    <record id="jst_accounting_rekap_invoice.rekap_invoice_stage_menu" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+
+<!--    &lt;!&ndash; Set group Main Menu Accounting/rekap invoice Stage &ndash;&gt;-->
+<!--    <record id="account.menu_action_move_out_invoice_type" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(6, 0, [-->
+<!--            ref('jst_lms_group.group_logistic_lms_kacab'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_adh'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_plan_armada'),-->
+<!--            ref('jst_lms_group.group_logistic_lms_spv')-->
+<!--        ])]"/>-->
+<!--    </record>-->
+</odoo>
