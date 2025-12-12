@@ -3,48 +3,45 @@ pipeline {
     
     environment {
         // Docker Configuration
-        DOCKER_REGISTRY = 'docker.io'
-        CUSTOM_ODOO_IMAGE = "kalla-bju-odoo:${env.BUILD_NUMBER}"
-        POSTGRES_IMAGE = 'postgres:15'
+        CUSTOM_ODOO_IMAGE = 'custom-odoo:17.0'
+        POSTGRES_IMAGE = 'postgres:16'
         
-        // Odoo Configuration
-        ODOO_PORT = '8069'
-        POSTGRES_PORT = '5432'
-        ODOO_CONTAINER_NAME = "odoo-enterprise-${env.BUILD_NUMBER}"
-        POSTGRES_CONTAINER_NAME = "odoo-postgres-${env.BUILD_NUMBER}"
+        // Container Names
+        ODOO_CONTAINER_NAME = 'env3-odoo'
+        POSTGRES_CONTAINER_NAME = 'db3'
+        
+        // Port Configuration
+        ODOO_PORT = '8020'
+        POSTGRES_PORT = '5436'
         
         // Database Configuration
-        POSTGRES_DB = 'odoo'
-        POSTGRES_USER = 'odoo'
-        POSTGRES_PASSWORD = credentials('odoo-postgres-password')
+        DB_HOST = 'db3'
+        DB_USER = 'odoo'
+        DB_PASSWORD = 'odoo'
+        DB_PORT = '5436'
+        POSTGRES_DB = 'fms_lms_2'
+        PGDATABASE = 'fms_lms_2'
         
-        // Odoo Enterprise Configuration
-        ODOO_ADMIN_PASSWORD = credentials('odoo-admin-password')
-        ODOO_ENTERPRISE_ADDONS = '/mnt/enterprise-addons'
+        // Odoo Session Configuration
+        ODOO_SESSION_COOKIE_NAME = 'odoo_env3_session_id'
         
         // Docker Network
-        NETWORK_NAME = "odoo-network-${env.BUILD_NUMBER}"
+        NETWORK_NAME = 'odoo-network-env3'
         
-        // Deployment Environment
-        DEPLOY_ENV = "${params.ENVIRONMENT ?: 'staging'}"
-        STAGING_SERVER = '192.168.101.105'
+        // Volume Names
+        ODOO_DATA_VOLUME = 'odoo-web-data-2'
     }
     
     parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['staging', 'production'],
-            description: 'Select deployment environment'
-        )
-        string(
-            name: 'ODOO_VERSION',
-            defaultValue: '18.0',
-            description: 'Odoo version to deploy'
-        )
         booleanParam(
             name: 'CLEAN_DEPLOYMENT',
             defaultValue: false,
             description: 'Clean deployment (remove existing volumes)'
+        )
+        booleanParam(
+            name: 'REBUILD_IMAGE',
+            defaultValue: true,
+            description: 'Rebuild Odoo Docker image'
         )
     }
     
@@ -52,17 +49,20 @@ pipeline {
         stage('Preparation') {
             steps {
                 script {
-                    echo "Starting Odoo Enterprise deployment for ${DEPLOY_ENV} environment"
-                    echo "Odoo Version: ${params.ODOO_VERSION}"
+                    echo "Starting Odoo Environment 3 deployment"
                     echo "Build Number: ${env.BUILD_NUMBER}"
+                    echo "Database: ${POSTGRES_DB}"
                 }
             }
         }
         
         stage('Build Custom Odoo Image') {
+            when {
+                expression { params.REBUILD_IMAGE == true }
+            }
             steps {
                 script {
-                    echo "Building custom Odoo image with addons..."
+                    echo "Building custom Odoo 17.0 image with addons..."
                     sh """
                         docker build -t ${CUSTOM_ODOO_IMAGE} .
                     """
@@ -74,7 +74,7 @@ pipeline {
             steps {
                 script {
                     echo "Cleaning up old containers and networks..."
-                    sh '''
+                    sh """
                         # Stop and remove old containers if they exist
                         docker stop ${ODOO_CONTAINER_NAME} || true
                         docker rm ${ODOO_CONTAINER_NAME} || true
@@ -87,13 +87,12 @@ pipeline {
                         # Clean volumes if requested
                         if [ "${params.CLEAN_DEPLOYMENT}" = "true" ]; then
                             echo "Performing clean deployment - removing volumes..."
-                            docker volume rm odoo-data || true
-                            docker volume rm odoo-postgres-data || true
+                            docker volume rm ${ODOO_DATA_VOLUME} || true
+                            docker volume rm odoo-postgres-data-env3 || true
+                            rm -rf ./postgresql/* || true
+                            rm -rf ./filestore/* || true
                         fi
-                        
-                        # Clean up old images (keep last 5 builds)
-                        docker images kalla-bju-odoo --format "{{.Tag}}" | sort -rn | tail -n +6 | xargs -r -I {} docker rmi kalla-bju-odoo:{} || true
-                    '''
+                    """
                 }
             }
         }
@@ -101,7 +100,7 @@ pipeline {
         stage('Pull PostgreSQL Image') {
             steps {
                 script {
-                    echo "Pulling PostgreSQL image..."
+                    echo "Pulling PostgreSQL 16 image..."
                     sh """
                         docker pull ${POSTGRES_IMAGE}
                     """
@@ -114,7 +113,22 @@ pipeline {
                 script {
                     echo "Creating Docker network..."
                     sh """
-                        docker network create ${NETWORK_NAME}
+                        docker network create ${NETWORK_NAME} || true
+                    """
+                }
+            }
+        }
+        
+        stage('Create Required Directories') {
+            steps {
+                script {
+                    echo "Creating required directories..."
+                    sh """
+                        mkdir -p ./postgresql
+                        mkdir -p ./etc
+                        mkdir -p ./filestore
+                        mkdir -p ./backups
+                        mkdir -p ./enterprise
                     """
                 }
             }
@@ -123,15 +137,17 @@ pipeline {
         stage('Deploy PostgreSQL') {
             steps {
                 script {
-                    echo "Deploying PostgreSQL database..."
+                    echo "Deploying PostgreSQL 16 database..."
                     sh """
                         docker run -d \
                             --name ${POSTGRES_CONTAINER_NAME} \
                             --network ${NETWORK_NAME} \
+                            -e POSTGRES_PASSWORD=${DB_PASSWORD} \
+                            -e POSTGRES_USER=${DB_USER} \
                             -e POSTGRES_DB=${POSTGRES_DB} \
-                            -e POSTGRES_USER=${POSTGRES_USER} \
-                            -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
-                            -v odoo-postgres-data:/var/lib/postgresql/data \
+                            -v \$(pwd)/postgresql:/var/lib/postgresql/data \
+                            -p ${POSTGRES_PORT}:5432 \
+                            --restart always \
                             ${POSTGRES_IMAGE}
                     """
                     
@@ -139,7 +155,7 @@ pipeline {
                     echo "Waiting for PostgreSQL to be ready..."
                     sh """
                         for i in {1..30}; do
-                            if docker exec ${POSTGRES_CONTAINER_NAME} pg_isready -U ${POSTGRES_USER}; then
+                            if docker exec ${POSTGRES_CONTAINER_NAME} pg_isready -U ${DB_USER}; then
                                 echo "PostgreSQL is ready!"
                                 break
                             fi
@@ -151,20 +167,32 @@ pipeline {
             }
         }
         
-        stage('Deploy Odoo Enterprise') {
+        stage('Deploy Odoo') {
             steps {
                 script {
-                    echo "Deploying Odoo Enterprise with custom addons..."
+                    echo "Deploying Odoo with custom addons..."
                     sh """
                         docker run -d \
                             --name ${ODOO_CONTAINER_NAME} \
                             --network ${NETWORK_NAME} \
+                            --depends-on ${POSTGRES_CONTAINER_NAME} \
                             -p ${ODOO_PORT}:8069 \
-                            -e HOST=${POSTGRES_CONTAINER_NAME} \
-                            -e USER=${POSTGRES_USER} \
-                            -e PASSWORD=${POSTGRES_PASSWORD} \
-                            -v odoo-data:/var/lib/odoo \
-                            --restart unless-stopped \
+                            -e DB_HOST=${DB_HOST} \
+                            -e DB_USER=${DB_USER} \
+                            -e DB_PASSWORD=${DB_PASSWORD} \
+                            -e DB_PORT=${DB_PORT} \
+                            -e PGDATABASE=${PGDATABASE} \
+                            -e ODOO_SESSION_COOKIE_NAME=${ODOO_SESSION_COOKIE_NAME} \
+                            -v \$(pwd)/../Kalla-BJU:/mnt/extra-addons/Kalla-BJU \
+                            -v \$(pwd)/../Kalla-BJU-Transporter:/mnt/extra-addons/Kalla-BJU-Transporter \
+                            -v \$(pwd)/../kict-security:/mnt/extra-addons/kict-security \
+                            -v \$(pwd)/../odoo-17.0+e.20241125/odoo/addons:/mnt/extra-addons/enterprise \
+                            -v \$(pwd)/enterprise:/mnt/extra-addons \
+                            -v \$(pwd)/etc:/etc/odoo \
+                            -v \$(pwd)/filestore:/var/lib/odoo/.local/share/Odoo/filestore/${POSTGRES_DB} \
+                            -v ${ODOO_DATA_VOLUME}:/var/lib/odoo \
+                            -v \$(pwd)/backups:/odoo/backups \
+                            --restart always \
                             ${CUSTOM_ODOO_IMAGE}
                     """
                 }
@@ -177,12 +205,18 @@ pipeline {
                     echo "Performing health check..."
                     sh """
                         # Wait for Odoo to start
-                        sleep 15
+                        sleep 20
                         
-                        # Check if container is running
+                        # Check if containers are running
                         if ! docker ps | grep -q ${ODOO_CONTAINER_NAME}; then
                             echo "ERROR: Odoo container is not running!"
                             docker logs ${ODOO_CONTAINER_NAME}
+                            exit 1
+                        fi
+                        
+                        if ! docker ps | grep -q ${POSTGRES_CONTAINER_NAME}; then
+                            echo "ERROR: PostgreSQL container is not running!"
+                            docker logs ${POSTGRES_CONTAINER_NAME}
                             exit 1
                         fi
                         
@@ -205,12 +239,12 @@ pipeline {
                 script {
                     echo """
                     ========================================
-                    Odoo Enterprise Deployment Complete!
+                    Odoo Environment 3 Deployment Complete!
                     ========================================
-                    Environment: ${DEPLOY_ENV}
-                    Odoo Version: ${params.ODOO_VERSION}
+                    Odoo Version: 17.0
                     Odoo URL: http://localhost:${ODOO_PORT}
-                    Custom Image: ${CUSTOM_ODOO_IMAGE}
+                    PostgreSQL Port: ${POSTGRES_PORT}
+                    Database: ${POSTGRES_DB}
                     
                     Container Names:
                     - Odoo: ${ODOO_CONTAINER_NAME}
@@ -218,15 +252,17 @@ pipeline {
                     
                     Network: ${NETWORK_NAME}
                     
-                    Volumes:
-                    - odoo-data: Odoo data
-                    - odoo-postgres-data: PostgreSQL data
+                    Volumes Mounted:
+                    - ../Kalla-BJU -> /mnt/extra-addons/Kalla-BJU
+                    - ../Kalla-BJU-Transporter -> /mnt/extra-addons/Kalla-BJU-Transporter
+                    - ../kict-security -> /mnt/extra-addons/kict-security
+                    - Enterprise addons mounted
+                    - Config: ./etc -> /etc/odoo
+                    - Filestore: ./filestore
+                    - Backups: ./backups
                     
-                    Custom Addons Included:
-                    - All JST modules
-                    - Base tier validation modules
-                    - Dashboard modules (ks_dashboard_ninja, ks_dn_advance)
-                    - SQL editor and other custom modules
+                    Named Volumes:
+                    - ${ODOO_DATA_VOLUME}
                     ========================================
                     """
                 }
@@ -236,12 +272,12 @@ pipeline {
     
     post {
         success {
-            echo "Odoo Enterprise deployment completed successfully!"
-            // You can add notifications here (Slack, Email, etc.)
+            echo "Odoo Environment 3 deployment completed successfully!"
+            echo "Access your Odoo instance at http://localhost:${ODOO_PORT}"
         }
         
         failure {
-            echo "Odoo Enterprise deployment failed!"
+            echo "Odoo Environment 3 deployment failed!"
             script {
                 // Capture logs for debugging
                 sh """
@@ -251,12 +287,10 @@ pipeline {
                     docker logs ${POSTGRES_CONTAINER_NAME} || true
                 """
             }
-            // You can add failure notifications here
         }
         
         always {
-            // Cleanup temporary files if any
-            cleanWs()
+            echo "Deployment process completed."
         }
     }
 }
