@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     liblcms2-dev \
     libwebp-dev \
-    libtiff5-dev \
+    libtiff-dev \
     tcl8.6-dev \
     tk8.6-dev \
     && rm -rf /var/lib/apt/lists/*
