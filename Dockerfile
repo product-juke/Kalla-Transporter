@@ -31,6 +31,10 @@ RUN mkdir -p /mnt/extra-addons
 # Copy all custom addons
 COPY Kalla-BJU-Transporter /mnt/extra-addons/Kalla-BJU-Transporter
 
+# Copy requirements files for pip installation
+COPY Kalla-BJU-Transporter/ks_dashboard_ninja/requirements.txt /tmp/ks_dashboard_ninja_requirements.txt
+COPY Kalla-BJU-Transporter/ks_dn_advance/requirements.txt /tmp/ks_dn_advance_requirements.txt
+
 # Install Python dependencies
 RUN pip3 install --no-cache-dir -r /tmp/ks_dashboard_ninja_requirements.txt && \
     pip3 install --no-cache-dir -r /tmp/ks_dn_advance_requirements.txt
