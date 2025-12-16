@@ -4,7 +4,7 @@ FROM odoo:18.0
 USER root
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     curl \
     wget \
@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y \
     liblcms2-dev \
     libwebp-dev \
     libtiff-dev \
-    tcl8.6-dev \
-    tk8.6-dev \
+    tcl-dev \
+    tk-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Create custom addons directory
