@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     vim \
     build-essential \
-    libpq-dev \
     python3-dev \
     libxml2-dev \
     libxslt1-dev \
