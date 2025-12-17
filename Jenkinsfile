@@ -175,7 +175,6 @@ pipeline {
                         docker run -d \
                             --name ${ODOO_CONTAINER_NAME} \
                             --network ${NETWORK_NAME} \
-                            --depends-on ${POSTGRES_CONTAINER_NAME} \
                             -p ${ODOO_PORT}:8069 \
                             -e DB_HOST=${DB_HOST} \
                             -e DB_USER=${DB_USER} \
