@@ -36,8 +36,8 @@ COPY Kalla-BJU-Transporter/ks_dashboard_ninja/requirements.txt /tmp/ks_dashboard
 COPY Kalla-BJU-Transporter/ks_dn_advance/requirements.txt /tmp/ks_dn_advance_requirements.txt
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir -r /tmp/ks_dashboard_ninja_requirements.txt && \
-    pip3 install --no-cache-dir -r /tmp/ks_dn_advance_requirements.txt
+RUN pip3 install --break-system-packages --no-cache-dir -r /tmp/ks_dashboard_ninja_requirements.txt && \
+    pip3 install --break-system-packages --no-cache-dir -r /tmp/ks_dn_advance_requirements.txt
 
 # Set proper permissions
 RUN chown -R odoo:odoo /mnt/extra-addons/Kalla-BJU-Transporter
