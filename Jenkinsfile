@@ -3,7 +3,7 @@ pipeline {
     
     environment {
         // Docker Configuration
-        CUSTOM_ODOO_IMAGE = 'custom-odoo:17.0'
+        CUSTOM_ODOO_IMAGE = 'custom-odoo:18.0'
         POSTGRES_IMAGE = 'postgres:16'
         
         // Container Names
