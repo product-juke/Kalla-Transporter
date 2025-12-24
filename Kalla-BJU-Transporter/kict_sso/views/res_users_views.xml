@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_oauth" model="ir.ui.view">
+        <field name="name">res.users.form.oauth</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="OAuth Tokens">
+                    <field name="oauth_token_ids" readonly="1">
+                        <tree>
+                            <field name="provider_id"/>
+                            <field name="username"/>
+                            <field name="token_expires"/>
+                        </tree>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

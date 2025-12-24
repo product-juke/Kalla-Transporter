@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_oauth2_provider_form" model="ir.ui.view">
+        <field name="name">kict.oauth2.provider.form</field>
+        <field name="model">kict.oauth2.provider</field>
+        <field name="arch" type="xml">
+            <form string="OAuth2 Provider">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="icon_class"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="OAuth2 Configuration">
+                        <field name="client_id"/>
+                        <field name="client_secret" password="True"/>
+                        <field name="authorization_url"/>
+                        <field name="token_url"/>
+                        <field name="userinfo_url"/>
+                        <field name="redirect_uri"/>
+                        <field name="scope"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_oauth2_provider_tree" model="ir.ui.view">
+        <field name="name">kict.oauth2.provider.tree</field>
+        <field name="model">kict.oauth2.provider</field>
+        <field name="arch" type="xml">
+            <tree string="OAuth2 Providers">
+                <field name="name"/>
+                <field name="icon_class"/>
+                <field name="client_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_oauth2_provider" model="ir.actions.act_window">
+        <field name="name">OAuth2 Providers</field>
+        <field name="res_model">kict.oauth2.provider</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- <menuitem id="menu_oauth2_provider" 
+              name="OAuth2 Providers" 
+              parent="base.menu_administration" 
+              action="action_oauth2_provider"/> -->
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="web_login_oauth2" inherit_id="web.login" name="OAuth2 Login Buttons">
+        <!-- Hide username/password form when SSO is enabled -->
+        <xpath expr="//form[@class='oe_login_form']" position="attributes">
+            <attribute name="t-att-style">"display: none;" if request.env['ir.config_parameter'].sudo().get_param('kict_security.sso_enabled', False) == 'True' and request.env['ir.config_parameter'].sudo().get_param('kict_security.hide_standard_login', False) == 'True' else ""</attribute>
+        </xpath>
+        
+        <!-- Add SSO message when login form is hidden -->
+        <xpath expr="//form[@class='oe_login_form']" position="before">
+            <t t-if="request.env['ir.config_parameter'].sudo().get_param('kict_security.sso_enabled', False) == 'True'">
+                <div class="alert alert-info text-center">
+                   <i class="fa fa-info-circle"/> Please use Single Sign-On (SSO) to log in.
+                </div>
+            </t>
+        </xpath>
+        
+        <xpath expr="//form[@class='oe_login_form']" position="inside">
+            <div class="o_auth_oauth_providers list-group mt-1 mb-1 text-start">
+                <t t-if="request.env['ir.config_parameter'].sudo().get_param('kict_security.sso_enabled', False) == 'True'">
+                    <t t-foreach="request.env['kict.oauth2.provider'].sudo().search([('active', '=', True)])" t-as="provider">
+                        <a t-attf-href="/oauth/authorize?provider_id={{provider.id}}" 
+                        class="list-group-item list-group-item-action py-2">
+                            <i t-attf-class="{{provider.icon_class or 'fa fa-fw fa-sign-in'}}"/> Log in with <t t-esc="provider.name"/>
+                        </a>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_oauth_user_token_form" model="ir.ui.view">
+        <field name="name">oauth.user.token.form</field>
+        <field name="model">kict.oauth.user.token</field>
+        <field name="arch" type="xml">
+            <form string="OAuth Token">
+                <sheet>
+                    <group>
+                        <field name="provider_id"/>
+                        <field name="username"/>
+                        <field name="token_expires"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

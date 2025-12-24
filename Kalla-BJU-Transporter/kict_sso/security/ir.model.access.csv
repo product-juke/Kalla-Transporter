@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_oauth2_provider_admin,kict.oauth2.provider.admin,model_kict_oauth2_provider,base.group_system,1,1,1,1
+access_oauth2_provider_user,kict.oauth2.provider.user,model_kict_oauth2_provider,base.group_user,1,0,0,0
+access_oauth_user_token,kict.oauth.user.token,model_kict_oauth_user_token,base.group_user,1,1,1,1

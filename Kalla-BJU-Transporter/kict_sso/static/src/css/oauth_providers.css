@@ -1,0 +1,17 @@
+/* Kalla OAuth Provider - Custom SVG Icon */
+.fa.o_oauth_kalla {
+  font-family: inherit !important;
+  background-image: url("/kict_sso/static/description/IconKalla.svg");
+  background-size: 1.2em 1.2em;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.fa.o_oauth_kalla:before {
+  content: "" !important;
+}
