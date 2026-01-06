@@ -42,6 +42,7 @@ RUN pip3 install --break-system-packages --no-cache-dir -r /tmp/ks_dashboard_nin
 
 # Set proper permissions
 RUN chown -R odoo:odoo /mnt/extra-addons/Kalla-BJU-Transporter
+RUN chown -R odoo:odoo /mnt/extra-addons/Kalla-BJU
 
 # Switch back to odoo user
 USER odoo
