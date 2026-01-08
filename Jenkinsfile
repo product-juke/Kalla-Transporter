@@ -58,6 +58,9 @@ pipeline {
                     echo "Container Name: ${env.ODOO_CONTAINER_NAME}"
                     echo "Odoo Port: ${env.ODOO_PORT}"
                     echo "Database Name: ${env.POSTGRES_DB}"
+                    echo "Session Cookie Name: ${env.ODOO_SESSION_COOKIE_NAME}"
+                    echo "Network Name: ${env.NETWORK_NAME}"
+                    echo "Volume Name: ${env.ODOO_DATA_VOLUME}"
                     echo "=========================================="
                 }
             }
