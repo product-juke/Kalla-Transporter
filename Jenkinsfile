@@ -4,31 +4,14 @@ pipeline {
     environment {
         // Docker Configuration
         CUSTOM_ODOO_IMAGE = 'custom-odoo:18.0'
-        
-        // Container Names
-        ODOO_CONTAINER_NAME = 'env3-odoo'
-        
-        // Port Configuration
-        ODOO_PORT = '8020'
-        
-        // Database Configuration
-        DB_HOST = '192.168.101.105'
-        DB_USER = 'postgres'
-        DB_PASSWORD = 'postgres'
-        DB_PORT = '5432'
-        POSTGRES_DB = 'fms_lms_2'
-        
-        // Odoo Session Configuration
-        ODOO_SESSION_COOKIE_NAME = 'odoo_env3_session_id'
-        
-        // Docker Network
-        NETWORK_NAME = 'odoo-network-env3'
-        
-        // Volume Names
-        ODOO_DATA_VOLUME = 'odoo-web-data-2'
     }
     
     parameters {
+        choice(
+            name: 'ENVIRONMENT',
+            choices: ['Staging', 'Production'],
+            description: 'Select deployment environment'
+        )
         booleanParam(
             name: 'CLEAN_DEPLOYMENT',
             defaultValue: false,
@@ -42,10 +25,48 @@ pipeline {
     }
     
     stages {
+        stage('Set Environment Variables') {
+            steps {
+                script {
+                    // Common Database Configuration (shared database server)
+                    env.DB_HOST = '192.168.101.105'
+                    env.DB_USER = 'postgres'
+                    env.DB_PASSWORD = 'postgres'
+                    env.DB_PORT = '5432'
+                    
+                    if (params.ENVIRONMENT == 'Staging') {
+                        // Staging Environment Configuration
+                        env.ODOO_CONTAINER_NAME = 'staging-odoo'
+                        env.ODOO_PORT = '8020'
+                        env.POSTGRES_DB = 'fms_lms_staging'
+                        env.ODOO_SESSION_COOKIE_NAME = 'odoo_staging_session_id'
+                        env.NETWORK_NAME = 'odoo-network-staging'
+                        env.ODOO_DATA_VOLUME = 'odoo-web-data-staging'
+                    } else if (params.ENVIRONMENT == 'Production') {
+                        // Production Environment Configuration
+                        env.ODOO_CONTAINER_NAME = 'production-odoo'
+                        env.ODOO_PORT = '8069'
+                        env.POSTGRES_DB = 'fms_lms_production'
+                        env.ODOO_SESSION_COOKIE_NAME = 'odoo_production_session_id'
+                        env.NETWORK_NAME = 'odoo-network-production'
+                        env.ODOO_DATA_VOLUME = 'odoo-web-data-production'
+                    }
+                    
+                    echo "=========================================="
+                    echo "Environment: ${params.ENVIRONMENT}"
+                    echo "Database Host: ${env.DB_HOST}"
+                    echo "Container Name: ${env.ODOO_CONTAINER_NAME}"
+                    echo "Odoo Port: ${env.ODOO_PORT}"
+                    echo "Database Name: ${env.POSTGRES_DB}"
+                    echo "=========================================="
+                }
+            }
+        }
+        
         stage('Preparation') {
             steps {
                 script {
-                    echo "Starting Odoo Environment 3 deployment"
+                    echo "Starting Odoo ${params.ENVIRONMENT} deployment"
                     echo "Build Number: ${env.BUILD_NUMBER}"
                     echo "Database: ${POSTGRES_DB}"
                 }
@@ -178,10 +199,12 @@ pipeline {
                 script {
                     echo """
                     ========================================
-                    Odoo Environment 3 Deployment Complete!
+                    Odoo ${params.ENVIRONMENT} Deployment Complete!
                     ========================================
-                    Odoo Version: 17.0
+                    Environment: ${params.ENVIRONMENT}
+                    Odoo Version: 18.0
                     Odoo URL: http://localhost:${ODOO_PORT}
+                    Database Host: ${DB_HOST}
                     
                     Container Names:
                     - Odoo: ${ODOO_CONTAINER_NAME}
@@ -208,12 +231,12 @@ pipeline {
     
     post {
         success {
-            echo "Odoo Environment 3 deployment completed successfully!"
+            echo "Odoo ${params.ENVIRONMENT} deployment completed successfully!"
             echo "Access your Odoo instance at http://localhost:${ODOO_PORT}"
         }
         
         failure {
-            echo "Odoo Environment 3 deployment failed!"
+            echo "Odoo ${params.ENVIRONMENT} deployment failed!"
             script {
                 // Capture logs for debugging
                 sh """
